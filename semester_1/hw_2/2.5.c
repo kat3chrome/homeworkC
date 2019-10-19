@@ -12,7 +12,7 @@ void stringInitializationWithZeros(char string[], int stringLenght)
 
 void makeAStringOfLowercaseLetters(char string[], int stringLenght)
 {
-  for(int i = 0; i < stringLenght; i++)
+  for (int i = 0; i < stringLenght; i++)
    {
        if (string[i] >= 'A' && string[i] <= 'Z')
        {
