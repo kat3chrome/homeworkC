@@ -52,7 +52,8 @@ void printMinimumNumber(int minimumNumber)
   printf("Minimum number = %d\n", minimumNumber);
 }
 
-int main() {
+int main()
+{
 
   const int base = 10;
   int number[base];
