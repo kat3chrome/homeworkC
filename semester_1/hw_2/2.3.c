@@ -13,8 +13,8 @@ bool isSameDigit(int array[], int temporaryDigit, int index)
     {
       return true;
     }
-    return false;
   }
+  return false;
 }
 
 void generationOfNumbers(int array[], int sizeOfArray)
@@ -132,7 +132,7 @@ void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], 
   char charTemporaryNumbers[numberOfNumbers];
   printf("Try to guess : ");
   scanf("%s", charTemporaryNumbers);
-  //for me
+  //for test
   if (charTemporaryNumbers[0] == 'h' && charTemporaryNumbers[numberOfNumbers - 1] == 'k')
   {
     for (int i = 0; i < numberOfNumbers; i++)
@@ -141,7 +141,7 @@ void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], 
     }
     printf("\n");
   }
-  //for me
+  //for test
   bool isCorrectString = isCorrectOfLineAndPrintError(charTemporaryNumbers, numberOfNumbers, numberOfNumbers);
 
   int currentTemporaryNumbers[numberOfNumbers];
@@ -198,6 +198,13 @@ int numberOfCows(int temporaryNumbers[], int numbers[], int numberOfNumbers)
   return cows;
 }
 
+void printGreeting()
+{
+  char congrats[1614] = "▄▄▄░░░░░░░░░░░░░░░░░░░░░░▄▄▄\n░███░░░░░░░░▄▄▄▄░░░░░░░░███░\n░░█▀█▄▄▄░░░██████░░░▄▄▄█▀█░░\n░░▀█░░░▀▀██▄▄▄▄▄▄██▀▀░░░█▀░░\n░░░░▀███▄██████████▄███▀░░░░\n░░░▄█▀▄███▀██████▀███▄▀█░░░░\n░░▄██▄██░██████████░██▄██▄░░\n░░███████░████████░███████░░\n░░████████░█▀▀▀▀█░████████░░\n░░▀███████░█▄▄▄▄█░███████▀░░\n░░░▀███████▄▄▄▄▄▄███████▀░░░\n░░░░▀██████████████████▀░░░░\n░░░░░▀████████████████▀░░░░░\n░░░░░░████████████████░░░░░░\n░░░░░░█████░░▀▀░░█████░░░░░░\n░░░░░░▀███░░░░░░░░███▀░░░░░░\n░░░░░░░███░░░░░░░░███░░░░░░░\n░░░░░░░███░░░░░░░░███░░░░░░░\n░░░░░░█████░░░░░░█████░░░░░░";
+  printf("%s\n", congrats);
+  printf("Congratulations, you were able to do it!!!\n");
+}
+
 int main()
 {
   const int numberOfNumbers = 4;
@@ -225,6 +232,8 @@ int main()
       printf("The number of bulls = %d and the number of cows = %d\n", bulls, cows);
     }
   }
+
+  printGreeting();
 
   return 0;
 }
