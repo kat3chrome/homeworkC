@@ -5,13 +5,32 @@
 #include <stdbool.h>
 #include <string.h>
 
+bool isSameDigit(int array[], int temporaryDigit, int index)
+{
+  for (int i = 0; i < index; i ++)
+  {
+    if (array[i] == temporaryDigit)
+    {
+      return true;
+    }
+    return false;
+  }
+}
+
 void generationOfNumbers(int array[], int sizeOfArray)
 {
   srand(time(NULL));
 
   for (int i = 0; i < sizeOfArray; i++)
   {
-    array[i] = rand() % 10;
+    int temporaryDigit = rand() % 10;
+
+    while (isSameDigit(array, temporaryDigit, i))
+    {
+      temporaryDigit = rand() % 10;
+    }
+
+    array[i] = temporaryDigit;
   }
 }
 
@@ -64,11 +83,19 @@ bool isCorrectOfLineAndPrintError(char inputString[], const int correctSizeOfInp
   if (strlen(inputString) != correctSizeOfInputString)
   {
     printf("¡Enter a number of the desired length!\n");
+    if (isNoNumberInTheString(inputString))
+    {
+      printf("¡Enter only numbers!\n");
+    }
     return false;
   }
   else if (isNoNumberInTheString(inputString))
   {
     printf("¡Enter only numbers!\n");
+    if (strlen(inputString) != correctSizeOfInputString)
+    {
+      printf("¡Enter a number of the desired length!\n");
+    }
     return false;
   }
   return true;
@@ -100,11 +127,21 @@ bool isCorrectInputNumberAndPrintError(int temporaryNumbers[], int numberOfNumbe
   return true;
 }
 
-void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], const int numberOfNumbers)
+void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], const int numberOfNumbers , int numbers[])
 {
   char charTemporaryNumbers[numberOfNumbers];
   printf("Try to guess : ");
   scanf("%s", charTemporaryNumbers);
+  //for me
+  if (charTemporaryNumbers[0] == 'h' && charTemporaryNumbers[numberOfNumbers - 1] == 'k')
+  {
+    for (int i = 0; i < numberOfNumbers; i++)
+    {
+      printf("%d", numbers[i]);
+    }
+    printf("\n");
+  }
+  //for me
   bool isCorrectString = isCorrectOfLineAndPrintError(charTemporaryNumbers, numberOfNumbers, numberOfNumbers);
 
   int currentTemporaryNumbers[numberOfNumbers];
@@ -120,6 +157,47 @@ void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], 
   }
 }
 
+int numberOfBulls(int temporaryNumbers[], int numbers[], int numberOfNumbers)
+{
+  int bulls = 0;
+  for (int i = 0; i < numberOfNumbers; i++)
+  {
+    if (temporaryNumbers[i] == numbers[i])
+    {
+      bulls++;
+    }
+  }
+
+  return bulls;
+}
+
+bool isCurrentDigitAndIsNotBull(int temporaryNumbers[], int numbers[], int numberOfNumbers, int index)
+{
+  int currentDigit = temporaryNumbers[index];
+  for (int i = 0; i < numberOfNumbers; i++)
+  {
+    if ((currentDigit == numbers[i]) && (i != index))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+int numberOfCows(int temporaryNumbers[], int numbers[], int numberOfNumbers)
+{
+  int cows = 0;
+  for (int i = 0; i < numberOfNumbers; i++)
+  {
+    if(isCurrentDigitAndIsNotBull(temporaryNumbers, numbers, numberOfNumbers, i))
+    {
+      cows++;
+    }
+  }
+
+  return cows;
+}
+
 int main()
 {
   const int numberOfNumbers = 4;
@@ -128,14 +206,24 @@ int main()
 
   printTitleAndGreeting(numberOfNumbers);
 
-  int temporaryNumbers[numberOfNumbers];
-
   int bulls = 0;
   int cows = 0;
   while (bulls != numberOfNumbers)
   {
+    bulls = 0;
+    cows = 0;
+    int temporaryNumbers[numberOfNumbers];
     temporaryNumbers[0] = -1;
-    printInputPromptAndInitializationOfTemporaryNumber(temporaryNumbers, numberOfNumbers);
+
+    printInputPromptAndInitializationOfTemporaryNumber(temporaryNumbers, numberOfNumbers, numbers);
+
+    if (temporaryNumbers[0] != -1)
+    {
+      bulls = numberOfBulls(temporaryNumbers, numbers, numberOfNumbers);
+      cows = numberOfCows(temporaryNumbers, numbers, numberOfNumbers);
+
+      printf("The number of bulls = %d and the number of cows = %d\n", bulls, cows);
+    }
   }
 
   return 0;
