@@ -14,6 +14,7 @@ bool isSameDigit(int array[], int temporaryDigit, int index)
       return true;
     }
   }
+
   return false;
 }
 
@@ -24,7 +25,6 @@ void generationOfNumbers(int array[], int sizeOfArray)
   for (int i = 0; i < sizeOfArray; i++)
   {
     int temporaryDigit = rand() % 10;
-
     while (isSameDigit(array, temporaryDigit, i))
     {
       temporaryDigit = rand() % 10;
@@ -36,7 +36,8 @@ void generationOfNumbers(int array[], int sizeOfArray)
 
 void printingDotsWithDelay()
 {
-  int numbersOdDots = 0;
+  int numbersOdDots = 4;
+
   for (int i = 0; i < numbersOdDots; i++)
   {
     printf(".");
@@ -48,8 +49,8 @@ void printingDotsWithDelay()
 void printTitleAndGreeting(int numberOfNumbers)
 {
   char title[1181] = "╔══╗─╔╗─╔╗╔╗───╔╗───╔═══╗     ╔═══╗╔═╗─╔╗╔═══╗     ╔═══╗╔═══╗──────╔═══╗\n║╔╗║─║║─║║║║───║║───║╔═╗║     ║╔═╗║║║╚╗║║╚╗╔╗║     ║╔═╗║║╔═╗║──────║╔═╗║\n║╚╝╚╗║║─║║║║───║║───║╚══╗     ║║─║║║╔╗╚╝║─║║║║     ║║─╚╝║║─║║╔╗╔╗╔╗║╚══╗\n║╔═╗║║║─║║║║─╔╗║║─╔╗╚══╗║     ║╚═╝║║║╚╗║║─║║║║     ║║─╔╗║║─║║║╚╝╚╝║╚══╗║\n║╚═╝║║╚═╝║║╚═╝║║╚═╝║║╚═╝║     ║╔═╗║║║─║║║╔╝╚╝║     ║╚═╝║║╚═╝║╚╗╔╗╔╝║╚═╝║\n╚═══╝╚═══╝╚═══╝╚═══╝╚═══╝     ╚╝─╚╝╚╝─╚═╝╚═══╝     ╚═══╝╚═══╝─╚╝╚╝─╚═══╝";
-  printf("%s\n", title);
 
+  printf("%s\n", title);
   printf("Welcome to the game!\nThe secret number has %d digits", numberOfNumbers);
   printingDotsWithDelay();
   printf("try to guess the number as quickly as possible!\n");
@@ -89,6 +90,7 @@ bool isCorrectOfLineAndPrintError(char inputString[], const int correctSizeOfInp
     }
     return false;
   }
+
   else if (isNoNumberInTheString(inputString))
   {
     printf("¡Enter only numbers!\n");
@@ -98,12 +100,14 @@ bool isCorrectOfLineAndPrintError(char inputString[], const int correctSizeOfInp
     }
     return false;
   }
+
   return true;
 }
 
 bool isNumberOfRepeats(int temporaryNumbers[], int index, int numberOfNumbers)
 {
   int currentDigit = temporaryNumbers[index];
+
   for (int i = index + 1; i < numberOfNumbers; i++)
   {
     if (currentDigit == temporaryNumbers[i])
@@ -111,6 +115,7 @@ bool isNumberOfRepeats(int temporaryNumbers[], int index, int numberOfNumbers)
       return true;
     }
   }
+
   return false;
 }
 
@@ -124,14 +129,17 @@ bool isCorrectInputNumberAndPrintError(int temporaryNumbers[], int numberOfNumbe
       return false;
     }
   }
+
   return true;
 }
 
 void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], const int numberOfNumbers , int numbers[])
 {
   char charTemporaryNumbers[numberOfNumbers];
+
   printf("Try to guess : ");
   scanf("%s", charTemporaryNumbers);
+
   //for test
   if (charTemporaryNumbers[0] == 'h' && charTemporaryNumbers[numberOfNumbers - 1] == 'k')
   {
@@ -142,15 +150,17 @@ void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], 
     printf("\n");
   }
   //for test
-  bool isCorrectString = isCorrectOfLineAndPrintError(charTemporaryNumbers, numberOfNumbers, numberOfNumbers);
 
+  bool isCorrectString = isCorrectOfLineAndPrintError(charTemporaryNumbers, numberOfNumbers, numberOfNumbers);
   int currentTemporaryNumbers[numberOfNumbers];
+
   if (isCorrectString)
   {
     stringOfCharactersToStringOfNumbers(charTemporaryNumbers, currentTemporaryNumbers, numberOfNumbers);
   }
 
   bool isCorrectNumber = isCorrectInputNumberAndPrintError(currentTemporaryNumbers, numberOfNumbers);
+
   if (isCorrectNumber)
   {
     stringOfCharactersToStringOfNumbers(charTemporaryNumbers, temporaryNumbers, numberOfNumbers);
@@ -160,6 +170,7 @@ void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], 
 int numberOfBulls(int temporaryNumbers[], int numbers[], int numberOfNumbers)
 {
   int bulls = 0;
+
   for (int i = 0; i < numberOfNumbers; i++)
   {
     if (temporaryNumbers[i] == numbers[i])
@@ -174,6 +185,7 @@ int numberOfBulls(int temporaryNumbers[], int numbers[], int numberOfNumbers)
 bool isCurrentDigitAndIsNotBull(int temporaryNumbers[], int numbers[], int numberOfNumbers, int index)
 {
   int currentDigit = temporaryNumbers[index];
+
   for (int i = 0; i < numberOfNumbers; i++)
   {
     if ((currentDigit == numbers[i]) && (i != index))
@@ -181,12 +193,14 @@ bool isCurrentDigitAndIsNotBull(int temporaryNumbers[], int numbers[], int numbe
       return true;
     }
   }
+
   return false;
 }
 
 int numberOfCows(int temporaryNumbers[], int numbers[], int numberOfNumbers)
 {
   int cows = 0;
+
   for (int i = 0; i < numberOfNumbers; i++)
   {
     if(isCurrentDigitAndIsNotBull(temporaryNumbers, numbers, numberOfNumbers, i))
@@ -201,6 +215,7 @@ int numberOfCows(int temporaryNumbers[], int numbers[], int numberOfNumbers)
 void printGreeting()
 {
   char congrats[1614] = "▄▄▄░░░░░░░░░░░░░░░░░░░░░░▄▄▄\n░███░░░░░░░░▄▄▄▄░░░░░░░░███░\n░░█▀█▄▄▄░░░██████░░░▄▄▄█▀█░░\n░░▀█░░░▀▀██▄▄▄▄▄▄██▀▀░░░█▀░░\n░░░░▀███▄██████████▄███▀░░░░\n░░░▄█▀▄███▀██████▀███▄▀█░░░░\n░░▄██▄██░██████████░██▄██▄░░\n░░███████░████████░███████░░\n░░████████░█▀▀▀▀█░████████░░\n░░▀███████░█▄▄▄▄█░███████▀░░\n░░░▀███████▄▄▄▄▄▄███████▀░░░\n░░░░▀██████████████████▀░░░░\n░░░░░▀████████████████▀░░░░░\n░░░░░░████████████████░░░░░░\n░░░░░░█████░░▀▀░░█████░░░░░░\n░░░░░░▀███░░░░░░░░███▀░░░░░░\n░░░░░░░███░░░░░░░░███░░░░░░░\n░░░░░░░███░░░░░░░░███░░░░░░░\n░░░░░░█████░░░░░░█████░░░░░░";
+
   printf("%s\n", congrats);
   printf("Congratulations, you were able to do it!!!\n");
 }
