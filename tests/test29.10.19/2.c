@@ -2,14 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-int compare_ints(const void* a, const void* b)
-{
-    const int *arg1 = a;
-    const int *arg2 = b;
-
-    return *arg1 - *arg2;
-}
-
 void initializeString(char newString[], int newStringLength)
 {
   for (int i = 0; i < newStringLength; i++)
@@ -74,16 +66,25 @@ int main()
   FILE *outputFile;
   outputFile = fopen(adressOut, "w");
 
-  qsort(array, sizeArray, sizeof(int), compare_ints);
-
   for (int i = 0; i < sizeArray; i++)
   {
-    if (array[i] != 0)
+    int indexMaxChar = 0;
+    int countMaxChar = 0;
+    for (int j = 0; j < sizeArray; j++)
     {
-      fprintf(outputFile, "%c: %d\n", i + 'a', array[i]);
+      if (countMaxChar < array[j])
+      {
+        indexMaxChar = j;
+        countMaxChar = array[j];
+      }
+    }
+    array[indexMaxChar] = 0;
+    if (countMaxChar != 0)
+    {
+      fprintf(outputFile, "%c: %d\n", indexMaxChar + 'a', countMaxChar);
     }
   }
-  
+
   fclose(outputFile);
 
   return 0;
