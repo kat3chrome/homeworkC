@@ -73,14 +73,9 @@ int main()
 
   FILE *outputFile;
   outputFile = fopen(adressOut, "w");
-  while (outputFile  == NULL)
-  {
-    printf("Could not open the file, enter the correct address : ");
-    scanf("%s", adressOut);
-    outputFile = fopen(adressOut, "w");
-  }
 
   qsort(array, sizeArray, sizeof(int), compare_ints);
+
   for (int i = 0; i < sizeArray; i++)
   {
     if (array[i] != 0)
@@ -88,6 +83,7 @@ int main()
       fprintf(outputFile, "%c: %d\n", i + 'a', array[i]);
     }
   }
+  
   fclose(outputFile);
 
   return 0;
