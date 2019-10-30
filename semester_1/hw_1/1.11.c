@@ -1,24 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-void swap(int *relocatable1, int *relocatable2)
+void swap(int *first, int *second)
 {
-    int temp = *relocatable1;
-    *relocatable1 = *relocatable2;
-    *relocatable2 = temp;
+    int temp = *first;
+    *first = *second;
+    *second = temp;
 }
 
-int quickSort(int array[], int leftExtremeIndex, int rightExtremeIndex)
+int quickSort(int array[], int startArray, int finishArray)
 {
-    if (leftExtremeIndex >= rightExtremeIndex)
+    if (startArray >= finishArray)
     {
         return 0;
     }
 
-    int referenceElement = array[(leftExtremeIndex + rightExtremeIndex) / 2];
-    int leftIndex = leftExtremeIndex;
-    int rightIndex = rightExtremeIndex;
+    int referenceElement = array[(startArray + finishArray) / 2];
+    int leftIndex = startArray;
+    int rightIndex = finishArray;
 
     do
     {
@@ -41,8 +40,8 @@ int quickSort(int array[], int leftExtremeIndex, int rightExtremeIndex)
     }
     while (leftIndex <= rightIndex);
 
-    quickSort(array, leftExtremeIndex, rightIndex);
-    quickSort(array, leftIndex, rightExtremeIndex);
+    quickSort(array, startArray, rightIndex);
+    quickSort(array, leftIndex, finishArray);
 }
 
 int main()
