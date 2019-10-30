@@ -1,18 +1,18 @@
 #include <stdio.h>
 
-void arrayReverse(int array[], int beginArray, int sizeArray)
+void arrayReverse(int array[], int startArray, int endArray)
 {
-  int halfSizeArray = sizeArray / 2;
+  int halfSizeArray = endArray / 2;
   for (int i = 0; i < halfSizeArray; i++)
   {
-    int temp = array[beginArray + i];
-    array[beginArray + i] = array[sizeArray + beginArray - i - 1];
-    array[beginArray + sizeArray - i - 1] = temp;
+    int temp = array[startArray + i];
+    array[startArray + i] = array[endArray + startArray - i - 1];
+    array[startArray + endArray - i - 1] = temp;
   }
 }
 
-int main(){
-
+int main()
+{
   const int sizeArray = 100;
   int array[sizeArray];
   for (int i = 0; i < sizeArray; i++)\
@@ -26,7 +26,7 @@ int main(){
   printf("Enter the lengths of the segments: ");
   scanf("%d%d", &sizeM, &sizeN);
 
-  int realSizeArray = sizeM + sizeN;
+  int realSizeOfArray = sizeM + sizeN;
 
   while (sizeArray < sizeM + sizeN)
   {
@@ -34,18 +34,20 @@ int main(){
     scanf("%d%d", &sizeM, &sizeN);
   }
 
+  realSizeOfArray = sizeM + sizeN;
+
   printf("%s", "Enter the array: ");
-  for (int i = 0; i < realSizeArray; i++)
+  for (int i = 0; i < realSizeOfArray; i++)
   {
     scanf("%d", &array[i]);
   }
 
   arrayReverse(array, 0, sizeM);
   arrayReverse(array, sizeM, sizeN);
-  arrayReverse(array, 0, realSizeArray);
+  arrayReverse(array, 0, realSizeOfArray);
 
   printf("%s", "Modified array: ");
-  for (int i = 0; i < realSizeArray; i++)
+  for (int i = 0; i < realSizeOfArray; i++)
   {
     printf("%d ", array[i]);
   }
