@@ -27,8 +27,6 @@ int main()
       numberOfLuckyTickets += amounts[i] * amounts[i];
   }
 
-
-
   printf("%s", "Number of lucky tickets = ");
   printf("%d\n", numberOfLuckyTickets);
   return 0;
