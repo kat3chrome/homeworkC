@@ -3,10 +3,10 @@
 
 int main()
 {
-  const int realSizeArray = 100000;
-  bool isPrime[realSizeArray];
+  const int realArraySize = 100000;
+  bool isPrime[realArraySize];
 
-  for (int i = 0; i < realSizeArray; i++)
+  for (int i = 0; i < realArraySize; i++)
   {
     isPrime[i] = true;
   }
@@ -17,14 +17,13 @@ int main()
 
   for (int i = 2; i * i <= value; i++)
   {
-      if (!isPrime[i])
-      {
-        continue;
-      }
+    if (isPrime[i])
+    {
       for (int j = i * i; j <= value; j += i)
       {
         isPrime[j] = false;
       }
+    }
   }
 
   printf("%s\n", "All the Prime numbers up to a given: ");
