@@ -2,13 +2,13 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool isPalindrome(char string[])
+bool isPalindrome(char inputString[])
 {
-  int stringLenght = strlen(string);
+  int stringLenght = strlen(inputString);
   int halfOfStringLenght = stringLenght / 2;
   for (int i = 0; i <= halfOfStringLenght; i++)
   {
-    if (string[i] != string[stringLenght - i - 1])
+    if (inputString[i] != inputString[stringLenght - i - 1])
     {
       return false;
     }
@@ -16,7 +16,8 @@ bool isPalindrome(char string[])
   return true;
 }
 
-int main() {
+int main()
+{
 
   const int stringLenght = 100;
   char inputString[stringLenght];
