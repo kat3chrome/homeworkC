@@ -41,7 +41,8 @@ int countNumberSubstringInString(char inputString[], char inputSubstring[])
   return numberSubstringInString;
 }
 
-int main(){
+int main()
+{
 
   const int maxStringLength = 100;
   char inputString[maxStringLength];
@@ -53,9 +54,7 @@ int main(){
   printf("%s", "Enter string (1) and substring (2): ");
   scanf("%s%s", inputString, inputSubstring);
 
-  int numberSubstringInString = 0;
-
-  numberSubstringInString = countNumberSubstringInString(inputString, inputSubstring);
+  int numberSubstringInString = countNumberSubstringInString(inputString, inputSubstring);
 
   printf("%s", "Number of substring in the string = ");
   printf("%d", numberSubstringInString);
