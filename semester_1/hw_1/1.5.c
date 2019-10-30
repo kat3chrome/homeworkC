@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
@@ -16,9 +17,10 @@ int main()
   int rightBracket = 0;
   int leftBracket = 0;
 
-  for (int i = 0; i <= stringLenght; i++)
+  int realLenghtString = strlen(inputString);
+  for (int i = 0; i <= realLenghtString; i++)
   {
-    if (leftBracket - rightBracket < 0)
+    if (leftBracket < rightBracket)
     {
       break;
     }
@@ -26,7 +28,7 @@ int main()
     {
       leftBracket++;
     }
-    if (inputString[i] == ')')
+    else if (inputString[i] == ')')
     {
       rightBracket++;
     }
