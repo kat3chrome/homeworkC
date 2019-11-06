@@ -97,7 +97,6 @@ void saveTheCurrentDataToFile(char phoneBookAdress[], char temporaryFileAdress[]
   FILE *phoneBook = fopen(phoneBookAdress, "a+");
   FILE *temporaryFile = fopen(temporaryFileAdress, "a+");
   char temporaryCharaster;
-  int index = 0;
 
   while ((temporaryCharaster = getc(temporaryFile)) != EOF)
   {
@@ -109,30 +108,25 @@ void saveTheCurrentDataToFile(char phoneBookAdress[], char temporaryFileAdress[]
   remove(temporaryFileAdress);
 }
 
-const char* findSubstringInArrayOfNamesAndNumbers(char phoneBookAdress[], char searchString[], int position)
-{
-  if (position == 1)
-  {
-
-    static char number[] = "88005553535";
-    return number;
-  }
-  else
-  {
-    static char name[] = "Kat3";
-    return name;
-  }
-}
-
 void findPhoneNumberByNameAndPrintResult(char phoneBookAdress[])
 {
+  char number[100];
   char name[100];
+  stringInitialization(number);
   stringInitialization(name);
 
   printf("Enter enter the name to search : ");
   scanf("%s", name);
 
-  const char* number = findSubstringInArrayOfNamesAndNumbers(phoneBookAdress, name, 1);
+  char temporaryCharaster;
+  FILE *phoneBook = fopen(phoneBookAdress, "r");
+  char temporaryString[100];
+  stringInitialization(temporaryString);
+  while ((temporaryCharaster = getc(phoneBook)) != EOF)
+  {
+    fprintf(phoneBook, "%c", temporaryCharaster);
+    //искать перове вхождение на певрой позиции
+  }
 
   printf("%s has this number : %s\n", name, number);
 }
@@ -140,12 +134,13 @@ void findPhoneNumberByNameAndPrintResult(char phoneBookAdress[])
 void findNameByPhoneNumberAndPrintResult(char phoneBookAdress[])
 {
   char number[100];
+  char name[100];
   stringInitialization(number);
+  stringInitialization(name);
 
   printf("Enter enter the number to search : ");
   scanf("%s", number);
 
-  const char* name = findSubstringInArrayOfNamesAndNumbers(phoneBookAdress, number, 2);
   printf("%s has this number : %s\n", name, number);
 }
 
