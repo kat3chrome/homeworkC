@@ -111,10 +111,9 @@ void saveTheCurrentDataToFile(char phoneBookAdress[], char temporaryFileAdress[]
 
 const char* findSubstringInArrayOfNamesAndNumbers(char phoneBookAdress[], char searchString[], int position)
 {
-  // static char searchString1[] = "aaa";
-  // return searchString1;
   if (position == 1)
   {
+
     static char number[] = "88005553535";
     return number;
   }
