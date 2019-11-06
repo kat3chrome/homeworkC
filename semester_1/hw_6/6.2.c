@@ -40,10 +40,10 @@ void printBinaryNumber(int *binaryNumber, int numberOfBinaryDigits)
   printf("\n");
 }
 
-void sumOfBinaryNumbers(int *binaryNumber1, int *binaryNumber2, int *binarySum, int numberOfBinaryDigits)
-{
-  
-}
+// void sumOfBinaryNumbers(int *binaryNumber1, int *binaryNumber2, int *binarySum, int numberOfBinaryDigits)
+// {
+//
+// }
 
 int main()
 {
@@ -64,9 +64,9 @@ int main()
   binaryToDecimal(&decimalNumber1, binaryNumber1, numberOfBinaryDigits);
   binaryToDecimal(&decimalNumber2, binaryNumber2, numberOfBinaryDigits);
 
-  binarySum[numberOfBinaryDigits];
-  initializingOfArray(binarySum, numberOfBinaryDigits);
-  sumOfBinaryNumbers(binaryNumber1,  binaryNumber2, binarySum, numberOfBinaryDigits);
+  // binarySum[numberOfBinaryDigits];
+  // initializingOfArray(binarySum, numberOfBinaryDigits);
+  // sumOfBinaryNumbers(binaryNumber1,  binaryNumber2, binarySum, numberOfBinaryDigits);
 
   printf("First number in binary : ");
   printBinaryNumber(binaryNumber1, numberOfBinaryDigits);
