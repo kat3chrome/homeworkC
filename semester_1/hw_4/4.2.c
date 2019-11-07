@@ -81,14 +81,14 @@ void addContactToTemporayFile(char temporaryFileAdress[])
   printf("Enter name and phone : ");
   scanf("%s%s", name, number);
 
-  while (strstr(name, "¡") != NULL || strstr(number, "¡") != NULL)
+  while (strstr(name, "~") != NULL || strstr(number, "~") != NULL || strstr(name, "#") != NULL || strstr(number, "#") != NULL)
   {
-    printf("¡Enter the correct data!\nDon't use \"¡\" ,please\nEnter name and phone : ");
+    printf("¡Enter the correct data!\nDon't use \"~\" or \"#\",please\nEnter name and phone : ");
     scanf("%s%s", name, number);
   }
 
   FILE *temporaryFile = fopen(temporaryFileAdress, "a+");
-  fprintf(temporaryFile, "¡%s¡¡¡%s¡", name, number);
+  fprintf(temporaryFile, "%s#%s~", name, number);
   fclose(temporaryFile);
 }
 
@@ -108,6 +108,71 @@ void saveTheCurrentDataToFile(char phoneBookAdress[], char temporaryFileAdress[]
   remove(temporaryFileAdress);
 }
 
+bool findNameByNumberOrNumberByName(char phoneBookAdress[], char name[] ,char number[] ,int position)
+{
+  char temporaryCharaster;
+  FILE *phoneBook = fopen(phoneBookAdress, "r");
+
+  char temporaryNumber[100];
+  char temporaryName[100];
+  stringInitialization(temporaryNumber);
+  stringInitialization(temporaryName);
+
+  int index = 0;
+  bool isName = true;
+  bool foundSomething = false;
+  while ((temporaryCharaster = getc(phoneBook)) != EOF)
+  {
+    if (isName && temporaryCharaster != '#')
+    {
+      temporaryName[index] = temporaryCharaster;
+      index++;
+    }
+    else if (temporaryCharaster == '#')
+    {
+      index = 0;
+      isName = false;
+    }
+    else if (!isName && temporaryCharaster != '~')
+    {
+      temporaryNumber[index] = temporaryCharaster;
+      index++;
+    }
+    else if (temporaryCharaster == '~')
+    {
+      temporaryNumber[index] = '\0';
+      index = 0;
+      isName = true;
+      if (strcmp(temporaryName, name) == 0 && position == 0)
+      {
+        foundSomething = true;
+        break;
+      }
+      else if (strcmp(temporaryNumber, number) == 0 && position == 1)
+      {
+        foundSomething = true;
+        break;
+      }
+      stringInitialization(temporaryName);
+      stringInitialization(temporaryNumber);
+    }
+  }
+  if (position == 0 && foundSomething)
+  {
+    strcpy(number, temporaryNumber);
+    return foundSomething;
+  }
+  else if (position == 1 && foundSomething)
+  {
+    strcpy(name, temporaryName);
+    return foundSomething;
+  }
+  else
+  {
+    return foundSomething;
+  }
+}
+
 void findPhoneNumberByNameAndPrintResult(char phoneBookAdress[])
 {
   char number[100];
@@ -118,17 +183,16 @@ void findPhoneNumberByNameAndPrintResult(char phoneBookAdress[])
   printf("Enter enter the name to search : ");
   scanf("%s", name);
 
-  char temporaryCharaster;
-  FILE *phoneBook = fopen(phoneBookAdress, "r");
-  char temporaryString[100];
-  stringInitialization(temporaryString);
-  while ((temporaryCharaster = getc(phoneBook)) != EOF)
-  {
-    fprintf(phoneBook, "%c", temporaryCharaster);
-    //искать перове вхождение на певрой позиции
-  }
+  bool foundSomething = findNameByNumberOrNumberByName(phoneBookAdress, name, number, 0);
 
-  printf("%s has this number : %s\n", name, number);
+  if (foundSomething)
+  {
+    printf("%s has this number %s\n", name, number);
+  }
+  else
+  {
+  printf("Sorry, there is no such contact in the phone book\n");
+  }
 }
 
 void findNameByPhoneNumberAndPrintResult(char phoneBookAdress[])
@@ -141,7 +205,16 @@ void findNameByPhoneNumberAndPrintResult(char phoneBookAdress[])
   printf("Enter enter the number to search : ");
   scanf("%s", number);
 
-  printf("%s has this number : %s\n", name, number);
+  bool foundSomething = findNameByNumberOrNumberByName(phoneBookAdress, name, number, 1);
+
+  if (foundSomething)
+  {
+    printf("%s has this number %s\n", name, number);
+  }
+  else
+  {
+  printf("Sorry, there is no such contact in the phone book\n");
+  }
 }
 
 void commandProcessing(char phoneBookAdress[], char temporaryFileAdress[])
@@ -196,7 +269,7 @@ int main()
   char phoneBookAdress[] = "PHONE.BOOK";
 
   printGreetings();
-  FILE *phoneBook = fopen(phoneBookAdress, "w");
+  FILE *phoneBook = fopen(phoneBookAdress, "a");
   FILE *temporaryFile = fopen(temporaryFileAdress, "w");
   fclose(phoneBook);
   fclose(temporaryFile);
