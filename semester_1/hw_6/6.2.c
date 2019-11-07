@@ -1,9 +1,22 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <math.h>
+
+void arrayReverse(int *array, int sizeOfArray)
+{
+
+  int halfSizeArray = sizeOfArray / 2;
+  for (int i = 0; i < halfSizeArray; i++)
+  {
+    int temp = array[i];
+    array[i] = array[sizeOfArray - i - 1];
+    array[sizeOfArray - i - 1] = temp;
+  }
+}
 
 void decimalToBinary(int decimalNumber, int *binaryNumber ,int numberOfBinaryDigits)
 {
-  int index = 1;
+  int index = 0;
   while (decimalNumber > 0)
   {
     binaryNumber[index] = decimalNumber % 2;
@@ -11,15 +24,26 @@ void decimalToBinary(int decimalNumber, int *binaryNumber ,int numberOfBinaryDig
 
     index++;
   }
+
+  arrayReverse(binaryNumber, numberOfBinaryDigits);
 }
 
 void binaryToDecimal(int *decimalNumber, int *binaryNumber ,int numberOfBinaryDigits)
 {
+  bool isOne = false;
   for (int i = 0; i < numberOfBinaryDigits; i++)
   {
-    *decimalNumber += binaryNumber[i] * pow(2, i);
+    if (!isOne && binaryNumber[i] == 1)
+    {
+      isOne = true;
+      *decimalNumber += binaryNumber[i] * pow(2, numberOfBinaryDigits - i);
+      continue;
+    }
+    else if (isOne)
+    {
+      *decimalNumber += binaryNumber[i] * pow(2, numberOfBinaryDigits - i);
+    }
   }
-
   *decimalNumber /= 2;
 }
 
@@ -33,9 +57,19 @@ void initializingOfArray(int *array, int sizeOfArray)
 
 void printBinaryNumber(int *binaryNumber, int numberOfBinaryDigits)
 {
+  bool isOne = false;
   for (int i = 0; i < numberOfBinaryDigits; i++)
   {
-    printf("%d", binaryNumber[i]);
+    if (!isOne && binaryNumber[i] == 1)
+    {
+      isOne = true;
+      printf("%d", binaryNumber[i]);
+      continue;
+    }
+    else if (isOne)
+    {
+      printf("%d", binaryNumber[i]);
+    }
   }
   printf("\n");
 }
@@ -48,9 +82,9 @@ void sumOfBinaryNumbers(int *binaryNumber1, int *binaryNumber2, int *binarySum, 
     int digitFromBinaryNumber1 = binaryNumber1[i];
     int digitFromBinaryNumber2 = binaryNumber2[i];
 
-    int sumOfCurrentGigits = digitFromBinaryNumber1 + digitFromBinaryNumber2;
+    int sumOfCurrentDigits = digitFromBinaryNumber1 + digitFromBinaryNumber2;
 
-    switch (sumOfCurrentGigits)
+    switch (sumOfCurrentDigits)
     {
       case 0:
         binarySum[i] = buckupDigit;
@@ -64,7 +98,7 @@ void sumOfBinaryNumbers(int *binaryNumber1, int *binaryNumber2, int *binarySum, 
         else
         {
           binarySum[i] = 0;
-          buckupDigit = 0;
+          buckupDigit = 1;
         }
         break;
       case 2:
@@ -87,7 +121,7 @@ int main()
 {
   int decimalNumber1 = 0;
   int decimalNumber2 = 0;
-  int numberOfBinaryDigits = 33;
+  int numberOfBinaryDigits = 32;
   int binaryNumber1[numberOfBinaryDigits];
   int binaryNumber2[numberOfBinaryDigits];
   initializingOfArray(binaryNumber1, numberOfBinaryDigits);
@@ -106,15 +140,15 @@ int main()
   initializingOfArray(binarySum, numberOfBinaryDigits);
   sumOfBinaryNumbers(binaryNumber1,  binaryNumber2, binarySum, numberOfBinaryDigits);
 
-  printf("First number in binary : ");
+  printf("First number in binary form : ");
   printBinaryNumber(binaryNumber1, numberOfBinaryDigits);
-  printf("Second number in binary : ");
+  printf("Second number in binary form : ");
   printBinaryNumber(binaryNumber2, numberOfBinaryDigits);
-  printf("Sum of number equal : ");
+  printf("The sum of the numbers in binary form : ");
   printBinaryNumber(binarySum, numberOfBinaryDigits);
 
   int decimalSum = 0;
   binaryToDecimal(&decimalSum, binarySum, numberOfBinaryDigits);
-  printf("Decimal sum %d\n", decimalSum);
+  printf("The sum of the numbers in decimal form :  %d\n", decimalSum);
   return 0;
 }
