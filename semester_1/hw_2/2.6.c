@@ -14,7 +14,7 @@ void promptToEnter(int *value)
   scanf("%d", value);
 }
 
-void countingDigitsInANumber(int number, int arrayOfCount[], int base)
+void countDigitsInANumber(int number, int arrayOfCount[], int base)
 {
   while (number != 0)
   {
@@ -25,18 +25,16 @@ void countingDigitsInANumber(int number, int arrayOfCount[], int base)
 
 void makeMinimumNumber(int *finishValue, int arrayOfCount[], int base)
 {
-  int count = arrayOfCount[1];
-  for (int j = 0; j < count; j++)
-  {
-    *finishValue *= base;
-    *finishValue += 1;
-  }
-  count = arrayOfCount[0];
+  *finishValue *= base;
+  *finishValue += 1;
+  arrayOfCount[1]--;
+
+  int count = arrayOfCount[0];
   for (int j = 0; j < count; j++)
     {
     *finishValue *= base;
     }
-  for (int i = 2; i < base; i++)
+  for (int i = 1; i < base; i++)
   {
     count = arrayOfCount[i];
     for (int j = 0; j < count; j++)
@@ -62,7 +60,7 @@ int main()
 
   initializeArrayWithZeros(number, base);
   promptToEnter(&value);
-  countingDigitsInANumber(value, number, base);
+  countDigitsInANumber(value, number, base);
   makeMinimumNumber(&finishValue, number, base);
   printMinimumNumber(finishValue);
 
