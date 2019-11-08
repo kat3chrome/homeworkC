@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void printFareiSequence(int value, int leftFractionNumerator, int leftFractionDenominator, int rightFractionNumerator, int rightFractionDenominator)
+void printFareiSequence(int value, int leftFractionNumerator, int leftFractionDenominator,
+  int rightFractionNumerator, int rightFractionDenominator)
 {
   int newNumerator = leftFractionNumerator + rightFractionNumerator;
   int newDenominator = leftFractionDenominator + rightFractionDenominator;
@@ -11,6 +12,7 @@ void printFareiSequence(int value, int leftFractionNumerator, int leftFractionDe
     printFareiSequence(value, newNumerator, newDenominator, rightFractionNumerator, rightFractionDenominator);
   }
 }
+
 int main()
 {
   int value = 0;
