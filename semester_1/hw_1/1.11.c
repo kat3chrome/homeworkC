@@ -8,16 +8,16 @@ void swap(int *first, int *second)
     *second = temp;
 }
 
-int quickSort(int array[], int startArray, int finishArray)
+int quickSort(int array[], int startOfArray, int finishOfArray)
 {
-    if (startArray >= finishArray)
+    if (startOfArray >= finishOfArray)
     {
         return 0;
     }
 
-    int referenceElement = array[(startArray + finishArray) / 2];
-    int leftIndex = startArray;
-    int rightIndex = finishArray;
+    int referenceElement = array[(startOfArray + finishOfArray) / 2];
+    int leftIndex = startOfArray;
+    int rightIndex = finishOfArray;
 
     do
     {
@@ -40,8 +40,8 @@ int quickSort(int array[], int startArray, int finishArray)
     }
     while (leftIndex <= rightIndex);
 
-    quickSort(array, startArray, rightIndex);
-    quickSort(array, leftIndex, finishArray);
+    quickSort(array, startOfArray, rightIndex);
+    quickSort(array, leftIndex, finishOfArray);
 }
 
 int main()
