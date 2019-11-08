@@ -138,11 +138,9 @@ bool isCorrectInputNumberAndPrintError(int temporaryNumbers[], int numberOfNumbe
   return true;
 }
 
-void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], const int numberOfNumbers , int numbers[], bool *isCorrectInputString)
+void initializationOfTemporaryNumber(int temporaryNumbers[], const int numberOfNumbers , int numbers[], bool *isCorrectInputString)
 {
   char charTemporaryNumbers[numberOfNumbers];
-
-  printf("Try to guess : ");
   scanf("%s", charTemporaryNumbers);
 
   //for test
@@ -262,8 +260,8 @@ int main()
     int temporaryNumbers[numberOfNumbers];
     bool isCorrectInputString = false;
 
-    printInputPromptAndInitializationOfTemporaryNumber(temporaryNumbers, numberOfNumbers, numbers, &isCorrectInputString);
-
+    printf("Try to guess : ");
+    initializationOfTemporaryNumber(temporaryNumbers, numberOfNumbers, numbers, &isCorrectInputString);
 
     if (isCorrectInputString)
     {
