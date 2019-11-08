@@ -15,6 +15,7 @@ long long binaryPower(int basis, int power)
 
   return binaryPower(basis, power - 1) * basis;
 }
+
 int main()
 {
   int basis = 0;
