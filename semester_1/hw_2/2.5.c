@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-void stringInitializationWithZeros(char string[], int stringLenght)
+void initializeStringWithZeros(char string[], int stringLenght)
 {
   for (int i = 0; i < stringLenght; i++)
   {
@@ -26,11 +26,11 @@ void makeArrayOfStringLetters(char string[], int stringLenght, int array[], int 
   makeAStringOfLowercaseLetters(string, stringLenght);
   for (int i = 0; i < stringLenght; i++)
   {
-    array[(int)string[i] - 'a']++;
+    array[(int)(string[i] - 'a')]++;
   }
 }
 
-void arrayInitializationWithZeros(int array[], int arraySize)
+void initializeArrayWithZeros(int array[], int arraySize)
 {
     for (int i = 0; i < arraySize; i++)
     {
@@ -38,15 +38,15 @@ void arrayInitializationWithZeros(int array[], int arraySize)
     }
 }
 
-bool isArraysAreEqual(int array1[], int array1Size, int array2[], int array2Size)
+bool isArraysAreEqual(int arrayFirst[], int arrayFirstSize, int arraySecond[], int arraySecondSize)
 {
-  if (array1Size != array1Size)
+  if (arrayFirstSize != arrayFirstSize)
   {
     return false;
   }
-  for (int i = 0; i < array1Size; i++)
+  for (int i = 0; i < arrayFirstSize; i++)
   {
-    if (array1[i] != array2[i])
+    if (arrayFirst[i] != arraySecond[i])
     {
       return false;
     }
@@ -57,34 +57,34 @@ bool isArraysAreEqual(int array1[], int array1Size, int array2[], int array2Size
 int main()
 {
   const int numberOfLettersInTheAlphabet = 26;
-  int stringLenght = 100;
-  int subStringLenght = 100;
+  int stringFirstLenght = 100;
+  int stringSecondLenght = 100;
 
-  char string[stringLenght];
-  char subString[subStringLenght];
+  char stringFirst[stringFirstLenght];
+  char stringSecond[stringSecondLenght];
 
-  stringInitializationWithZeros(string, stringLenght);
-  stringInitializationWithZeros(subString, subStringLenght);
+  initializeStringWithZeros(stringFirst, stringFirstLenght);
+  initializeStringWithZeros(stringSecond, stringSecondLenght);
 
-  printf("Enter string and substring : ");
-  scanf("%s%s", string, subString);
+  printf("Enter first string and second string : ");
+  scanf("%s%s", stringFirst, stringSecond);
 
-  int arrayOfStringLetters[numberOfLettersInTheAlphabet];
-  int arrayOfSubStringLetters[numberOfLettersInTheAlphabet];
+  int arrayOfStringFirstLetters[numberOfLettersInTheAlphabet];
+  int arrayOfstringSecondLetters[numberOfLettersInTheAlphabet];
 
-  arrayInitializationWithZeros(arrayOfStringLetters, numberOfLettersInTheAlphabet);
-  arrayInitializationWithZeros(arrayOfSubStringLetters, numberOfLettersInTheAlphabet);
+  initializeArrayWithZeros(arrayOfStringFirstLetters, numberOfLettersInTheAlphabet);
+  initializeArrayWithZeros(arrayOfstringSecondLetters, numberOfLettersInTheAlphabet);
 
-  makeArrayOfStringLetters(string, stringLenght, arrayOfStringLetters, numberOfLettersInTheAlphabet);
-  makeArrayOfStringLetters(subString, subStringLenght, arrayOfSubStringLetters, numberOfLettersInTheAlphabet);
+  makeArrayOfStringLetters(stringFirst, stringFirstLenght, arrayOfStringFirstLetters, numberOfLettersInTheAlphabet);
+  makeArrayOfStringLetters(stringSecond, stringSecondLenght, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet);
 
-  if(isArraysAreEqual(arrayOfStringLetters, numberOfLettersInTheAlphabet, arrayOfSubStringLetters, numberOfLettersInTheAlphabet))
+  if(isArraysAreEqual(arrayOfStringFirstLetters, numberOfLettersInTheAlphabet, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet))
   {
-    printf("%s\n", "Yes");
+    printf("%s\n", "Yes, you can rearrange the characters in the first string to get the second string.");
   }
   else
   {
-    printf("%s\n", "No");
+    printf("%s\n", "No, you can't rearrange the characters in the first string to get the second string.");
   }
 
   return 0;
