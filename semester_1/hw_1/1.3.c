@@ -15,26 +15,20 @@ int main()
 {
   const int sizeArray = 100;
   int array[sizeArray];
-  for (int i = 0; i < sizeArray; i++)\
+  for (int i = 0; i < sizeArray; i++)
   {
       array[i] = 0;
   }
 
   int sizeM = 0;
   int sizeN = 0;
+  int realSizeOfArray = 0;
 
-  printf("Enter the lengths of the segments: ");
-  scanf("%d%d", &sizeM, &sizeN);
-
-  int realSizeOfArray = sizeM + sizeN;
-
-  while (sizeArray < sizeM + sizeN)
+  do
   {
-    printf("Enter the correct lengths of the segments: ");
+    printf("Enter the lengths of the segments: ");
     scanf("%d%d", &sizeM, &sizeN);
-  }
-
-  realSizeOfArray = sizeM + sizeN;
+  } while(sizeArray < sizeM + sizeN);
 
   printf("%s", "Enter the array: ");
   for (int i = 0; i < realSizeOfArray; i++)
