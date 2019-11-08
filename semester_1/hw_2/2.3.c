@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-bool isSameDigit(int array[], int temporaryDigit, int index)
+bool isDigitInArray(int array[], int temporaryDigit, int index)
 {
   for (int i = 0; i < index; i ++)
   {
@@ -18,14 +18,14 @@ bool isSameDigit(int array[], int temporaryDigit, int index)
   return false;
 }
 
-void generationOfNumbers(int array[], int sizeOfArray)
+void generateNumber(int array[], int sizeOfArray)
 {
   srand(time(NULL));
 
   for (int i = 0; i < sizeOfArray; i++)
   {
     int temporaryDigit = rand() % 10;
-    while (isSameDigit(array, temporaryDigit, i))
+    while (isDigitInArray(array, temporaryDigit, i))
     {
       temporaryDigit = rand() % 10;
     }
@@ -34,10 +34,8 @@ void generationOfNumbers(int array[], int sizeOfArray)
   }
 }
 
-void printingDotsWithDelay()
+void printingDotsWithDelay(int numbersOdDots)
 {
-  int numbersOdDots = 4;
-
   for (int i = 0; i < numbersOdDots; i++)
   {
     printf(".");
@@ -48,11 +46,18 @@ void printingDotsWithDelay()
 
 void printTitleAndGreeting(int numberOfNumbers)
 {
-  char title[1181] = "╔══╗─╔╗─╔╗╔╗───╔╗───╔═══╗     ╔═══╗╔═╗─╔╗╔═══╗     ╔═══╗╔═══╗──────╔═══╗\n║╔╗║─║║─║║║║───║║───║╔═╗║     ║╔═╗║║║╚╗║║╚╗╔╗║     ║╔═╗║║╔═╗║──────║╔═╗║\n║╚╝╚╗║║─║║║║───║║───║╚══╗     ║║─║║║╔╗╚╝║─║║║║     ║║─╚╝║║─║║╔╗╔╗╔╗║╚══╗\n║╔═╗║║║─║║║║─╔╗║║─╔╗╚══╗║     ║╚═╝║║║╚╗║║─║║║║     ║║─╔╗║║─║║║╚╝╚╝║╚══╗║\n║╚═╝║║╚═╝║║╚═╝║║╚═╝║║╚═╝║     ║╔═╗║║║─║║║╔╝╚╝║     ║╚═╝║║╚═╝║╚╗╔╗╔╝║╚═╝║\n╚═══╝╚═══╝╚═══╝╚═══╝╚═══╝     ╚╝─╚╝╚╝─╚═╝╚═══╝     ╚═══╝╚═══╝─╚╝╚╝─╚═══╝";
+  char *title =
+  "╔══╗─╔╗─╔╗╔╗───╔╗───╔═══╗     ╔═══╗╔═╗─╔╗╔═══╗     ╔═══╗╔═══╗──────╔═══╗\n"
+  "║╔╗║─║║─║║║║───║║───║╔═╗║     ║╔═╗║║║╚╗║║╚╗╔╗║     ║╔═╗║║╔═╗║──────║╔═╗║\n"
+  "║╚╝╚╗║║─║║║║───║║───║╚══╗     ║║─║║║╔╗╚╝║─║║║║     ║║─╚╝║║─║║╔╗╔╗╔╗║╚══╗\n"
+  "║╔═╗║║║─║║║║─╔╗║║─╔╗╚══╗║     ║╚═╝║║║╚╗║║─║║║║     ║║─╔╗║║─║║║╚╝╚╝║╚══╗║\n"
+  "║╚═╝║║╚═╝║║╚═╝║║╚═╝║║╚═╝║     ║╔═╗║║║─║║║╔╝╚╝║     ║╚═╝║║╚═╝║╚╗╔╗╔╝║╚═╝║\n"
+  "╚═══╝╚═══╝╚═══╝╚═══╝╚═══╝     ╚╝─╚╝╚╝─╚═╝╚═══╝     ╚═══╝╚═══╝─╚╝╚╝─╚═══╝";
 
   printf("%s\n", title);
   printf("Welcome to the game!\nThe secret number has %d digits", numberOfNumbers);
-  printingDotsWithDelay();
+  int numbersOdDots = 4;
+  printingDotsWithDelay(numbersOdDots);
   printf("try to guess the number as quickly as possible!\n");
 }
 
@@ -133,7 +138,7 @@ bool isCorrectInputNumberAndPrintError(int temporaryNumbers[], int numberOfNumbe
   return true;
 }
 
-void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], const int numberOfNumbers , int numbers[])
+void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], const int numberOfNumbers , int numbers[], bool *isCorrectInputString)
 {
   char charTemporaryNumbers[numberOfNumbers];
 
@@ -164,6 +169,7 @@ void printInputPromptAndInitializationOfTemporaryNumber(int temporaryNumbers[], 
   if (isCorrectNumber)
   {
     stringOfCharactersToStringOfNumbers(charTemporaryNumbers, temporaryNumbers, numberOfNumbers);
+    *isCorrectInputString = true;
   }
 }
 
@@ -214,7 +220,26 @@ int numberOfCows(int temporaryNumbers[], int numbers[], int numberOfNumbers)
 
 void printGreeting()
 {
-  char congrats[1614] = "▄▄▄░░░░░░░░░░░░░░░░░░░░░░▄▄▄\n░███░░░░░░░░▄▄▄▄░░░░░░░░███░\n░░█▀█▄▄▄░░░██████░░░▄▄▄█▀█░░\n░░▀█░░░▀▀██▄▄▄▄▄▄██▀▀░░░█▀░░\n░░░░▀███▄██████████▄███▀░░░░\n░░░▄█▀▄███▀██████▀███▄▀█░░░░\n░░▄██▄██░██████████░██▄██▄░░\n░░███████░████████░███████░░\n░░████████░█▀▀▀▀█░████████░░\n░░▀███████░█▄▄▄▄█░███████▀░░\n░░░▀███████▄▄▄▄▄▄███████▀░░░\n░░░░▀██████████████████▀░░░░\n░░░░░▀████████████████▀░░░░░\n░░░░░░████████████████░░░░░░\n░░░░░░█████░░▀▀░░█████░░░░░░\n░░░░░░▀███░░░░░░░░███▀░░░░░░\n░░░░░░░███░░░░░░░░███░░░░░░░\n░░░░░░░███░░░░░░░░███░░░░░░░\n░░░░░░█████░░░░░░█████░░░░░░";
+  char *congrats =
+  "▄▄▄░░░░░░░░░░░░░░░░░░░░░░▄▄▄\n"
+  "░███░░░░░░░░▄▄▄▄░░░░░░░░███░\n"
+  "░░█▀█▄▄▄░░░██████░░░▄▄▄█▀█░░\n"
+  "░░▀█░░░▀▀██▄▄▄▄▄▄██▀▀░░░█▀░░\n"
+  "░░░░▀███▄██████████▄███▀░░░░\n"
+  "░░░▄█▀▄███▀██████▀███▄▀█░░░░\n"
+  "░░▄██▄██░██████████░██▄██▄░░\n"
+  "░░███████░████████░███████░░\n"
+  "░░████████░█▀▀▀▀█░████████░░\n"
+  "░░▀███████░█▄▄▄▄█░███████▀░░\n"
+  "░░░▀███████▄▄▄▄▄▄███████▀░░░\n"
+  "░░░░▀██████████████████▀░░░░\n"
+  "░░░░░▀████████████████▀░░░░░\n"
+  "░░░░░░████████████████░░░░░░\n"
+  "░░░░░░█████░░▀▀░░█████░░░░░░\n"
+  "░░░░░░▀███░░░░░░░░███▀░░░░░░\n"
+  "░░░░░░░███░░░░░░░░███░░░░░░░\n"
+  "░░░░░░░███░░░░░░░░███░░░░░░░\n"
+  "░░░░░░█████░░░░░░█████░░░░░░";
 
   printf("%s\n", congrats);
   printf("Congratulations, you were able to do it!!!\n");
@@ -224,7 +249,7 @@ int main()
 {
   const int numberOfNumbers = 4;
   int numbers[numberOfNumbers];
-  generationOfNumbers(numbers, numberOfNumbers);
+  generateNumber(numbers, numberOfNumbers);
 
   printTitleAndGreeting(numberOfNumbers);
 
@@ -235,11 +260,12 @@ int main()
     bulls = 0;
     cows = 0;
     int temporaryNumbers[numberOfNumbers];
-    temporaryNumbers[0] = -1;
+    bool isCorrectInputString = false;
 
-    printInputPromptAndInitializationOfTemporaryNumber(temporaryNumbers, numberOfNumbers, numbers);
+    printInputPromptAndInitializationOfTemporaryNumber(temporaryNumbers, numberOfNumbers, numbers, &isCorrectInputString);
 
-    if (temporaryNumbers[0] != -1)
+
+    if (isCorrectInputString)
     {
       bulls = numberOfBulls(temporaryNumbers, numbers, numberOfNumbers);
       cows = numberOfCows(temporaryNumbers, numbers, numberOfNumbers);
