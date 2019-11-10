@@ -3,36 +3,22 @@
 #include <string.h>
 #include "stack.h"
 
-int typeOfToken(char token);
-void processingOfCurrentToken(char token, struct Stack* stackOfNumbers, char *queueOfOperands);
-void readExpression(struct Stack* stackOfNumbers, char *queueOfOperands);
-float evaluationExpression(struct Stack* stackOfNumbers, char *queueOfOperands);
+float counting(char *expression);
+void readExpression(char *inputExpression);
 void initializeTheString(char *currentString);
-void addToQueue(char token, char *queue);
 
 int main()
 {
-  struct Stack* stackOfNumbers = createStack();
-  int sizeOfQueueOfOperands = 32;
-  char queueOfOperands[sizeOfQueueOfOperands];
-  initializeTheString(queueOfOperands);
-  float result = 0;
+  int sizeOfExpression = 32;
+  char inputExpression[sizeOfExpression];
+  initializeTheString(inputExpression);
 
-  readExpression(stackOfNumbers, queueOfOperands);
-  result = evaluationExpression(stackOfNumbers, queueOfOperands);
-  printf("%lf\n", result);
+  printf("Enter the expression : ");
+  readExpression(inputExpression);
+
+  float result = counting(inputExpression);
+  printf("result = %lf\n", result);
   return 0;
-}
-
-void printQueue(char *queue)
-{
-  int sizeOfQueue = strlen(queue);
-
-  for (int i = 0; i < sizeOfQueue; i++)
-  {
-    printf("%c ", queue[i]);
-  }
-  printf("\n");
 }
 
 int typeOfToken(char token)
@@ -51,36 +37,21 @@ int typeOfToken(char token)
   return 2;//not process
 }
 
-float characterToFloat(char characer)
-{
-  return (int)characer - '0';
-}
 
-void processingOfCurrentToken(char token, struct Stack* stackOfNumbers, char *queueOfOperands)
+void actionsWithToken(char token, char *inputExpression)
 {
-  int typeOfCurrentToken = typeOfToken(token);
-
-  switch (typeOfCurrentToken)
+  if (typeOfToken(token) != 2)
   {
-    case 0:
-      push(characterToFloat(token), stackOfNumbers);
-      break;
-    case 1:
-      addToQueue(token, queueOfOperands);
-      break;
+    inputExpression[strlen(inputExpression)] = token;
   }
 }
 
-void readExpression(struct Stack* stackOfNumbers, char *queueOfOperands)
+void readExpression(char *inputExpression)
 {
   char token;
-  int index = 0;
   while ((token = getchar())!='\n')
   {
-    if (typeOfToken(token) != 2)
-    {
-      processingOfCurrentToken(token, stackOfNumbers, queueOfOperands);
-    }
+    actionsWithToken(token, inputExpression);
   }
 }
 
@@ -99,36 +70,6 @@ float evaluationSimplestExpression(char operator, float operand1, float operand2
   }
 }
 
-int popEndOfQueue(char *queue)
-{
-  int endOfQueue = queue[0];
-  int sizeOfQueue = strlen(queue);
-
-  for (int i = 0; i < sizeOfQueue - 1; i++)
-  {
-    queue[i] = queue[i + 1];
-  }
-  queue[sizeOfQueue - 1] = '\0';
-
-  return endOfQueue;
-}
-
-
-float evaluationExpression(struct Stack* stackOfNumbers, char *queueOfOperands)
-{
-
-  printQueue(queueOfOperands);
-
-  while(strlen(queueOfOperands) != 0)
-  {
-    int operator = popEndOfQueue(queueOfOperands);
-    int operand1 = pop(stackOfNumbers);
-    int operand2 = pop(stackOfNumbers);
-    printf("%d %c %d\n", operand1, operator, operand2);
-    push(evaluationSimplestExpression((char)operator, operand1, operand2), stackOfNumbers);
-  }
-}
-
 void initializeTheString(char *currentString)
 {
   int stringLenght = strlen(currentString);
@@ -138,7 +79,33 @@ void initializeTheString(char *currentString)
   }
 }
 
-void addToQueue(char token, char *queue)
+int characterToInt(char characer)
 {
-  queue[strlen(queue)] = token;
+  return (int)characer - '0';
+}
+
+float counting(char *expression)
+{
+  struct Stack* stackOfNumbers = createStack();
+
+  int sizeOfExpression = strlen(expression);
+  for (int i = 0; i < sizeOfExpression; i++)
+  {
+    char currentToken = expression[i];
+    if (typeOfToken(currentToken) == 0)
+    {
+      int number = characterToInt(currentToken);
+      push(number, stackOfNumbers);
+    }
+    else
+    {
+      float numberSecond = pop(stackOfNumbers);
+      float numberFirst = pop(stackOfNumbers);
+      float simplestResult = evaluationSimplestExpression(currentToken, numberFirst, numberSecond);
+      printf("%lf %c %lf = %lf\n", numberFirst, currentToken, numberSecond, simplestResult);
+      push(simplestResult, stackOfNumbers);
+    }
+  }
+  float result = pop(stackOfNumbers);
+  return result;
 }
