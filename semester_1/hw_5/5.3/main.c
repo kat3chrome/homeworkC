@@ -112,59 +112,59 @@ float evaluationSimplestExpression(char operator, float operand1, float operand2
 
 void infixToPostfix(char *infixExpression, char *prefixExpression)
 {
-    struct Stack* stack = createStack();
+  struct Stack* stack = createStack();
 
-    int sizeOfExpression = strlen(infixExpression);
-    for (int i = 0; i < sizeOfExpression; i++)
+  int sizeOfExpression = strlen(infixExpression);
+  for (int i = 0; i < sizeOfExpression; i++)
+  {
+    char currentToken = infixExpression[i];
+    if (typeOfToken(currentToken) == 0)
     {
-      char currentToken = infixExpression[i];
-      if (typeOfToken(currentToken) == 0)
+      prefixExpression[strlen(prefixExpression)] = currentToken;
+    }
+    else if (typeOfToken(currentToken) == 1)
+    {
+      if (isEmpty(stack) || (char)peek(stack) == '(')
       {
-        prefixExpression[strlen(prefixExpression)] = currentToken;
+        push((float)currentToken, stack);
       }
-      else if (typeOfToken(currentToken) == 1)
+      else if (getPriorityOfToken(currentToken) > getPriorityOfToken((char)peek(stack)))
       {
-        if (isEmpty(stack) || (char)peek(stack) == '(')
-        {
-          push((float)currentToken, stack);
-        }
-        else if (getPriorityOfToken(currentToken) > getPriorityOfToken((char)peek(stack)))
-        {
-          push((float)currentToken, stack);
-        }
-        else if (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)))
-        {
-          while (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)) && (char)peek(stack) != '(')
-          {
-            prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
-            if (isEmpty(stack))
-            {
-              break;
-            }
-          }
-          push((float)currentToken, stack);
-        }
+        push((float)currentToken, stack);
       }
-      else if (typeOfToken(currentToken) == 2)
+      else if (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)))
       {
-        if (currentToken == '(')
+        while (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)) && (char)peek(stack) != '(')
         {
-          push(currentToken, stack);
-        }
-        else
-        {
-          while ((char)peek(stack) != '(')
+          prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+          if (isEmpty(stack))
           {
-            prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+            break;
           }
-          pop(stack);
         }
+        push((float)currentToken, stack);
       }
     }
-    while (!isEmpty(stack))
+    else if (typeOfToken(currentToken) == 2)
     {
-      prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+      if (currentToken == '(')
+      {
+        push(currentToken, stack);
+      }
+      else
+      {
+        while ((char)peek(stack) != '(')
+        {
+          prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+        }
+        pop(stack);
+      }
     }
+  }
+  while (!isEmpty(stack))
+  {
+    prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+  }
 }
 
 int characterToInt(char characer)
