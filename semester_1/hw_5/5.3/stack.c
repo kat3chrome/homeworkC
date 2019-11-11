@@ -47,10 +47,15 @@ float pop(Stack* stack)
     stack->size--;
     StackElement* popped = stack->first;
     stack->first = popped->next;
-    double value = popped->value;
+    float value = popped->value;
     free(popped);
 
     return value;
+}
+
+float peek(struct Stack* stack)
+{
+  return stack->first->value;
 }
 
 int stackSize(Stack* stack)

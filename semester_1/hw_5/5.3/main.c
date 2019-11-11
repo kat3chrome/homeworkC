@@ -1,12 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "stack.h"
 
-void stringInitialization(char *inputString, int lengthOfInputString)
+void readExpression(char *inputExpression);
+void initializeTheString(char *currentString);
+void infixToPostfix(char *infixExpression, char *prefixExpression);
+float counting(char *expression);
+
+int main()
 {
-  for (size_t i = 0; i < lengthOfInputString; i++)
+  int sizeOfExpression = 128;
+  char inputExpression[sizeOfExpression];
+  initializeTheString(inputExpression);
+
+  printf("Enter an expression in infix form : ");
+  readExpression(inputExpression);
+
+  int sizeOfInfixexpression = strlen(inputExpression);
+  char prefixExpression[sizeOfInfixexpression];
+  initializeTheString(prefixExpression);
+
+  infixToPostfix(inputExpression, prefixExpression);
+
+  float result = counting(prefixExpression);
+  printf("result = %lf\n", result);
+  return 0;
+}
+
+void initializeTheString(char *currentString)
+{
+  int stringLenght = strlen(currentString);
+  for (int i = 0; i < stringLenght; i++)
   {
-    inputString[i] = '\0';
+    currentString[i] = '\0';
+  }
+}
+
+int getPriorityOfToken(char token)
+{
+  switch (token)
+  {
+    case '(':
+      return 0;
+    case ')':
+      return 1;
+    case '+':
+      return 2;
+    case '-':
+      return 3;
+    case '*':
+      return 4;
+    case '/':
+      return 4;
+    default:
+      return 5;
   }
 }
 
@@ -30,111 +78,121 @@ int typeOfToken(char token)
   return 3;//not process
 }
 
-void addToQueue(char token, char *queue)
+void actionsWithToken(char token, char *inputExpression)
 {
-  queue[strlen(queue)] = token;
-}
-
-void addToStack(char token, char *stack, int sizeOfStack)
-{
-  for(int i = sizeOfStack - 1; i > 0; i--)
+  if (typeOfToken(token) != 3)
   {
-    stack[i] = stack[i - 1];
-  }
-
-  stack[0] = token;
-}
-
-void popFromStackToCharacter(char *temporaryCharacter, char *stack, int sizeOfArray)
-{
-  temporaryCharacter[0] = stack[0];
-
-  for (int i = 0; i < sizeOfArray - 1; i++)
-  {
-    stack[i] = stack[i + 1];
-  }
-
-  stack[sizeOfArray - 1] = '\0';
-}
-
-void processWhenCurrentTokenIsClosingBracket(char token, char *stack, char *queue ,int sizeOfArray)
-{
-  char temporaryCharacter[1];
-
-  while (stack[0] != '(')
-  {
-    popFromStackToCharacter(temporaryCharacter, stack, sizeOfArray);
-    queue[strlen(queue)] = temporaryCharacter[0];
-  }
-
-  popFromStackToCharacter(temporaryCharacter, stack, sizeOfArray);
-
-  if (typeOfToken(stack[0]) == 1)
-  {
-    popFromStackToCharacter(temporaryCharacter, stack, sizeOfArray);
-    queue[strlen(queue)] = temporaryCharacter[0];
+    inputExpression[strlen(inputExpression)] = token;
   }
 }
 
-void actionsWithToken(char token, char *stack, char *queue, int sizeOfArray)
+void readExpression(char *inputExpression)
 {
-  int typeOfCurrentToken = typeOfToken(token);
-
-  switch (typeOfCurrentToken)
-  {
-    case 0:
-      addToQueue(token, queue);
-      break;
-    case 1:
-      addToStack(token, stack, sizeOfArray);
-      break;
-    case 2:
-      if (token == '(')
-      {
-        addToStack(token, stack, sizeOfArray);
-      }
-      else
-      {
-        processWhenCurrentTokenIsClosingBracket(token, stack, queue, sizeOfArray);
-      }
-      break;
-  }
-}
-
-void printQueue(char *queue)
-{
-  int sizeOfQueue = strlen(queue);
-
-  for (int i = 0; i < sizeOfQueue; i++)
-  {
-    printf("%c ", queue[i]);
-  }
-  printf("\n");
-}
-
-int main()
-{
-  int sizeOfArray = 32;
   char token;
-  char stack[sizeOfArray];
-  char queue[sizeOfArray];
-  stringInitialization(stack, sizeOfArray);
-  stringInitialization(queue, sizeOfArray);
-
-  printf("Enter an expression in infix form : ");
   while ((token = getchar())!='\n')
   {
-    actionsWithToken(token, stack, queue, sizeOfArray);
+    actionsWithToken(token, inputExpression);
   }
+}
 
-  char temporaryCharacter[1];
-  while (strlen(stack) != 0)
+float evaluationSimplestExpression(char operator, float operand1, float operand2)
+{
+  switch (operator)
   {
-    popFromStackToCharacter(temporaryCharacter, stack, sizeOfArray);
-    queue[strlen(queue)] = temporaryCharacter[0];
+    case '+':
+      return operand1 + operand2;
+    case '-':
+      return operand1 - operand2;
+    case '*':
+      return operand1 * operand2;
+    case '/':
+      return operand1 / operand2;
   }
+}
 
-  printf("Expression in postfix form : ");
-  printQueue(queue);
-  return 0;
+void infixToPostfix(char *infixExpression, char *prefixExpression)
+{
+    struct Stack* stack = createStack();
+
+    int sizeOfExpression = strlen(infixExpression);
+    for (int i = 0; i < sizeOfExpression; i++)
+    {
+      char currentToken = infixExpression[i];
+      if (typeOfToken(currentToken) == 0)
+      {
+        prefixExpression[strlen(prefixExpression)] = currentToken;
+      }
+      else if (typeOfToken(currentToken) == 1)
+      {
+        if (isEmpty(stack) || (char)peek(stack) == '(')
+        {
+          push((float)currentToken, stack);
+        }
+        else if (getPriorityOfToken(currentToken) > getPriorityOfToken((char)peek(stack)))
+        {
+          push((float)currentToken, stack);
+        }
+        else if (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)))
+        {
+          while (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)) && (char)peek(stack) != '(')
+          {
+            prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+            if (isEmpty(stack))
+            {
+              break;
+            }
+          }
+          push((float)currentToken, stack);
+        }
+      }
+      else if (typeOfToken(currentToken) == 2)
+      {
+        if (currentToken == '(')
+        {
+          push(currentToken, stack);
+        }
+        else
+        {
+          while ((char)peek(stack) != '(')
+          {
+            prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+          }
+          pop(stack);
+        }
+      }
+    }
+    while (!isEmpty(stack))
+    {
+      prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+    }
+}
+
+int characterToInt(char characer)
+{
+  return (int)characer - '0';
+}
+
+float counting(char *expression)
+{
+  struct Stack* stackOfNumbers = createStack();
+
+  int sizeOfExpression = strlen(expression);
+  for (int i = 0; i < sizeOfExpression; i++)
+  {
+    char currentToken = expression[i];
+    if (typeOfToken(currentToken) == 0)
+    {
+      int number = characterToInt(currentToken);
+      push(number, stackOfNumbers);
+    }
+    else
+    {
+      float numberSecond = pop(stackOfNumbers);
+      float numberFirst = pop(stackOfNumbers);
+      float simplestResult = evaluationSimplestExpression(currentToken, numberFirst, numberSecond);
+      push(simplestResult, stackOfNumbers);
+    }
+  }
+  float result = pop(stackOfNumbers);
+  return result;
 }
