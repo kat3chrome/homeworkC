@@ -102,7 +102,6 @@ float counting(char *expression)
       float numberSecond = pop(stackOfNumbers);
       float numberFirst = pop(stackOfNumbers);
       float simplestResult = evaluationSimplestExpression(currentToken, numberFirst, numberSecond);
-      printf("%lf %c %lf = %lf\n", numberFirst, currentToken, numberSecond, simplestResult);
       push(simplestResult, stackOfNumbers);
     }
   }
