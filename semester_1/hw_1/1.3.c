@@ -30,6 +30,8 @@ int main()
     scanf("%d%d", &sizeM, &sizeN);
   } while(sizeArray < sizeM + sizeN);
 
+  realSizeOfArray = sizeM + sizeN;
+
   printf("%s", "Enter the array: ");
   for (int i = 0; i < realSizeOfArray; i++)
   {
