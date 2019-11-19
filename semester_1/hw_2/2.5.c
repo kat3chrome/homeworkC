@@ -32,10 +32,10 @@ void makeArrayOfStringLetters(char string[], int stringLenght, int array[], int 
 
 void initializeArrayWithZeros(int array[], int arraySize)
 {
-    for (int i = 0; i < arraySize; i++)
-    {
-      array[i] = 0;
-    }
+  for (int i = 0; i < arraySize; i++)
+  {
+    array[i] = 0;
+  }
 }
 
 bool isArraysAreEqual(int arrayFirst[], int arrayFirstSize, int arraySecond[], int arraySecondSize)
@@ -57,8 +57,8 @@ bool isArraysAreEqual(int arrayFirst[], int arrayFirstSize, int arraySecond[], i
 int main()
 {
   const int numberOfLettersInTheAlphabet = 26;
-  int stringFirstLenght = 100;
-  int stringSecondLenght = 100;
+  const int stringFirstLenght = 100;
+  const int stringSecondLenght = 100;
 
   char stringFirst[stringFirstLenght];
   char stringSecond[stringSecondLenght];
@@ -78,7 +78,7 @@ int main()
   makeArrayOfStringLetters(stringFirst, stringFirstLenght, arrayOfStringFirstLetters, numberOfLettersInTheAlphabet);
   makeArrayOfStringLetters(stringSecond, stringSecondLenght, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet);
 
-  if(isArraysAreEqual(arrayOfStringFirstLetters, numberOfLettersInTheAlphabet, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet))
+  if (isArraysAreEqual(arrayOfStringFirstLetters, numberOfLettersInTheAlphabet, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet))
   {
     printf("%s\n", "Yes, you can rearrange the characters in the first string to get the second string.");
   }
