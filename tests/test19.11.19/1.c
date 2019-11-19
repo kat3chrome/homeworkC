@@ -2,7 +2,7 @@
 
 unsigned int getFibonacciNumber(int number)
 {
-  int fibonacciNumberFirst =1;
+  int fibonacciNumberFirst = 1;
   int fibonacciNumberSecond = 0;
 
   for (int i = 0; i < number; i++)
