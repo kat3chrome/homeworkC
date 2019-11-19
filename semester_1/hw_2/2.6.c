@@ -25,9 +25,19 @@ void countDigitsInANumber(int number, int arrayOfCount[], int base)
 
 void makeMinimumNumber(int *finishValue, int arrayOfCount[], int base)
 {
+  int index = 1;
+  for (int i = 1; i < 10; i++)
+  {
+    if (arrayOfCount[i] > 0)
+    {
+      index = i;
+      break;
+    }
+  }
+
   *finishValue *= base;
-  *finishValue += 1;
-  arrayOfCount[1]--;
+  *finishValue += index;
+  arrayOfCount[index]--;
 
   int count = arrayOfCount[0];
   for (int j = 0; j < count; j++)
