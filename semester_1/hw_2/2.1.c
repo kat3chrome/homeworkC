@@ -12,7 +12,7 @@ void printSums(int needAdd, int *currentSummands, int numberOfSummands)
   {
     for (int i = 0; i < numberOfSummands; i++)
     {
-      printf("%d",currentSummands[i]);
+      printf("%d", currentSummands[i]);
       printf("%s", (i + 1 == numberOfSummands ? ";\n" : " + "));
     }
 
@@ -32,7 +32,7 @@ void printSums(int needAdd, int *currentSummands, int numberOfSummands)
 
   for (int term = maxTerm; term > 0; term--)
   {
-   currentSummands[numberOfSummands] = term;
+    currentSummands[numberOfSummands] = term;
     printSums(needAdd - term,currentSummands, numberOfSummands + 1);
   }
 }
