@@ -77,9 +77,9 @@ void findMinumunDateAndPrintResult(char inputFileName[])
     minimumDate[i] = 0;
   }
 
+  int lengthOfTemporaryDate = 0;
   while ((temporaryCharaster = getc(inputFile)) != EOF)
   {
-    int lengthOfTemporaryDate = strlen(temporaryDate);
 
     if (lengthOfTemporaryDate == lengthOfDate)
     {
@@ -88,18 +88,21 @@ void findMinumunDateAndPrintResult(char inputFileName[])
         isFirstDate == false;
         stringDateToArray(currentDate, temporaryDate);
         stringInitialization(temporaryDate);
+        lengthOfTemporaryDate = 0;
       }
       else if (!theFirstIsMoreThanTheSecond(currentDate, minimumDate))
       {
         minimumDate [2] = currentDate[2];
         minimumDate [1] = currentDate[1];
         minimumDate [0] = currentDate[1];
+        lengthOfTemporaryDate = 0;
       }
     }
 
-    else  if (!isNumber(temporaryCharaster) || !isDot(temporaryCharaster) || !isSpace(temporaryCharaster))
+    else if (!isNumber(temporaryCharaster) && !isDot(temporaryCharaster) && !isSpace(temporaryCharaster))
     {
       stringInitialization(temporaryDate);
+      lengthOfTemporaryDate = 0;
       continue;
     }
 
@@ -108,12 +111,20 @@ void findMinumunDateAndPrintResult(char inputFileName[])
       if (lengthOfTemporaryDate != 0 && lengthOfTemporaryDate != 11)
       {
         stringInitialization(temporaryDate);
+        lengthOfTemporaryDate = 0;
+      }
+      else
+      {
+        temporaryDate[lengthOfTemporaryDate] = ' ';
+        lengthOfTemporaryDate++;
       }
     }
 
     else if (isNumber(temporaryCharaster) || isDot(temporaryCharaster))
     {
+      printf("%c\n", temporaryCharaster);
       temporaryDate[lengthOfTemporaryDate] = temporaryCharaster;
+      lengthOfTemporaryDate++;
     }
   }
   fclose(inputFile);
