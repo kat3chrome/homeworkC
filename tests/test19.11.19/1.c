@@ -2,8 +2,8 @@
 
 unsigned int getFibonacciNumber(int number)
 {
-  int fibonacciNumberFirst = 1;
-  int fibonacciNumberSecond = 0;
+  unsigned int fibonacciNumberFirst = 1;
+  unsigned int fibonacciNumberSecond = 0;
 
   for (int i = 0; i < number; i++)
   {
