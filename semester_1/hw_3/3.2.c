@@ -49,7 +49,7 @@ int main()
 
   while (fgets(stringOfInputFile, maxFileStringSize, inputFile) != NULL)
   {
-	  if (isNotEmpty(stringOfInputFile))
+    if (isNotEmpty(stringOfInputFile))
     {
       numberNotEmptyStringsInInputFile++;
     }
