@@ -1,37 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+void moveToEnd(int *array, int currentIndex, int arraySize)
+{
+  for (int i = currentIndex; i < arraySize - 1; i++)
+  {
+    int temp = array[i];
+    array[i] = array[i + 1];
+    array[i + 1] = temp;
+  }
+}
+
 int main()
 {
   int arraySize = 0;
-  int zeroCount = 0;
-  int sizeOfInt = sizeof(int);
 
   printf("Enter array size: ");
   scanf("%d", &arraySize);
 
-  int *array = (int*)malloc(arraySize * sizeOfInt);
+  int *array = (int*)malloc(arraySize * sizeof(int));
   printf("Enter values: ");
-
-  int realIterator = 0;
   for (int i = 0; i < arraySize; i++)
   {
-    int temp = 0;
-    scanf("%d", &temp);
-
-    if (temp == 0)
-    {
-      zeroCount++;
-    }
-    else
-    {
-      array[realIterator] = temp;
-      realIterator++;
-    }
+    scanf("%d", &array[i]);
   }
 
-  for (realIterator++; realIterator < arraySize; realIterator++)
+  for (int i = 0; i < arraySize; i++)
   {
-      array[realIterator] = 0;
+    if (array[i] == 0)
+    {
+      moveToEnd(array, i, arraySize);
+    }
   }
 
   printf("Modified array : ");
