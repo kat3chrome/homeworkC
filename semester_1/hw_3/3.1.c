@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int swap(int array[], int relocatable1Index, int relocatable2Index)
+int swap(int array[], int a, int b)
 {
-  int temp = array[relocatable1Index];
-  array[relocatable1Index] = array[relocatable2Index];
-  array[relocatable2Index] = temp;
+  int temp = array[a];
+  array[a] = array[b];
+  array[b] = temp;
 }
 
 void siftDown(int array[], int sizeArray, int index)
@@ -54,7 +54,7 @@ int main()
   printf("Enter size of array : ");
   scanf("%d", &sizeArray);
   int *array = malloc(sizeArray * sizeof(int));
-  
+
   printf("Enter array : ");
   for (int i = 0; i < sizeArray; i++)
   {
@@ -69,7 +69,6 @@ int main()
     printf("%d ", array[i]);
   }
   printf("\n");
-
 
   free(array);
   return 0;
