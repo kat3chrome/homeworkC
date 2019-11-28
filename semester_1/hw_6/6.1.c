@@ -4,7 +4,6 @@
 
 void arrayReverse(int *array, int sizeOfArray)
 {
-
   int halfSizeArray = sizeOfArray / 2;
   for (int i = 0; i < halfSizeArray; i++)
   {
@@ -34,15 +33,6 @@ void initializingOfArray(int *array, int sizeOfArray)
   {
     array[i] = 0;
   }
-}
-
-void printBinaryNumber(int *binaryNumber, int numberOfBinaryDigits)
-{
-  for (int i = 0; i < numberOfBinaryDigits; i++)
-  {
-    printf("%d", binaryNumber[i]);
-  }
-  printf(" ");
 }
 
 void getDoubleNumberInBits(char *pointerOfFirstByteOfNumber, int *doubleNumberInBits, int numberOfBitInDouble)
@@ -118,13 +108,13 @@ void printMantiss(int *doubleNumberInBits)
     arrayOfMantiss[i] = doubleNumberInBits[12 + i];
   }
 
-  long double mantiss = 0;
+  double mantiss = 0;
   for (int i = 0; i < sizeOfMantiss; i++)
   {
     mantiss += arrayOfMantiss[i] * pow(2, - i - 1);
   }
 
-  printf("%Lf", mantiss + 1);
+  printf("%.16g", mantiss + 1);
 }
 
 void printExponent(int *doubleNumberInBits)
