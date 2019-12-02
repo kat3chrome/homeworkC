@@ -22,14 +22,31 @@ Set* createSet()
 {
     Set* set = malloc(sizeof(Set));
     set->root = NULL;
-
     return set;
+}
+
+SetElement* createSetElement(int value)
+{
+  SetElement* setElement = malloc(sizeof(SetElement));
+  setElement->value = value;
+  setElement->parent = NULL;
+  setElement->leftChild = NULL;
+  setElement->leftChild = NULL;
+
+  return setElement;
 }
 
 void addElement(int value, struct Set* set)
 {
-  if (set->root == NULL)
+  SetElement* setElement = createSetElement(value);
+
+  while ()
   {
 
   }
+}
+
+void print(struct Set* set)
+{
+  printf("%d\n", set->root->value);
 }

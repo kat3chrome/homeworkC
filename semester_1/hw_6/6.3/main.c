@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include "set.h"
+typedef struct Set Set;
 
 int main()
 {
 
-  struct Set* set = createSet();
+  Set* set = createSet();
   addElement(1, set);
-  printf("%d\n", );
+  print(set);
   return 0;
 }

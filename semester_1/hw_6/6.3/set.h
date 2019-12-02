@@ -3,9 +3,12 @@
 
 #include <stdbool.h>
 
+typedef struct Set Set;
 struct Set;
 
-struct Set* createSet();
+Set* createSet();
 void addElement(int value, struct Set* set);
 
+
+void print(struct Set* set);
 #endif
