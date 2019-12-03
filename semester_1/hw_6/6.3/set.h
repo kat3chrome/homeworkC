@@ -4,11 +4,13 @@
 #include <stdbool.h>
 
 typedef struct Set Set;
+
 struct Set;
 
 Set* createSet();
-void addElement(int value, struct Set* set);
+void addElement(int value, Set* set);
+bool isInTheSet(int value, Set* set);
+void removeElement(int value, Set* set);
+void printSet(Set* set);
 
-
-void print(struct Set* set);
 #endif
