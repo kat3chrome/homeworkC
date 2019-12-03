@@ -150,16 +150,6 @@ bool isInTheSet(int value, Set* set)
   return false;
 }
 
-SetElement* elementWithMinimemValueValueInSubtree(SetElement* setElement)
-{
-  while (setElement->leftChild != NULL)
-  {
-    setElement = setElement->leftChild;
-  }
-
-  return setElement;
-}
-
 bool isRightChild(SetElement* setElement)
 {
   if (setElement->parent != NULL)
@@ -224,7 +214,6 @@ void removeElement(int value, Set* set)
   SetElement* leftChildOfRemovableElement = removableElement->leftChild;
   int valueOfRemovableElement = removableElement->value;
   bool wasRightChild = isRightChild(removableElement);
-  
   if (removableElement->leftChild != NULL && removableElement->rightChild != NULL)
   {
     valueOfRemovableElement = popElementWithMinimumValueFromRightSubstring(rightChildOfRemovableElement);
