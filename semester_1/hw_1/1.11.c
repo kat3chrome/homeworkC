@@ -57,7 +57,7 @@ int main()
     printf("Enter size of array : ");
     scanf("%d", &arraySize);
 
-    while ((arraySize <= 0) && (arraySize > 100))
+    while (arraySize <= 0 || arraySize > 100)
     {
       printf("Enter correct size of array ([1:100]) : ");
       scanf("%d", &arraySize);
@@ -71,7 +71,7 @@ int main()
 
     quickSort(array, 0, arraySize - 1);
 
-    printf("Sorted array : ");
+    printf("Sorted array: ");
     for (int i = 0; i < arraySize; i++)
     {
         printf("%d ", array[i]);
