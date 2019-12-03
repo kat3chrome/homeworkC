@@ -102,10 +102,7 @@ void printSetFromTheCurrentElement(SetElement* currentElement)
     }
     else
     {
-      if (currentElement->parent == NULL)
-      {
-        printf(" %d ", currentElement->value);
-      }
+      printf(" %d ", currentElement->value);
       printSetFromTheCurrentElement(currentElement->leftChild);
       printSetFromTheCurrentElement(currentElement->rightChild);
     }
@@ -153,55 +150,146 @@ bool isInTheSet(int value, Set* set)
   return false;
 }
 
-int minimumValueInSubtree(SetElement* setElement)
+SetElement* elementWithMinimemValueValueInSubtree(SetElement* setElement)
 {
   while (setElement->leftChild != NULL)
   {
     setElement = setElement->leftChild;
   }
 
-  return setElement->value;
+  return setElement;
 }
 
-SetElement* recursionRemoveElement(int value, SetElement* setElement)
+bool isRightChild(SetElement* setElement)
 {
-  if (setElement == NULL)
+  if (setElement->parent != NULL)
   {
-    return setElement;
-  }
-  else if (setElement->value < value)
-  {
-    setElement->rightChild = recursionRemoveElement(value, setElement->rightChild);
-  }
-  else if (setElement->value > value)
-  {
-    setElement->leftChild = recursionRemoveElement(value, setElement->leftChild);
-  }
-  else if (setElement != NULL && setElement != NULL)
-  {
-    setElement->value = minimumValueInSubtree(setElement->rightChild);
-    setElement->rightChild = recursionRemoveElement(setElement->value, setElement->rightChild);
-  }
-  else
-  {
-    if (setElement->leftChild != NULL)
+    if(setElement->parent->value < setElement->value)
     {
-      setElement = setElement->leftChild;
+      return true;
     }
-    else if (setElement->rightChild != NULL)
+  }
+
+  return false;
+}
+
+int popElementWithMinimumValueFromRightSubstring(SetElement* setElement)
+{
+  SetElement* elementWithMinimemValue = setElement;
+  while (elementWithMinimemValue->leftChild != NULL)
+  {
+    elementWithMinimemValue = elementWithMinimemValue->leftChild;
+  }
+
+  if (elementWithMinimemValue->parent->leftChild == elementWithMinimemValue)
+  {
+    if (elementWithMinimemValue->rightChild != NULL)
     {
-      setElement = setElement->rightChild;
+      elementWithMinimemValue->parent->leftChild = elementWithMinimemValue->rightChild;
+      elementWithMinimemValue->rightChild->parent = elementWithMinimemValue->parent;
     }
     else
     {
-      setElement = NULL;
+      elementWithMinimemValue->parent->leftChild = NULL;
+    }
+  }
+  else
+  {
+    if (elementWithMinimemValue->rightChild != NULL)
+    {
+      elementWithMinimemValue->parent->rightChild = elementWithMinimemValue->rightChild;
+      elementWithMinimemValue->rightChild->parent = elementWithMinimemValue->parent;
+    }
+    else
+    {
+      elementWithMinimemValue->parent->rightChild = NULL;
     }
   }
 
-  return setElement;
+  int value = elementWithMinimemValue->value;
+  free(elementWithMinimemValue);
+  return value;
 }
 
 void removeElement(int value, Set* set)
 {
-  recursionRemoveElement(value, set->root);
+  SetElement* removableElement = findSetElement(value, set);
+  if (set == NULL || removableElement == NULL)
+  {
+    return;
+  }
+
+  SetElement* parentOfRemovableElement = removableElement->parent;
+  SetElement* rightChildOfRemovableElement = removableElement->rightChild;
+  SetElement* leftChildOfRemovableElement = removableElement->leftChild;
+  int valueOfRemovableElement = removableElement->value;
+  bool wasRightChild = isRightChild(removableElement);
+  
+  if (removableElement->leftChild != NULL && removableElement->rightChild != NULL)
+  {
+    valueOfRemovableElement = popElementWithMinimumValueFromRightSubstring(rightChildOfRemovableElement);
+  }
+  else if (leftChildOfRemovableElement != NULL)
+  {
+    if (parentOfRemovableElement != NULL)
+    {
+      if (wasRightChild)
+      {
+        parentOfRemovableElement->rightChild = removableElement->leftChild;
+        leftChildOfRemovableElement->parent = removableElement->parent;
+      }
+      else
+      {
+        parentOfRemovableElement->leftChild = removableElement->leftChild;
+        leftChildOfRemovableElement->parent = removableElement->parent;
+      }
+    }
+    else
+    {
+      set->root = leftChildOfRemovableElement;
+      leftChildOfRemovableElement->parent = NULL;
+    }
+    free(removableElement);
+  }
+  else if (rightChildOfRemovableElement != NULL)
+  {
+    if (parentOfRemovableElement != NULL)
+    {
+      if (wasRightChild)
+      {
+        parentOfRemovableElement->rightChild = removableElement->rightChild;
+        rightChildOfRemovableElement->parent = removableElement->parent;
+      }
+      else
+      {
+        parentOfRemovableElement->leftChild = removableElement->rightChild;
+        rightChildOfRemovableElement->parent = removableElement->parent;
+      }
+    }
+    else
+    {
+      set->root = rightChildOfRemovableElement;
+      rightChildOfRemovableElement->parent = NULL;
+    }
+  }
+  else
+  {
+    if (removableElement->parent != NULL)
+    {
+      if (wasRightChild)
+      {
+        parentOfRemovableElement->rightChild = NULL;
+      }
+      else
+      {
+        parentOfRemovableElement->leftChild = NULL;
+      }
+    }
+    else
+    {
+      set->root = NULL;
+    }
+
+    free(removableElement);
+  }
 }
