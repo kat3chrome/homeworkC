@@ -282,3 +282,35 @@ void removeElement(int value, Set* set)
     free(removableElement);
   }
 }
+
+void printSetInAscendingOrder(SetElement* setElement)
+{
+  if (setElement != NULL)
+  {
+    printSetInAscendingOrder(setElement->leftChild);
+    printf("%d ", setElement->value);
+    printSetInAscendingOrder(setElement->rightChild);
+  }
+}
+
+void printSetInDescendingOrder(SetElement* setElement)
+{
+  if (setElement != NULL)
+  {
+    printSetInDescendingOrder(setElement->rightChild);
+    printf("%d ", setElement->value);
+    printSetInDescendingOrder(setElement->leftChild);
+  }
+}
+
+void printSetInSpecificOrder(bool isAscendingOrder, Set* set)
+{
+  if (isAscendingOrder)
+  {
+    printSetInAscendingOrder(set->root);
+  }
+  else
+  {
+    printSetInDescendingOrder(set->root);
+  }
+}

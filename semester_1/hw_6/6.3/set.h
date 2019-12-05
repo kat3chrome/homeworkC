@@ -12,5 +12,6 @@ void addElement(int value, Set* set);
 bool isInTheSet(int value, Set* set);
 void removeElement(int value, Set* set);
 void printSet(Set* set);
+void printSetInSpecificOrder(bool isAscendingOrder, Set* set);
 
 #endif

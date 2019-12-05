@@ -47,12 +47,16 @@ int main()
       }
       case 4:
       {
-
+        printf("Elements of the set in ascending order: ");
+        printSetInSpecificOrder(true, set);
+        printf("\n");
         break;
       }
       case 5:
       {
-
+        printf("Elements of the set in descending order: ");
+        printSetInSpecificOrder(false, set);
+        printf("\n");
         break;
       }
       case 6:
