@@ -7,6 +7,9 @@ void readExpression(char *inputExpression);
 void initializeTheString(char *currentString);
 void infixToPostfix(char *infixExpression, char *prefixExpression);
 
+enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, ANOTHER};
+enum tokensType {NUMBER, FUNCTION, BRACKET};
+
 int main()
 {
   const int sizeOfExpression = 128;
@@ -16,8 +19,8 @@ int main()
   printf("Enter an expression in infix form : ");
   readExpression(inputExpression);
 
-  int sizeOfInfixexpression = strlen(inputExpression);
-  char prefixExpression[sizeOfInfixexpression];
+  int sizeOfInfixExpression = strlen(inputExpression);
+  char prefixExpression[sizeOfInfixExpression];
   initializeTheString(prefixExpression);
 
   infixToPostfix(inputExpression, prefixExpression);
@@ -40,19 +43,19 @@ int getPriorityOfToken(char token)
   switch (token)
   {
     case '(':
-      return 0;
+      return RIGHTBRACKET;
     case ')':
-      return 1;
+      return LEFTBRACKET;
     case '+':
-      return 2;
+      return PLUS;
     case '-':
-      return 3;
+      return MINUS;
     case '*':
-      return 4;
+      return MULTIPLY;
     case '/':
-      return 4;
+      return DIVIDE;
     default:
-      return 5;
+      return ANOTHER;
   }
 }
 
@@ -70,13 +73,13 @@ int typeOfToken(char token)
   }
   else if (tokenNumber == '(' || tokenNumber == ')')
   {
-    return 2;//separator
+    return 2;//bracket
   }
 
   return 3;//not process
 }
 
-void actionsWithToken(char token, char *inputExpression)
+void addToken(char token, char *inputExpression)
 {
   if (typeOfToken(token) != 3)
   {
@@ -87,9 +90,9 @@ void actionsWithToken(char token, char *inputExpression)
 void readExpression(char *inputExpression)
 {
   char token;
-  while ((token = getchar())!='\n')
+  while ((token = getchar()) != '\n')
   {
-    actionsWithToken(token, inputExpression);
+    addToken(token, inputExpression);
   }
 }
 
@@ -101,11 +104,12 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
     for (int i = 0; i < sizeOfExpression; i++)
     {
       char currentToken = infixExpression[i];
-      if (typeOfToken(currentToken) == 0)
+      int typeOfCurrentToken = typeOfToken(currentToken);
+      if (typeOfCurrentToken == NUMBER)
       {
         prefixExpression[strlen(prefixExpression)] = currentToken;
       }
-      else if (typeOfToken(currentToken) == 1)
+      else if (typeOfCurrentToken == FUNCTION)
       {
         if (isEmpty(stack) || (char)peek(stack) == '(')
         {
@@ -128,7 +132,7 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
           push((float)currentToken, stack);
         }
       }
-      else if (typeOfToken(currentToken) == 2)
+      else if (typeOfCurrentToken == BRACKET)
       {
         if (currentToken == '(')
         {
@@ -144,8 +148,10 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
         }
       }
     }
+    int index = strlen(prefixExpression);
     while (!isEmpty(stack))
     {
-      prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+      prefixExpression[index] = (char)pop(stack);
+      index++;
     }
 }
