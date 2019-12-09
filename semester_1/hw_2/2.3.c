@@ -86,26 +86,23 @@ void stringOfCharactersToStringOfNumbers(char charTemporaryNumbers[], int tempor
 
 bool isCorrectOfLineAndPrintError(char inputString[], const int correctSizeOfInputString, const int numberOfNumbers)
 {
+  bool areErrors = false;
+
   if (strlen(inputString) != correctSizeOfInputString)
   {
     printf("¡Enter a number of the desired length!\n");
-    if (isNoNumberInTheString(inputString))
-    {
-      printf("¡Enter only numbers!\n");
-    }
-    return false;
+    areErrors = true;
   }
-
-  else if (isNoNumberInTheString(inputString))
+  if (isNoNumberInTheString(inputString))
   {
     printf("¡Enter only numbers!\n");
-    if (strlen(inputString) != correctSizeOfInputString)
-    {
-      printf("¡Enter a number of the desired length!\n");
-    }
-    return false;
+    areErrors = true;
   }
 
+  if (areErrors)
+  {
+    return false;
+  }
   return true;
 }
 
@@ -207,7 +204,7 @@ int numberOfCows(int temporaryNumbers[], int numbers[], int numberOfNumbers)
 
   for (int i = 0; i < numberOfNumbers; i++)
   {
-    if(isCurrentDigitAndIsNotBull(temporaryNumbers, numbers, numberOfNumbers, i))
+    if (isCurrentDigitAndIsNotBull(temporaryNumbers, numbers, numberOfNumbers, i))
     {
       cows++;
     }
