@@ -7,6 +7,8 @@ float counting(char *expression);
 void readExpression(char *inputExpression);
 void initializeTheString(char *currentString);
 
+enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
+
 int main()
 {
   int sizeOfExpression = 32;
@@ -27,20 +29,24 @@ int typeOfToken(char token)
 
   if (tokenNumber - '0' >= 0 && tokenNumber - '9' <= 0)
   {
-    return 0;//number
+    return NUMBER;
   }
   else if (tokenNumber == '+' || tokenNumber == '-' || tokenNumber == '*' || tokenNumber == '/')
   {
-    return 1;//function
+    return FUNCTION;
+  }
+  else if (tokenNumber == '(' || tokenNumber == ')')
+  {
+    return BRACKET;
   }
 
-  return 2;//not process
+  return ANOTHERTYPE;
 }
 
 
-void actionsWithToken(char token, char *inputExpression)
+void addToken(char token, char *inputExpression)
 {
-  if (typeOfToken(token) != 2)
+  if (typeOfToken(token) != ANOTHERTYPE)
   {
     inputExpression[strlen(inputExpression)] = token;
   }
@@ -49,9 +55,9 @@ void actionsWithToken(char token, char *inputExpression)
 void readExpression(char *inputExpression)
 {
   char token;
-  while ((token = getchar())!='\n')
+  while ((token = getchar()) != '\n')
   {
-    actionsWithToken(token, inputExpression);
+    addToken(token, inputExpression);
   }
 }
 
@@ -60,13 +66,21 @@ float evaluationSimplestExpression(char operator, float operand1, float operand2
   switch (operator)
   {
     case '+':
+    {
       return operand1 + operand2;
+    }
     case '-':
+    {
       return operand1 - operand2;
+    }
     case '*':
+    {
       return operand1 * operand2;
+    }
     case '/':
+    {
       return operand1 / operand2;
+    }
   }
 }
 
@@ -92,7 +106,7 @@ float counting(char *expression)
   for (int i = 0; i < sizeOfExpression; i++)
   {
     char currentToken = expression[i];
-    if (typeOfToken(currentToken) == 0)
+    if (typeOfToken(currentToken) == NUMBER)
     {
       int number = characterToInt(currentToken);
       push(number, stackOfNumbers);
