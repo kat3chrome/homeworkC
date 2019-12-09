@@ -7,8 +7,8 @@ void readExpression(char *inputExpression);
 void initializeTheString(char *currentString);
 void infixToPostfix(char *infixExpression, char *prefixExpression);
 
-enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, ANOTHER};
-enum tokensType {NUMBER, FUNCTION, BRACKET};
+enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, ANOTHERTOKEN};
+enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
 
 int main()
 {
@@ -55,7 +55,7 @@ int getPriorityOfToken(char token)
     case '/':
       return DIVIDE;
     default:
-      return ANOTHER;
+      return ANOTHERTOKEN;
   }
 }
 
@@ -65,18 +65,18 @@ int typeOfToken(char token)
 
   if (tokenNumber - '0' >= 0 && tokenNumber - '9' <= 0)
   {
-    return 0;//number
+    return NUMBER;
   }
   else if (tokenNumber == '+' || tokenNumber == '-' || tokenNumber == '*' || tokenNumber == '/')
   {
-    return 1;//function
+    return FUNCTION;
   }
   else if (tokenNumber == '(' || tokenNumber == ')')
   {
-    return 2;//bracket
+    return BRACKET;
   }
 
-  return 3;//not process
+  return ANOTHERTYPE;
 }
 
 void addToken(char token, char *inputExpression)
