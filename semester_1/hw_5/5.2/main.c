@@ -7,7 +7,7 @@ float counting(char *expression);
 void readExpression(char *inputExpression);
 void initializeTheString(char *currentString);
 
-enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
+enum tokensType {NUMBER, FUNCTION, ANOTHERTYPE};
 
 int main()
 {
@@ -34,10 +34,6 @@ int typeOfToken(char token)
   else if (tokenNumber == '+' || tokenNumber == '-' || tokenNumber == '*' || tokenNumber == '/')
   {
     return FUNCTION;
-  }
-  else if (tokenNumber == '(' || tokenNumber == ')')
-  {
-    return BRACKET;
   }
 
   return ANOTHERTYPE;
