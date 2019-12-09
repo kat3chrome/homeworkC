@@ -8,6 +8,9 @@ void initializeTheString(char *currentString);
 void infixToPostfix(char *infixExpression, char *prefixExpression);
 float counting(char *expression);
 
+enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, ANOTHERTOKEN};
+enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
+
 int main()
 {
   int sizeOfExpression = 128;
@@ -42,19 +45,19 @@ int getPriorityOfToken(char token)
   switch (token)
   {
     case '(':
-      return 0;
+    return RIGHTBRACKET;
     case ')':
-      return 1;
+    return LEFTBRACKET;
     case '+':
-      return 2;
+    return PLUS;
     case '-':
-      return 3;
+    return MINUS;
     case '*':
-      return 4;
+    return MULTIPLY;
     case '/':
-      return 4;
+    return DIVIDE;
     default:
-      return 5;
+    return ANOTHERTOKEN;
   }
 }
 
@@ -64,23 +67,23 @@ int typeOfToken(char token)
 
   if (tokenNumber - '0' >= 0 && tokenNumber - '9' <= 0)
   {
-    return 0;//number
+    return NUMBER;
   }
   else if (tokenNumber == '+' || tokenNumber == '-' || tokenNumber == '*' || tokenNumber == '/')
   {
-    return 1;//function
+    return FUNCTION;
   }
   else if (tokenNumber == '(' || tokenNumber == ')')
   {
-    return 2;//separator
+    return BRACKET;
   }
 
-  return 3;//not process
+  return ANOTHERTYPE;
 }
 
-void actionsWithToken(char token, char *inputExpression)
+void addToken(char token, char *inputExpression)
 {
-  if (typeOfToken(token) != 3)
+  if (typeOfToken(token) != ANOTHERTYPE)
   {
     inputExpression[strlen(inputExpression)] = token;
   }
@@ -89,9 +92,9 @@ void actionsWithToken(char token, char *inputExpression)
 void readExpression(char *inputExpression)
 {
   char token;
-  while ((token = getchar())!='\n')
+  while ((token = getchar()) != '\n')
   {
-    actionsWithToken(token, inputExpression);
+    addToken(token, inputExpression);
   }
 }
 
@@ -100,13 +103,21 @@ float evaluationSimplestExpression(char operator, float operand1, float operand2
   switch (operator)
   {
     case '+':
+    {
       return operand1 + operand2;
+    }
     case '-':
+    {
       return operand1 - operand2;
+    }
     case '*':
+    {
       return operand1 * operand2;
+    }
     case '/':
+    {
       return operand1 / operand2;
+    }
   }
 }
 
@@ -118,11 +129,12 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
   for (int i = 0; i < sizeOfExpression; i++)
   {
     char currentToken = infixExpression[i];
-    if (typeOfToken(currentToken) == 0)
+    int typeOfCurrentToken = typeOfToken(currentToken);
+    if (typeOfCurrentToken == NUMBER)
     {
       prefixExpression[strlen(prefixExpression)] = currentToken;
     }
-    else if (typeOfToken(currentToken) == 1)
+    else if (typeOfCurrentToken == FUNCTION)
     {
       if (isEmpty(stack) || (char)peek(stack) == '(')
       {
@@ -145,7 +157,7 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
         push((float)currentToken, stack);
       }
     }
-    else if (typeOfToken(currentToken) == 2)
+    else if (typeOfToken(currentToken) == BRACKET)
     {
       if (currentToken == '(')
       {
@@ -180,7 +192,7 @@ float counting(char *expression)
   for (int i = 0; i < sizeOfExpression; i++)
   {
     char currentToken = expression[i];
-    if (typeOfToken(currentToken) == 0)
+    if (typeOfToken(currentToken) == NUMBER)
     {
       int number = characterToInt(currentToken);
       push(number, stackOfNumbers);
