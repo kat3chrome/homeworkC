@@ -9,7 +9,7 @@ void infixToPostfix(char *infixExpression, char *prefixExpression);
 
 int main()
 {
-  int sizeOfExpression = 128;
+  const int sizeOfExpression = 128;
   char inputExpression[sizeOfExpression];
   initializeTheString(inputExpression);
 
