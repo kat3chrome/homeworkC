@@ -66,10 +66,15 @@ void nextSoldier(struct Troop* troop)
 
 void killCurrentSoldier(struct Troop* troop)
 {
-  troop->current->left->right = troop->current->right;
-  troop->current->right->left = troop->current->left;
-  free(troop->current);
-  troop->current = troop->current->right;
+  Soldier* current = troop->current;
+  Soldier* left = current->left;
+  Soldier* right = current->right;
+
+  left->right = right;
+  right->left = left;
+  troop->current = right;
+
+  free(current);
 }
 
 int getNumberOfLastSoldier(struct Troop* troop)
