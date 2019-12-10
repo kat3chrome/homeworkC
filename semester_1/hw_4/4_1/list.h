@@ -5,9 +5,10 @@ struct Troop;
 struct Soldier;
 
 struct Troop* createTroop();
-void addSoldier(int number ,struct Troop* troop);
+void addSoldier(int number, struct Troop* troop);
 void nextSoldier(struct Troop* troop);
 void killCurrentSoldier(struct Troop* troop);
 int getNumberOfLastSoldier(struct Troop* troop);
+void freeTroop(struct Troop* troop);
 
 #endif

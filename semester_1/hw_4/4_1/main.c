@@ -29,6 +29,6 @@ int main()
 
   printf("Number of the last living soldier : %d \n", getNumberOfLastSoldier(troop));
 
-  free(troop);
+  freeTroop(troop);
   return 0;
 }

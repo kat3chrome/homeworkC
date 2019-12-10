@@ -81,3 +81,9 @@ int getNumberOfLastSoldier(struct Troop* troop)
 {
   return troop->current->number;
 }
+
+void freeTroop(struct Troop* troop)
+{
+  free(troop->current);
+  free(troop);
+}
