@@ -99,11 +99,7 @@ bool isCorrectOfLineAndPrintError(char inputString[], const int correctSizeOfInp
     areErrors = true;
   }
 
-  if (areErrors)
-  {
-    return false;
-  }
-  return true;
+  return areErrors ? false : true;
 }
 
 bool isNumberOfRepeats(int temporaryNumbers[], int index, int numberOfNumbers)
