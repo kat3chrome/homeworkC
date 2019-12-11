@@ -47,7 +47,6 @@ void arrayInitialization(bool *array, int sizeOfArray)
   for (int i = 0; i < sizeOfArray; i++)
   {
     array[i] = false;
-<<<<<<< HEAD
   }
 }
 
@@ -72,32 +71,6 @@ void printBinaryNumber(bool binaryNumber[])
   }
   for (int i = placeOfLastOne; i >= 0; i--)
   {
-=======
-  }
-}
-
-void decimalToBinary(bool *binaryNumber, int decimalNumber)
-{
-  for (int i = 0; i < sizeOfBinaryNumber; i++)
-  {
-    binaryNumber[i] = decimalNumber >> i & 1;
-  }
-}
-
-void printBinaryNumber(bool binaryNumber[])
-{
-  int placeOfLastOne = 0;
-  for (int i = sizeOfBinaryNumber - 1; i >= 1; i--)
-  {
-    if (binaryNumber[i] == true)
-    {
-      placeOfLastOne = i;
-      break;
-    }
-  }
-  for (int i = placeOfLastOne; i >= 0; i--)
-  {
->>>>>>> 4ccd7abf043d681ae9dd4ac1375d157aa6b2c7f6
     printf("%d", binaryNumber[i]);
   }
   printf("\n");
@@ -120,7 +93,7 @@ int binaryToDecimal(bool *binaryNumber)
 {
   int decimalNumber = 0;
 
-<<<<<<< HEAD
+
   if (binaryNumber[sizeOfBinaryNumber - 1] == 0)
   {
       for (int i = sizeOfBinaryNumber - 1; i >= 0; i--)
@@ -136,14 +109,6 @@ int binaryToDecimal(bool *binaryNumber)
       }
       decimalNumber++;
       decimalNumber *= -1;
-=======
-  for (int i = 0; i < sizeOfBinaryNumber; i++)
-  {
-    if (binaryNumber[i] == true)
-    {
-      decimalNumber += pow(2, i);
-    }
->>>>>>> 4ccd7abf043d681ae9dd4ac1375d157aa6b2c7f6
   }
 
   return decimalNumber;
