@@ -81,7 +81,7 @@ int typeOfToken(char token)
 
 void addToken(char token, char *inputExpression)
 {
-  if (typeOfToken(token) != 3)
+  if (typeOfToken(token) != ANOTHERTYPE)
   {
     inputExpression[strlen(inputExpression)] = token;
   }
