@@ -111,11 +111,11 @@ bool checkDigitsAfterDot(char* input)
 {
   int typeOfCurrentToken = getTypeOfToken(input[0]);
 
-  if (typeOfCurrentToken == DOT && getTypeOfToken(input[0]) == DIGIT)
+  if (typeOfCurrentToken == DOT && getTypeOfToken(input[1]) == DIGIT)
   {
     deleteFirstCharaster(input);
   }
-  else if (typeOfCurrentToken == DOT && getTypeOfToken(input[0]) != DIGIT)
+  else if (typeOfCurrentToken == DOT && getTypeOfToken(input[1]) != DIGIT)
   {
     return false;
   }
@@ -153,7 +153,7 @@ bool checkExponent(char* input)
   bool isExponent = true;
 
   int typeOfCurrentToken = getTypeOfToken(input[0]);
-  if (typeOfCurrentToken == EXPONENT)
+  if (typeOfCurrentToken == EXPONENT && getTypeOfToken(input[1]) == DIGIT || getTypeOfToken(input[1]) == SIGN)
   {
     deleteFirstCharaster(input);
   }
@@ -185,6 +185,10 @@ bool isRealNumber(char* inputString)
     return false;
   }
 
+  if (strlen(inputString) != 0)
+  {
+    return false;
+  }
   return true;
 }
 
