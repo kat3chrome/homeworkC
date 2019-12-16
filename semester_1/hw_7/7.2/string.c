@@ -9,28 +9,9 @@ struct String
   char* text;
 };
 
-void addCharasterToString(char charaster, String* string)
+String* createString()
 {
-  resizeString(string, string->length + 1);
-  string->text[string->length - 1] = charaster;
-}
-
-
-String* createString(char* charasters)
-{
-  String* newString = malloc(sizeof(String));
-  newString->length = 0;
-  newString->text = calloc(sizeof(char), 1);
-
-  int index = 0;
-  while (true)
-  {
-    if (charasters[index] == '\0')
-    {
-      return;
-    }
-    
-  }
+  String* newString = calloc(sizeof(String), 1);
   return newString;
 }
 
@@ -116,4 +97,42 @@ bool isEmpty(String* string)
 char* stringToCharasters(String* string)
 {
   return string->text;
+}
+
+String* getSubstring(String* string, int begin, int end)
+{
+  int lengthOfSubstring = end - begin;
+  String* substring = createString();
+  resizeString(substring, lengthOfSubstring);
+
+  for (int i = 0; i < lengthOfSubstring; i++)
+  {
+    substring->text[i] = string->text[i + begin];
+  }
+
+  return substring;
+}
+
+void addCharasterToString(char* charasters, String* string)
+{
+  int currentSize = string->length;
+  int index = 0;
+
+  while(true)
+  {
+    if (charasters[index] == '\0')
+    {
+      return;
+    }
+    currentSize++;
+    resizeString(string, currentSize);
+    string->text[currentSize - 1] = charasters[index];
+    index++;
+
+  }
+}
+
+void printString(String* string)
+{
+  printf("%s", string->text);
 }
