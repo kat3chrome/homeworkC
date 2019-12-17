@@ -134,5 +134,12 @@ void addCharasterToString(char* charasters, String* string)
 
 void printString(String* string)
 {
-  printf("%s", string->text);
+  for (int i = 0; i < string->length; i++)
+  {
+    if (string->text[i] == '\0')
+    {
+      return;
+    }
+    printf("%c", string->text[i]);
+  }
 }
