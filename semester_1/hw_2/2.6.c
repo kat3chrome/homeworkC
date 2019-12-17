@@ -41,9 +41,9 @@ void makeMinimumNumber(int *finishValue, int arrayOfCount[], int base)
 
   int count = arrayOfCount[0];
   for (int j = 0; j < count; j++)
-    {
+  {
     *finishValue *= base;
-    }
+  }
   for (int i = 1; i < base; i++)
   {
     count = arrayOfCount[i];
