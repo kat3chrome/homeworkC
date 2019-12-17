@@ -2,17 +2,17 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-void initializeStringWithZeros(char string[], int stringLenght)
+void initializeStringWithZeros(char string[], int stringLength)
 {
-  for (int i = 0; i < stringLenght; i++)
+  for (int i = 0; i < stringLength; i++)
   {
     string[i] = '\0';
   }
 }
 
-void makeAStringOfLowercaseLetters(char string[], int stringLenght)
+void makeAStringOfLowercaseLetters(char string[], int stringLength)
 {
-  for (int i = 0; i < stringLenght; i++)
+  for (int i = 0; i < stringLength; i++)
    {
        if (string[i] >= 'A' && string[i] <= 'Z')
        {
@@ -21,12 +21,17 @@ void makeAStringOfLowercaseLetters(char string[], int stringLenght)
    }
 }
 
-void makeArrayOfStringLetters(char string[], int stringLenght, int array[], int sizeArray)
+void makeArrayOfStringLetters(char string[], int stringLength, int array[], int sizeArray)
 {
-  makeAStringOfLowercaseLetters(string, stringLenght);
-  for (int i = 0; i < stringLenght; i++)
+  makeAStringOfLowercaseLetters(string, stringLength);
+  for (int i = 0; i < stringLength; i++)
   {
-    array[(int)(string[i] - 'a')]++;
+    int currentPosition = (int)(string[i] - 'a');
+    if (currentPosition < 0 || currentPosition >= sizeArray)
+    {
+      continue;
+    }
+    array[currentPosition]++;
   }
 }
 
@@ -57,14 +62,14 @@ bool isArraysAreEqual(int arrayFirst[], int arrayFirstSize, int arraySecond[], i
 int main()
 {
   const int numberOfLettersInTheAlphabet = 26;
-  const int stringFirstLenght = 100;
-  const int stringSecondLenght = 100;
+  const int stringFirstLength = 100;
+  const int stringSecondLength = 100;
 
-  char stringFirst[stringFirstLenght];
-  char stringSecond[stringSecondLenght];
+  char stringFirst[stringFirstLength];
+  char stringSecond[stringSecondLength];
 
-  initializeStringWithZeros(stringFirst, stringFirstLenght);
-  initializeStringWithZeros(stringSecond, stringSecondLenght);
+  initializeStringWithZeros(stringFirst, stringFirstLength);
+  initializeStringWithZeros(stringSecond, stringSecondLength);
 
   printf("Enter first string and second string : ");
   scanf("%s%s", stringFirst, stringSecond);
@@ -75,8 +80,8 @@ int main()
   initializeArrayWithZeros(arrayOfStringFirstLetters, numberOfLettersInTheAlphabet);
   initializeArrayWithZeros(arrayOfstringSecondLetters, numberOfLettersInTheAlphabet);
 
-  makeArrayOfStringLetters(stringFirst, stringFirstLenght, arrayOfStringFirstLetters, numberOfLettersInTheAlphabet);
-  makeArrayOfStringLetters(stringSecond, stringSecondLenght, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet);
+  makeArrayOfStringLetters(stringFirst, stringFirstLength, arrayOfStringFirstLetters, numberOfLettersInTheAlphabet);
+  makeArrayOfStringLetters(stringSecond, stringSecondLength, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet);
 
   if (isArraysAreEqual(arrayOfStringFirstLetters, numberOfLettersInTheAlphabet, arrayOfstringSecondLetters, numberOfLettersInTheAlphabet))
   {
