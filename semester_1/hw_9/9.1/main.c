@@ -12,6 +12,7 @@ char* getConsoleInput()
   int length = 0;
 
   char temporary;
+  input = malloc(sizeof(char));
   while((temporary = getchar()) != '\n')
   {
     length++;
@@ -205,5 +206,7 @@ int main()
   {
     printf("It is not real number\n");
   }
+
+  free(inputString);
   return 0;
 }
