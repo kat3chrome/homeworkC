@@ -14,20 +14,20 @@ enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
 int main()
 {
   int sizeOfExpression = 128;
-  char inputExpression[sizeOfExpression];
-  initializeTheString(inputExpression);
+  char* inputExpression = calloc(sizeOfExpression, sizeof(char));
 
   printf("Enter an expression in infix form : ");
   readExpression(inputExpression);
 
   int sizeOfInfixexpression = strlen(inputExpression);
-  char prefixExpression[sizeOfInfixexpression];
-  initializeTheString(prefixExpression);
+  char* prefixExpression = calloc(sizeOfInfixexpression, sizeof(char));
 
   infixToPostfix(inputExpression, prefixExpression);
 
   float result = counting(prefixExpression);
   printf("result = %lf\n", result);
+  free(inputExpression);
+  free(prefixExpression);
   return 0;
 }
 
@@ -177,6 +177,8 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
   {
     prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
   }
+
+  free(stack);
 }
 
 int characterToInt(char characer)
@@ -206,5 +208,6 @@ float counting(char *expression)
     }
   }
   float result = pop(stackOfNumbers);
+  free(stackOfNumbers);
   return result;
 }
