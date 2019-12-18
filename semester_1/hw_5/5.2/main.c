@@ -13,7 +13,6 @@ int main()
 {
   int sizeOfExpression = 32;
   char *inputExpression = calloc(sizeOfExpression, sizeof(char));
-  initializeTheString(inputExpression);
 
   printf("Enter the expression : ");
   readExpression(inputExpression);
