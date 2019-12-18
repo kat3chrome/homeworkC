@@ -12,7 +12,7 @@ enum tokensType {NUMBER, FUNCTION, ANOTHERTYPE};
 int main()
 {
   int sizeOfExpression = 32;
-  char inputExpression[sizeOfExpression];
+  char *inputExpression = calloc(sizeOfExpression, sizeof(char));
   initializeTheString(inputExpression);
 
   printf("Enter the expression : ");
@@ -20,6 +20,8 @@ int main()
 
   float result = counting(inputExpression);
   printf("result = %lf\n", result);
+
+  free(inputExpression);
   return 0;
 }
 
@@ -116,5 +118,7 @@ float counting(char *expression)
     }
   }
   float result = pop(stackOfNumbers);
+
+  free(stackOfNumbers);
   return result;
 }
