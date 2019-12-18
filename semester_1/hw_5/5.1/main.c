@@ -13,19 +13,20 @@ enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
 int main()
 {
   const int sizeOfExpression = 128;
-  char inputExpression[sizeOfExpression];
-  initializeTheString(inputExpression);
+  char* inputExpression = calloc(sizeOfExpression, sizeof(char));
 
   printf("Enter an expression in infix form : ");
   readExpression(inputExpression);
 
   int sizeOfInfixExpression = strlen(inputExpression);
-  char prefixExpression[sizeOfInfixExpression];
-  initializeTheString(prefixExpression);
+  char* prefixExpression = calloc(sizeOfInfixExpression, sizeof(char));
 
   infixToPostfix(inputExpression, prefixExpression);
 
   printf("Expression in postfix form : %s\n", prefixExpression);
+
+  free(inputExpression);
+  free(prefixExpression);
   return 0;
 }
 
@@ -154,4 +155,5 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
       prefixExpression[index] = (char)pop(stack);
       index++;
     }
+    free(stack);
 }
