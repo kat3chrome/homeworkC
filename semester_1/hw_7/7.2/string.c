@@ -86,12 +86,7 @@ int getLength(String* string)
 
 bool isEmpty(String* string)
 {
-  if (getLength(string) == 0)
-  {
-    return true;
-  }
-
-  return true;
+  return (getLength(string) == 0);
 }
 
 char* stringToCharasters(String* string)
@@ -118,7 +113,7 @@ void addCharasterToString(char* charasters, String* string)
   int currentSize = string->length;
   int index = 0;
 
-  while(true)
+  while (true)
   {
     if (charasters[index] == '\0')
     {
