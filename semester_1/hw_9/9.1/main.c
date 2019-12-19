@@ -82,10 +82,7 @@ bool checkSign(char* input)
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 bool checkDigitsBeforDot(char* input)
@@ -95,14 +92,7 @@ bool checkDigitsBeforDot(char* input)
     int typeOfCurrentToken = getTypeOfToken(input[0]);
     if (typeOfCurrentToken != DIGIT)
     {
-      if (typeOfCurrentToken == DOT || typeOfCurrentToken == EXPONENT || typeOfCurrentToken == END)
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (typeOfCurrentToken == DOT || typeOfCurrentToken == EXPONENT || typeOfCurrentToken == END);
     }
     deleteFirstCharaster(input);
   }
@@ -135,8 +125,6 @@ bool checkDigitsAfterDot(char* input)
         return false;
       }
     }
-
-    deleteFirstCharaster(input);
   }
 }
 
@@ -147,6 +135,8 @@ bool checkMantissa(char* input)
   isMantissa = checkSign(input);
   isMantissa = checkDigitsBeforDot(input);
   isMantissa = checkDigitsAfterDot(input);
+
+  return isMantissa;
 }
 
 bool checkExponent(char* input)
@@ -169,6 +159,8 @@ bool checkExponent(char* input)
 
   isExponent = checkSign(input);
   isExponent = checkDigitsBeforDot(input);
+
+  return isExponent;
 }
 // (+ | -)? digit+ (. digit+)? (E(+ | -)? digit+)?
 bool isRealNumber(char* inputString)
@@ -176,21 +168,17 @@ bool isRealNumber(char* inputString)
   bool isRealNumber = true;
 
   isRealNumber = checkMantissa(inputString);
-  if(!isRealNumber)
+  if (!isRealNumber)
   {
     return false;
   }
   isRealNumber = checkExponent(inputString);
-  if(!isRealNumber)
+  if (!isRealNumber)
   {
     return false;
   }
 
-  if (strlen(inputString) != 0)
-  {
-    return false;
-  }
-  return true;
+  return (strlen(inputString) == 0);
 }
 
 int main()
