@@ -116,14 +116,7 @@ bool checkDigitsAfterDot(char* input)
     int typeOfCurrentToken = getTypeOfToken(input[0]);
     if (typeOfCurrentToken != DIGIT)
     {
-      if (typeOfCurrentToken == EXPONENT || typeOfCurrentToken == END)
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (typeOfCurrentToken == EXPONENT || typeOfCurrentToken == END);
     }
   }
 }
