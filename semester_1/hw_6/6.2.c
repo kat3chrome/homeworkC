@@ -4,11 +4,11 @@
 
 const int sizeOfBinaryNumber = 32;
 
-void arrayInitialization(bool *array, int sizeOfArray);
-void decimalToBinary(bool *binaryNumber, int decimalNumber);
-void printBinaryNumber(bool binaryNumber[]);
-void sumOfBinaryNumbers(bool *binaryNumber1, bool *binaryNumber2, bool *binarySum);
-int binaryToDecimal(bool *binaryNumber);
+void arrayInitialization(int *array, int sizeOfArray);
+void decimalToBinary(int *binaryNumber, int decimalNumber);
+void printBinaryNumber(int binaryNumber[]);
+void sumOfBinaryNumbers(int *binaryNumber1, int *binaryNumber2, int *binarySum);
+int binaryToDecimal(int *binaryNumber);
 
 int main()
 {
@@ -17,9 +17,9 @@ int main()
   printf("Enter the numbers: ");
   scanf("%d %d", &decimalFirstNumber, &decimalSecondNumber);
 
-  bool binaryFirstNumber[sizeOfBinaryNumber];
-  bool binarySecondNumber[sizeOfBinaryNumber];
-  bool binarySumOfNumbers[sizeOfBinaryNumber];
+  int binaryFirstNumber[sizeOfBinaryNumber];
+  int binarySecondNumber[sizeOfBinaryNumber];
+  int binarySumOfNumbers[sizeOfBinaryNumber];
   arrayInitialization(binaryFirstNumber, sizeOfBinaryNumber);
   arrayInitialization(binarySecondNumber, sizeOfBinaryNumber);
   arrayInitialization(binarySumOfNumbers, sizeOfBinaryNumber);
@@ -42,7 +42,7 @@ int main()
   return 0;
 }
 
-void arrayInitialization(bool *array, int sizeOfArray)
+void arrayInitialization(int *array, int sizeOfArray)
 {
   for (int i = 0; i < sizeOfArray; i++)
   {
@@ -50,7 +50,7 @@ void arrayInitialization(bool *array, int sizeOfArray)
   }
 }
 
-void decimalToBinary(bool *binaryNumber, int decimalNumber)
+void decimalToBinary(int *binaryNumber, int decimalNumber)
 {
   for (int i = 0; i < sizeOfBinaryNumber; i++)
   {
@@ -58,7 +58,7 @@ void decimalToBinary(bool *binaryNumber, int decimalNumber)
   }
 }
 
-void printBinaryNumber(bool binaryNumber[])
+void printBinaryNumber(int binaryNumber[])
 {
   int placeOfLastOne = 0;
   for (int i = sizeOfBinaryNumber - 1; i >= 1; i--)
@@ -76,20 +76,20 @@ void printBinaryNumber(bool binaryNumber[])
   printf("\n");
 }
 
-void sumOfBinaryNumbers(bool *binaryNumber1, bool *binaryNumber2, bool *binarySum)
+void sumOfBinaryNumbers(int *binaryNumber1, int *binaryNumber2, int *binarySum)
 {
-  int buckupDigit = 0;
+  int backupDigit = 0;
   int currentSum = 0;
 
   for (int i = 0; i < sizeOfBinaryNumber; i++)
   {
-    currentSum = binaryNumber1[i] + binaryNumber2[i] + buckupDigit;
+    currentSum = binaryNumber1[i] + binaryNumber2[i] + backupDigit;
     binarySum[i] = currentSum % 2;
-    buckupDigit = currentSum / 2;
+    backupDigit = currentSum / 2;
   }
 }
 
-int binaryToDecimal(bool *binaryNumber)
+int binaryToDecimal(int *binaryNumber)
 {
   int decimalNumber = 0;
 
