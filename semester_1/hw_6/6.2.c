@@ -46,7 +46,7 @@ void arrayInitialization(int *array, int sizeOfArray)
 {
   for (int i = 0; i < sizeOfArray; i++)
   {
-    array[i] = false;
+    array[i] = 0;
   }
 }
 
@@ -63,7 +63,7 @@ void printBinaryNumber(int binaryNumber[])
   int placeOfLastOne = 0;
   for (int i = sizeOfBinaryNumber - 1; i >= 1; i--)
   {
-    if (binaryNumber[i] == true)
+    if (binaryNumber[i] == 1)
     {
       placeOfLastOne = i;
       break;
@@ -98,7 +98,7 @@ int binaryToDecimal(int *binaryNumber)
   {
       for (int i = sizeOfBinaryNumber - 1; i >= 0; i--)
       {
-          decimalNumber += binaryNumber[i] * (int) pow(2, i);
+          decimalNumber += binaryNumber[i] * pow(2, i);
       }
   }
   else
