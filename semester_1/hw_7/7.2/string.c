@@ -11,7 +11,7 @@ struct String
 
 String* createString()
 {
-  String* newString = calloc(sizeof(String), 1);
+  String* newString = calloc(1, sizeof(String));
   return newString;
 }
 
