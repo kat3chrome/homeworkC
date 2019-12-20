@@ -99,7 +99,7 @@ float counting(char *expression)
 {
   struct Stack* stackOfNumbers = createStack();
 
-  int sizeOfExpression = strlen(expression);
+  int sizeOfExpression = strlen(expression) * 2;
   for (int i = 0; i < sizeOfExpression; i++)
   {
     char currentToken = expression[i];
