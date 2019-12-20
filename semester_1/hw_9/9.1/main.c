@@ -13,7 +13,7 @@ char* getConsoleInput()
 
   char temporary;
   input = malloc(sizeof(char));
-  while((temporary = getchar()) != '\n')
+  while ((temporary = getchar()) != '\n')
   {
     length++;
     input = realloc(input, length);
@@ -87,7 +87,7 @@ bool checkSign(char* input)
 
 bool checkDigitsBeforDot(char* input)
 {
-  while(true)
+  while (true)
   {
     int typeOfCurrentToken = getTypeOfToken(input[0]);
     if (typeOfCurrentToken != DIGIT)
@@ -111,7 +111,7 @@ bool checkDigitsAfterDot(char* input)
     return false;
   }
 
-  while(true)
+  while (true)
   {
     int typeOfCurrentToken = getTypeOfToken(input[0]);
     if (typeOfCurrentToken != DIGIT)
