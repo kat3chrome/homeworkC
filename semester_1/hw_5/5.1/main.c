@@ -4,7 +4,6 @@
 #include "stack.h"
 
 void readExpression(char *inputExpression);
-void initializeTheString(char *currentString);
 void infixToPostfix(char *infixExpression, char *prefixExpression);
 
 enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, ANOTHERTOKEN};
@@ -18,7 +17,7 @@ int main()
   printf("Enter an expression in infix form : ");
   readExpression(inputExpression);
 
-  int sizeOfInfixExpression = strlen(inputExpression);
+  int sizeOfInfixExpression = strlen(inputExpression) * 2;
   char* prefixExpression = calloc(sizeOfInfixExpression, sizeof(char));
 
   infixToPostfix(inputExpression, prefixExpression);
@@ -28,15 +27,6 @@ int main()
   free(inputExpression);
   free(prefixExpression);
   return 0;
-}
-
-void initializeTheString(char *currentString)
-{
-  int stringLenght = strlen(currentString);
-  for (int i = 0; i < stringLenght; i++)
-  {
-    currentString[i] = '\0';
-  }
 }
 
 int getPriorityOfToken(char token)
