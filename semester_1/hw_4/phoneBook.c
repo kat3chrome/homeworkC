@@ -38,9 +38,9 @@ Entry* createEntry(char* name, char* number)
 
 PhoneBook* createPhoneBook()
 {
-  PhoneBook* phoneBook = calloc(1, sizeof(phoneBook));
+  PhoneBook* phoneBook = calloc(1, sizeof(PhoneBook));
 
-  phoneBook->entries = calloc(1, sizeof(Entry));
+  phoneBook->entries = malloc(sizeof(Entry));
   phoneBook->numberOfEntries = 0;
 
   return phoneBook;
@@ -54,8 +54,7 @@ void printCommands()
   "2 - find phone by name\n"
   "3 - find the name by phone\n"
   "4 - save current data to file\n"
-  "5 - print a list of commands\n"
-  "6 - print all entries";
+  "5 - print a list of commands\n";
 
   printf("List of commands :\n%s\n", commands);
 }
@@ -81,6 +80,7 @@ void addEntry(PhoneBook* phoneBook, char* name, char* number)
   phoneBook->numberOfEntries++;
   phoneBook->entries = realloc(phoneBook->entries, phoneBook->numberOfEntries * sizeof(Entry));
   phoneBook->entries[phoneBook->numberOfEntries - 1] = *temporayEntry;
+  free(temporayEntry);
 }
 
 void printEntry(Entry entry)
@@ -116,12 +116,13 @@ PhoneBook* getPhoneBook()
     {
       continue;
     }
+
     addEntry(phoneBook, temporayName, temporayNumber);
     free(temporayName);
     free(temporayNumber);
   }
 
-
+  fclose(phoneBookFile);
   return phoneBook;
 }
 
@@ -135,7 +136,7 @@ void findPhoneByNameAndPrintThem(PhoneBook* phoneBook, char* name)
       return;
     }
   }
-  printf("[-]");
+  printf("[-]\n");
 }
 
 void findNameByPhoneAndPrintThem(PhoneBook* phoneBook, char* number)
@@ -148,7 +149,7 @@ void findNameByPhoneAndPrintThem(PhoneBook* phoneBook, char* number)
       return;
     }
   }
-  printf("[-]");
+  printf("[-]\n");
 }
 
 void saveDate(PhoneBook* phoneBook)
@@ -156,11 +157,24 @@ void saveDate(PhoneBook* phoneBook)
   FILE* phoneBookFile = fopen(phoneBookFileName, "w");
   for (int i = 0; i < phoneBook->numberOfEntries; i++)
   {
+    fputs("\n", phoneBookFile);
     fputs(phoneBook->entries[i].number, phoneBookFile);
     fputs(" ", phoneBookFile);
     fputs(phoneBook->entries[i].name, phoneBookFile);
-    fputs("\n", phoneBookFile);
   }
+
+  fclose(phoneBookFile);
+}
+
+void deletePhoneBook(PhoneBook* phoneBook)
+{
+  for (int i = 0; i < phoneBook->numberOfEntries; i++)
+  {
+    free(phoneBook->entries[i].name);
+    free(phoneBook->entries[i].number);
+  }
+  free(phoneBook->entries);
+  free(phoneBook);
 }
 
 void commandProcessing(PhoneBook* phoneBook)
@@ -177,6 +191,7 @@ void commandProcessing(PhoneBook* phoneBook)
       case 0:
       {
         printf("Goodbye!\n");
+        deletePhoneBook(phoneBook);
         break;
       }
       case 1:
@@ -186,6 +201,9 @@ void commandProcessing(PhoneBook* phoneBook)
         char* temporayNumber = calloc(maxSize, sizeof(char));
         scanf("%s %[^\n]", temporayNumber, temporayName);
         addEntry(phoneBook, temporayName, temporayNumber);
+
+        free(temporayName);
+        free(temporayNumber);
         break;
       }
       case 2:
@@ -194,6 +212,8 @@ void commandProcessing(PhoneBook* phoneBook)
         printf("Enter the name: ");
         scanf("%s", temporayName);
         findPhoneByNameAndPrintThem(phoneBook, temporayName);
+
+        free(temporayName);
         break;
       }
       case 3:
@@ -202,6 +222,8 @@ void commandProcessing(PhoneBook* phoneBook)
         printf("Enter the number: ");
         scanf("%s", temporayNumber);
         findNameByPhoneAndPrintThem(phoneBook, temporayNumber);
+
+        free(temporayNumber);
         break;
       }
       case 4:
@@ -214,11 +236,6 @@ void commandProcessing(PhoneBook* phoneBook)
         printf("\n");
         printCommands();
         printf("\n");
-        break;
-      }
-      case 6:
-      {
-        printPhoneBook(phoneBook);
         break;
       }
       default:

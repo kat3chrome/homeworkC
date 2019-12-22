@@ -8,6 +8,4 @@ void printGreetings();
 void commandProcessing(PhoneBook* phoneBook);
 PhoneBook* getPhoneBook();
 
-void printPhoneBook(PhoneBook* phoneBook);
-
 #endif
