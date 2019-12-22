@@ -67,6 +67,7 @@ int main()
       }
       case 7:
       {
+        removeSet(set);
         return 0;
         break;
       }

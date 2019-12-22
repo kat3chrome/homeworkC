@@ -150,24 +150,82 @@ bool isInTheSet(int value, Set* set)
   return false;
 }
 
-bool isRightChild(SetElement* setElement)
+void setChild(SetElement* child, SetElement* parent, Set* set)
 {
-  if (setElement->parent != NULL)
+  if (parent == NULL)
   {
-    if(setElement->parent->value < setElement->value)
-    {
-      return true;
-    }
+    set->root = child;
+  }
+  else if (child->value > parent->value)
+  {
+    parent->rightChild = child;
+  }
+  else if (child->value < parent->value)
+  {
+    parent->leftChild = child;
   }
 
-  return false;
+  child->parent = parent;
 }
 
+SetElement* getMaximumElement(SetElement* setElement)
+{
+  if (setElement->rightChild == NULL)
+  {
+    return setElement;
+  }
 
+  return getMaximumElement(setElement->rightChild);
+}
+
+void deleteCurrentElement(SetElement* setElement, Set* set)
+{
+  if (setElement->rightChild == NULL && setElement->leftChild == NULL)
+  {
+    if (setElement->parent == NULL)
+    {
+      set->root = NULL;
+    }
+    else if (setElement->parent->leftChild == setElement)
+    {
+      setElement->parent->leftChild = NULL;
+    }
+    else if (setElement->parent->rightChild == setElement)
+    {
+      setElement->parent->rightChild = NULL;
+    }
+    free(setElement);
+  }
+  else if (setElement->leftChild != NULL && setElement->rightChild == NULL)
+  {
+    setChild(setElement->leftChild, setElement->parent, set);
+    free(setElement);
+  }
+  else if (setElement->leftChild == NULL && setElement->rightChild != NULL)
+  {
+    setChild(setElement->rightChild, setElement->parent, set);
+    free(setElement);
+  }
+  else
+  {
+    SetElement* maximumElementOfTheCurrentElement = getMaximumElement(setElement->leftChild);
+    setElement->value = maximumElementOfTheCurrentElement->value;
+    deleteCurrentElement(maximumElementOfTheCurrentElement, set);
+  }
+}
 
 void removeElement(int value, Set* set)
 {
-  
+  if (set->root == NULL)
+  {
+    return;
+  }
+
+  SetElement* deletedElement = findSetElement(value, set);
+  if (deletedElement != NULL)
+  {
+    deleteCurrentElement(deletedElement, set);
+  }
 }
 
 void printSetInAscendingOrder(SetElement* setElement)
@@ -200,4 +258,26 @@ void printSetInSpecificOrder(bool isAscendingOrder, Set* set)
   {
     printSetInDescendingOrder(set->root);
   }
+}
+
+void deletePartOfSet(SetElement* setElement)
+{
+  if (setElement != NULL)
+  {
+    deletePartOfSet(setElement->rightChild);
+    deletePartOfSet(setElement->leftChild);
+    free(setElement);
+  }
+}
+
+void removeSet(Set* set)
+{
+  if (set->root == NULL)
+  {
+    free(set);
+    return;
+  }
+
+  deletePartOfSet(set->root);
+  free(set);
 }
