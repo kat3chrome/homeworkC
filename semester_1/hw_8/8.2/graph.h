@@ -4,10 +4,11 @@
 struct Graph;
 typedef struct Graph Graph;
 
-Graph* createGraph(int numberOfVertex, int numberOfEdges);
-void prtintGraphAdjacencyMatrix(Graph* graph);
-void scanWeightsOfEdges(Graph* graph);
-void scanMarkOfVertix(Graph* graph);
-void printMarkStatusOfVertix(Graph* graph);
+Graph* createGraph(int numberOfVertex);
+void removeGraph(Graph* graph);
+void setGraphAdjacencyMatrix(Graph* graph, int** edgesOfTheGraph, int numberOfEdges);
+void printGraphAdjacencyMatrix(Graph* graph);
+void setClassesToVertix(Graph* graph, int* classesOfVertix, int numberOfClasses);
+void printVertixByClasses(Graph* graph);
 
 #endif

@@ -1,152 +1,175 @@
 #include "graph.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include <limits.h>
 #include <stdio.h>
 
 typedef struct Graph Graph;
 typedef struct Vertix Vertix;
-typedef struct Class Class;
 
 struct Vertix
 {
   int number;
   int numberOfClass;
-  bool isMarked;
 };
 
 struct Graph
 {
   int numberOfVertex;
-  int numberOfEdges;
   int numberOfClasses;
   int numberOfUnclassedVertix;
   Vertix* vertix;
   int** adjacencyMatrix;
-  int* numberVertixInClass;
-  Vertix** classes;
 };
 
-Graph* createGraph(int numberOfVertex, int numberOfEdges)
+Graph* createGraph(int numberOfVertex)
 {
   Graph* graph = calloc(1, sizeof(Graph));
   graph->numberOfVertex = numberOfVertex;
-  graph->numberOfEdges = numberOfEdges;
   graph->numberOfClasses = 0;
   graph->numberOfUnclassedVertix = numberOfVertex;
-  graph->vertix = calloc(numberOfVertex, sizeof(Vertix));
 
+  graph->vertix = calloc(numberOfVertex, sizeof(Vertix));
   for (int i = 0; i < numberOfVertex; i++)
   {
     graph->vertix[i].number = i;
     graph->vertix[i].numberOfClass = -1;
   }
 
-  graph->numberVertixInClass = calloc(1, sizeof(int));
-  graph->classes = calloc(1, sizeof(Vertix**));
-  graph->classes[0] = (Vertix*)calloc(1, sizeof(Vertix));
-
-  graph->adjacencyMatrix = (int**)calloc(numberOfVertex, sizeof(int*));
-
+  graph->adjacencyMatrix = (int**)malloc(sizeof(int*) * (numberOfVertex));
   for (int i = 0; i < numberOfVertex; i++)
   {
-    graph->adjacencyMatrix[i] = (int*)calloc(numberOfVertex, sizeof(int));
+    graph->adjacencyMatrix[i] = (int*)malloc(sizeof(int) * (numberOfVertex));
+    for (int j = 0; j < numberOfVertex; j++)
+    {
+      graph->adjacencyMatrix[i][j] = -1;
+    }
   }
 
   return graph;
 }
 
-void prtintGraphAdjacencyMatrix(Graph* graph)
+void setGraphAdjacencyMatrix(Graph* graph, int** edgesOfTheGraph, int numberOfEdges)
 {
+  for (int i = 0; i < numberOfEdges; i++)
+  {
+    graph->adjacencyMatrix[edgesOfTheGraph[i][0]][edgesOfTheGraph[i][1]] = edgesOfTheGraph[i][2];
+    graph->adjacencyMatrix[edgesOfTheGraph[i][1]][edgesOfTheGraph[i][0]] = edgesOfTheGraph[i][2];
+  }
+}
+
+void printGraphAdjacencyMatrix(Graph* graph)
+{
+  printf("   ");
   for (int i = 0; i < graph->numberOfVertex; i++)
   {
+    printf("%2d ", i);
+  }
+  printf("\n");
+  for (int i = 0; i < graph->numberOfVertex; i++)
+  {
+    printf("%2d|",i);
     for (int j = 0; j < graph->numberOfVertex; j++)
     {
-      printf("%d", graph->adjacencyMatrix[i][j]);
+      printf("%2d ", graph->adjacencyMatrix[i][j]);
     }
     printf("\n");
   }
 }
 
-void scanWeightsOfEdges(Graph* graph)
+void setClassesToVertix(Graph* graph, int* classesOfVertix, int numberOfClasses)
 {
-  for (int i = 0; i < graph->numberOfEdges; i++)
+  graph->numberOfClasses = numberOfClasses;
+  for (int i = 0; i < numberOfClasses; i++)
   {
-    int indexA = 0;
-    int indexB = 0;
-    int weight = 0;
-    scanf("%d %d %d", &indexA, &indexB, &weight);
-
-    graph->adjacencyMatrix[indexA][indexB] = weight;
-    graph->adjacencyMatrix[indexB][indexA] = weight;
+    graph->vertix[classesOfVertix[i]].numberOfClass = i;
   }
+  graph->numberOfUnclassedVertix = graph->numberOfVertex - numberOfClasses;
 }
 
-void scanMarkOfVertix(Graph* graph)
+void printVertixByClasses(Graph* graph)
 {
-  int numberOfMarked = 0;
-  scanf("%d", &numberOfMarked);
-  graph->numberOfClasses = numberOfMarked;
-  graph->numberOfUnclassedVertix = graph->numberOfVertex - numberOfMarked;
-
-  graph->numberVertixInClass = realloc(graph->numberVertixInClass, numberOfMarked * sizeof(int));
-  graph->classes = (Vertix**)realloc(graph->classes, numberOfMarked * sizeof(Vertix*));
-  for (int i = 0; i < numberOfMarked; i++)
-  {
-    graph->classes[i] = (Vertix*)calloc(1, sizeof(Vertix));
-  }
-
-  for (int i = 0; i < numberOfMarked; i++)
-  {
-    int numberOfVertex = 0;
-    scanf("%d", &numberOfVertex);
-
-    graph->vertix[numberOfVertex].numberOfClass = i;
-    graph->vertix[numberOfVertex].isMarked = true;
-
-    graph->numberVertixInClass[i] = 1;
-    graph->classes[i][0] = graph->vertix[numberOfVertex];
-  }
-}
-
-void printMarkStatusOfVertix(Graph* graph)
-{
-  for (int i = 0; i < graph->numberOfVertex; i++)
-  {
-    printf("Vertix number %d has status %d and belongs to %d class\n", i, graph->vertix[i].isMarked, graph->vertix[i].numberOfClass);
-  }
-}
-
-void printClassesAndTheirVertix(Graph* graph)
-{
+  int** classes = (int**)malloc(sizeof(int*) * graph->numberOfClasses);
   for (int i = 0; i < graph->numberOfClasses; i++)
   {
-    printf("Class number %d: ", i);
-    for (int j = 0; j < graph->numberVertixInClass[i]; j++)
+    classes[i] = malloc(graph->numberOfVertex * sizeof(int));
+    for (int j = 0; j < graph->numberOfVertex; j++)
     {
-      printf("%d ", graph->classes[i][j].number);
+      classes[i][j] = -1;
+    }
+  }
+
+  for (int i = 0; i < graph->numberOfVertex; i++)
+  {
+    int index = 0;
+    if (graph->vertix[i].numberOfClass == -1)
+    {
+      continue;
+    }
+    while (true)
+    {
+      if (classes[graph->vertix[i].numberOfClass][index] == -1)
+      {
+        break;
+      }
+      index++;
+    }
+    classes[graph->vertix[i].numberOfClass][index] = graph->vertix[i].number;
+  }
+
+  for (int i = 0; i < graph->numberOfClasses; i++)
+  {
+    printf("%2d: ", i);
+    for (int j = 0; j < graph->numberOfVertex; j++)
+    {
+      if(classes[i][j] == -1)
+      {
+        break;
+      }
+
+      printf("%2d ", classes[i][j]);
     }
     printf("\n");
   }
-}
 
-void addVertexToCurrentClass(Graph* graph, int index);
-{
-  
-}
-
-void divideGraphByClasses(Graph* graph)
-{
-  int index = 0;
-
-  while (true)
+  for (int i = 0; i < graph->numberOfClasses; i++)
   {
-    index %= graph->numberOfClasses;
+    free(classes[i]);
+  }
+  free(classes);
+}
 
-    addVertexToCurrentClass(graph, index);
-
-    if (graph->numberOfUnclassedVertix == 0)
+void devideVertixByClasses(Graph* graph)
+{
+  int numberOfNearestVertix = -1;
+  int distanseToNearestVertix = INT_MAX;
+  for (int numberOfCurrentClass = 0; numberOfCurrentClass < graph->numberOfClasses; numberOfCurrentClass++)
+  {
+    for (int numberOfCurrentVertix = 0; numberOfCurrentVertix < graph->numberOfVertex; numberOfCurrentVertix++)
     {
-      return;
+      if (graph->vertix[numberOfCurrentVertix].numberOfClass == numberOfCurrentClass)
+      {
+        for (int numberOfAdjacentVertix = 0; numberOfAdjacentVertix < graph->numberOfVertex; numberOfAdjacentVertix++)
+        {
+
+        }
+      }
     }
   }
+
+  if (graph->numberOfUnclassedVertix > 0)
+  {
+    devideVertixByClasses(graph);
+  }
+}
+
+void removeGraph(Graph* graph)
+{
+  free(graph->vertix);
+  for (int i = 0; i < graph->numberOfVertex; i++)
+  {
+    free(graph->adjacencyMatrix[i]);
+  }
+  free(graph->adjacencyMatrix);
+  free(graph);
 }
