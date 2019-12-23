@@ -142,12 +142,7 @@ SetElement* findSetElement(int value, Set* set)
 
 bool isInTheSet(int value, Set* set)
 {
-  if (findSetElement(value, set) != NULL)
-  {
-    return true;
-  }
-
-  return false;
+  return (findSetElement(value, set) != NULL);
 }
 
 void setChild(SetElement* child, SetElement* parent, Set* set)
