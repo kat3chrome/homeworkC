@@ -107,7 +107,7 @@ PhoneBook* getPhoneBook()
     return phoneBook;
   }
 
-  while (feof(phoneBookFile) == false)
+  while (!feof(phoneBookFile))
   {
     char* temporayName = calloc(maxSize, sizeof(char));
     char* temporayNumber = calloc(maxSize, sizeof(char));
