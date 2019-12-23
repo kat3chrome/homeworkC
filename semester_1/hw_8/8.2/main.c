@@ -42,6 +42,7 @@ int main()
   capitals[1] = 2;
   //
   setClassesToVertix(graph, capitals, numberOfCapitals);
+  devideVertixByClasses(graph);
   printVertixByClasses(graph);
   //
   for (int i = 0; i < numberOfRoads; i++)

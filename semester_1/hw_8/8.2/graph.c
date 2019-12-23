@@ -141,19 +141,31 @@ void printVertixByClasses(Graph* graph)
 
 void devideVertixByClasses(Graph* graph)
 {
-  int numberOfNearestVertix = -1;
-  int distanseToNearestVertix = INT_MAX;
   for (int numberOfCurrentClass = 0; numberOfCurrentClass < graph->numberOfClasses; numberOfCurrentClass++)
   {
+    int numberOfNearestVertix = -1;
+    int distanseToNearestVertix = INT_MAX;
     for (int numberOfCurrentVertix = 0; numberOfCurrentVertix < graph->numberOfVertex; numberOfCurrentVertix++)
     {
       if (graph->vertix[numberOfCurrentVertix].numberOfClass == numberOfCurrentClass)
       {
         for (int numberOfAdjacentVertix = 0; numberOfAdjacentVertix < graph->numberOfVertex; numberOfAdjacentVertix++)
         {
-
+          if (graph->adjacencyMatrix[numberOfCurrentVertix][numberOfAdjacentVertix] != -1 && graph->vertix[numberOfAdjacentVertix].numberOfClass == -1)
+          {
+            if (graph->adjacencyMatrix[numberOfCurrentVertix][numberOfAdjacentVertix] < distanseToNearestVertix)
+            {
+              distanseToNearestVertix = graph->adjacencyMatrix[numberOfCurrentVertix][numberOfAdjacentVertix];
+              numberOfNearestVertix = numberOfAdjacentVertix;
+            }
+          }
         }
       }
+    }
+    if (numberOfNearestVertix != -1)
+    {
+      graph->vertix[numberOfNearestVertix].numberOfClass = numberOfCurrentClass;
+      graph->numberOfUnclassedVertix--;
     }
   }
 

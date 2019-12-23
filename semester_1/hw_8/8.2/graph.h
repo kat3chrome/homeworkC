@@ -10,5 +10,6 @@ void setGraphAdjacencyMatrix(Graph* graph, int** edgesOfTheGraph, int numberOfEd
 void printGraphAdjacencyMatrix(Graph* graph);
 void setClassesToVertix(Graph* graph, int* classesOfVertix, int numberOfClasses);
 void printVertixByClasses(Graph* graph);
+void devideVertixByClasses(Graph* graph);
 
 #endif
