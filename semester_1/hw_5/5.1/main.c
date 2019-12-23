@@ -6,7 +6,7 @@
 void readExpression(char *inputExpression);
 void infixToPostfix(char *infixExpression, char *prefixExpression);
 
-enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, ANOTHERTOKEN};
+enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, SPACE, ANOTHERTOKEN};
 enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
 
 int main()
@@ -34,19 +34,19 @@ int getPriorityOfToken(char token)
   switch (token)
   {
     case '(':
-      return RIGHTBRACKET;
+    return RIGHTBRACKET;
     case ')':
-      return LEFTBRACKET;
+    return LEFTBRACKET;
     case '+':
-      return PLUS;
+    return PLUS;
     case '-':
-      return MINUS;
+    return MINUS;
     case '*':
-      return MULTIPLY;
+    return MULTIPLY;
     case '/':
-      return DIVIDE;
+    return DIVIDE;
     default:
-      return ANOTHERTOKEN;
+    return ANOTHERTOKEN;
   }
 }
 
@@ -66,6 +66,10 @@ int typeOfToken(char token)
   {
     return BRACKET;
   }
+  else if (tokenNumber == ' ')
+  {
+    return SPACE;
+  }
 
   return ANOTHERTYPE;
 }
@@ -75,6 +79,11 @@ void addToken(char token, char *inputExpression)
   if (typeOfToken(token) != ANOTHERTYPE)
   {
     inputExpression[strlen(inputExpression)] = token;
+  }
+  else
+  {
+    printf("Error with input charasters!\n");
+    exit(0);
   }
 }
 
@@ -89,61 +98,75 @@ void readExpression(char *inputExpression)
 
 void infixToPostfix(char *infixExpression, char *prefixExpression)
 {
-    struct Stack* stack = createStack();
+  struct Stack* stack = createStack();
 
-    int sizeOfExpression = strlen(infixExpression);
-    for (int i = 0; i < sizeOfExpression; i++)
+  int sizeOfExpression = strlen(infixExpression);
+  for (int i = 0; i < sizeOfExpression; i++)
+  {
+    char currentToken = infixExpression[i];
+    int typeOfCurrentToken = typeOfToken(currentToken);
+    if (typeOfCurrentToken == NUMBER)
     {
-      char currentToken = infixExpression[i];
-      int typeOfCurrentToken = typeOfToken(currentToken);
-      if (typeOfCurrentToken == NUMBER)
+      prefixExpression[strlen(prefixExpression)] = currentToken;
+    }
+    else if (typeOfCurrentToken == FUNCTION)
+    {
+      if (isEmpty(stack) || (char)peek(stack) == '(')
       {
-        prefixExpression[strlen(prefixExpression)] = currentToken;
+        push((float)currentToken, stack);
       }
-      else if (typeOfCurrentToken == FUNCTION)
+      else if (getPriorityOfToken(currentToken) > getPriorityOfToken((char)peek(stack)))
       {
-        if (isEmpty(stack) || (char)peek(stack) == '(')
+        push((float)currentToken, stack);
+      }
+      else if (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)))
+      {
+        while (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)) && (char)peek(stack) != '(')
         {
-          push((float)currentToken, stack);
-        }
-        else if (getPriorityOfToken(currentToken) > getPriorityOfToken((char)peek(stack)))
-        {
-          push((float)currentToken, stack);
-        }
-        else if (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)))
-        {
-          while (getPriorityOfToken(currentToken) <= getPriorityOfToken((char)peek(stack)) && (char)peek(stack) != '(')
+          prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+          if (isEmpty(stack))
           {
-            prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
-            if (isEmpty(stack))
-            {
-              break;
-            }
+            break;
           }
-          push((float)currentToken, stack);
         }
+        push((float)currentToken, stack);
       }
-      else if (typeOfCurrentToken == BRACKET)
+    }
+    else if (typeOfCurrentToken == BRACKET)
+    {
+      if (currentToken == '(')
       {
-        if (currentToken == '(')
+        push(currentToken, stack);
+      }
+      else
+      {
+        while (!isEmpty(stack) && (char)peek(stack) != '(')
         {
-          push(currentToken, stack);
+          prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
+        }
+        if (!isEmpty(stack))
+        {
+          pop(stack);
         }
         else
         {
-          while ((char)peek(stack) != '(')
-          {
-            prefixExpression[strlen(prefixExpression)] = (char)pop(stack);
-          }
-          pop(stack);
+          printf("Error with bracket!\n");
+          exit(0);
         }
       }
     }
-    int index = strlen(prefixExpression);
-    while (!isEmpty(stack))
+  }
+  int index = strlen(prefixExpression);
+  while (!isEmpty(stack))
+  {
+    if ((char)peek(stack) == '(')
     {
-      prefixExpression[index] = (char)pop(stack);
-      index++;
+      printf("Error with bracket!\n");
+      exit(0);
     }
-    free(stack);
+
+    prefixExpression[index] = (char)pop(stack);
+    index++;
+  }
+  free(stack);
 }
