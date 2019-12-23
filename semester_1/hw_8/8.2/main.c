@@ -4,56 +4,43 @@
 
 int main()
 {
-  int numberOfCities = 4;
-  int numberOfRoads = 4;
-  int numberOfCapitals = 2;
+  FILE* input = fopen("input","r");
+  int numberOfCities = 0;
+  int numberOfRoads = 0;
+  int numberOfCapitals = 0;
+  fscanf(input, "%d", &numberOfCities);
+  fscanf(input, "%d", &numberOfRoads);
+
   Graph* graph = createGraph(numberOfCities);
 
- //
   int** roads = (int**)malloc(sizeof(int*) * (numberOfRoads));
   for (int i = 0; i < numberOfRoads; i++)
   {
     roads[i] = (int*)malloc(sizeof(int) * (3));
-    for (int j = 0; j < 3; j++)
-    {
-      roads[i][j] = 0;
-    }
+    fscanf(input,"%d %d %d", &roads[i][0], &roads[i][1], &roads[i][2]);
   }
-  roads[0][0] = 0;
-  roads[0][1] = 1;
-  roads[0][2] = 1;
-  roads[1][0] = 0;
-  roads[1][1] = 2;
-  roads[1][2] = 2;
-  roads[2][0] = 1;
-  roads[2][1] = 2;
-  roads[2][2] = 3;
-  roads[3][0] = 2;
-  roads[3][1] = 3;
-  roads[3][2] = 4;
-  //
   setGraphAdjacencyMatrix(graph, roads, numberOfRoads);
-  printGraphAdjacencyMatrix(graph);
 
-  //
+  fscanf(input, "%d", &numberOfCapitals);
   int* capitals = (int*)malloc(sizeof(int) * (numberOfCapitals));
-
-  capitals[0] = 0;
-  capitals[1] = 2;
-  //
+  for (int i = 0; i < numberOfCapitals; i++)
+  {
+    fscanf(input, "%d", &capitals[i]);
+  }
   setClassesToVertix(graph, capitals, numberOfCapitals);
   devideVertixByClasses(graph);
+
+  printf("Number of contry: city1, city2, ...\n");
   printVertixByClasses(graph);
-  //
+
   for (int i = 0; i < numberOfRoads; i++)
   {
     free(roads[i]);
   }
   free(roads);
-
   free(capitals);
-  //
-
   removeGraph(graph);
+  fclose(input);
+
   return 0;
 }

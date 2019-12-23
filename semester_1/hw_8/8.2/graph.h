@@ -7,7 +7,6 @@ typedef struct Graph Graph;
 Graph* createGraph(int numberOfVertex);
 void removeGraph(Graph* graph);
 void setGraphAdjacencyMatrix(Graph* graph, int** edgesOfTheGraph, int numberOfEdges);
-void printGraphAdjacencyMatrix(Graph* graph);
 void setClassesToVertix(Graph* graph, int* classesOfVertix, int numberOfClasses);
 void printVertixByClasses(Graph* graph);
 void devideVertixByClasses(Graph* graph);
