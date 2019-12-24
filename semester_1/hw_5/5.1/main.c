@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "stack.h"
 
-void readExpression(char *inputExpression);
-void infixToPostfix(char *infixExpression, char *prefixExpression);
+bool readExpression(char *inputExpression);
+bool infixToPostfix(char *infixExpression, char *prefixExpression);
 
 enum token {RIGHTBRACKET, LEFTBRACKET, PLUS, MINUS, MULTIPLY, DIVIDE, SPACE, ANOTHERTOKEN};
 enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
@@ -12,17 +13,24 @@ enum tokensType {NUMBER, FUNCTION, BRACKET, ANOTHERTYPE};
 int main()
 {
   const int sizeOfExpression = 128;
+  bool condition = false;
   char* inputExpression = calloc(sizeOfExpression, sizeof(char));
 
   printf("Enter an expression in infix form : ");
-  readExpression(inputExpression);
+  condition = readExpression(inputExpression);
 
   int sizeOfInfixExpression = strlen(inputExpression) * 2;
   char* prefixExpression = calloc(sizeOfInfixExpression, sizeof(char));
 
-  infixToPostfix(inputExpression, prefixExpression);
+  if (condition)
+  {
+    condition = infixToPostfix(inputExpression, prefixExpression);
+  }
 
-  printf("Expression in postfix form : %s\n", prefixExpression);
+  if (condition)
+  {
+    printf("Expression in postfix form : %s\n", prefixExpression);
+  }
 
   free(inputExpression);
   free(prefixExpression);
@@ -74,29 +82,36 @@ int typeOfToken(char token)
   return ANOTHERTYPE;
 }
 
-void addToken(char token, char *inputExpression)
+bool addToken(char token, char *inputExpression)
 {
   if (typeOfToken(token) != ANOTHERTYPE)
   {
     inputExpression[strlen(inputExpression)] = token;
+    return true;
   }
   else
   {
     printf("Error with input charasters!\n");
-    exit(0);
+    return false;
   }
 }
 
-void readExpression(char *inputExpression)
+bool readExpression(char *inputExpression)
 {
   char token;
+  bool condition = false;
   while ((token = getchar()) != '\n')
   {
-    addToken(token, inputExpression);
+    condition = addToken(token, inputExpression);
+    if (!condition)
+    {
+      return condition;
+    }
   }
+  return true;
 }
 
-void infixToPostfix(char *infixExpression, char *prefixExpression)
+bool infixToPostfix(char *infixExpression, char *prefixExpression)
 {
   struct Stack* stack = createStack();
 
@@ -151,7 +166,8 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
         else
         {
           printf("Error with bracket!\n");
-          exit(0);
+          free(stack);
+          return false;
         }
       }
     }
@@ -162,11 +178,13 @@ void infixToPostfix(char *infixExpression, char *prefixExpression)
     if ((char)peek(stack) == '(')
     {
       printf("Error with bracket!\n");
-      exit(0);
+      deleteStack(stack);
+      return false;
     }
 
     prefixExpression[index] = (char)pop(stack);
     index++;
   }
   free(stack);
+  return true;
 }
