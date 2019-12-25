@@ -1,66 +1,130 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
-#include <stdio.h>
 
-bool checkFirstTwoDigits(char* inputString)
+enum conditionList {INITIAL, FIRSTDIGIT, SECONDDIGIT, DIRECTION, FIRSTDIGITEQUALONE, FIRSTDIGITNOTEQUALONE, NUMBEROFGROUP, DASH, FIRSTM, SECONDM, ERROR};
+
+int getCondition(enum conditionList condition, char inputCharaster)
 {
-  return (isdigit(inputString[0]) && isdigit(inputString[1]));
+  switch (condition)
+  {
+    case INITIAL:
+    {
+      if (isdigit(inputCharaster))
+      {
+        return FIRSTDIGIT;
+      }
+      return ERROR;
+    }
+    case FIRSTDIGIT:
+    {
+      if (isdigit(inputCharaster))
+      {
+        return SECONDDIGIT;
+      }
+      return ERROR;
+    }
+    case SECONDDIGIT:
+    {
+      if (inputCharaster == 'B' || inputCharaster == 'M' || inputCharaster == 'S')
+      {
+        return DIRECTION;
+      }
+      return ERROR;
+    }
+    case DIRECTION:
+    {
+      if (isdigit(inputCharaster))
+      {
+        if (inputCharaster == '1')
+        {
+          return FIRSTDIGITEQUALONE;
+        }
+        return FIRSTDIGITNOTEQUALONE;
+      }
+      return ERROR;
+    }
+    case FIRSTDIGITEQUALONE:
+    {
+      if (inputCharaster == '0')
+      {
+        return NUMBEROFGROUP;
+      }
+      return ERROR;
+    }
+    case FIRSTDIGITNOTEQUALONE:
+    {
+      if (inputCharaster == '-')
+      {
+        return DASH;
+      }
+    }
+    case NUMBEROFGROUP:
+    {
+      if (inputCharaster == '-')
+      {
+        return DASH;
+      }
+    }
+    case DASH:
+    {
+      if (inputCharaster == 'm')
+      {
+        return FIRSTM;
+      }
+      return ERROR;
+    }
+    case FIRSTM:
+    {
+      if (inputCharaster == 'm')
+      {
+        return SECONDM;
+      }
+      return ERROR;
+    }
+    case SECONDM:
+    {
+      return ERROR;
+    }
+  }
 }
 
-bool checkThirdDigit(char* inputString)
+int regularExpression(char* inputString)
 {
-  return (inputString[2] == 'B' || inputString[2] == 'M' || inputString[2] == 'S');
-}
-
-bool checkDigitAfterThird(char* inputString)
-{
-  if (isdigit(inputString[3]) && inputString[4] == '-' &&  inputString[5] == 'm' && inputString[6] == 'm' && inputString[7] == '\0')
+  enum conditionList condition = INITIAL;
+  int index = 0;
+  while (inputString[index] != '\0')
   {
-    return true;
+    condition = getCondition(condition, inputString[index]);
+    if (condition == ERROR)
+    {
+      return false;
+    }
+    index++;
   }
-  else if (inputString[3] == '1' && inputString[4] == '0' && inputString[5] == '-' &&  inputString[6] == 'm' && inputString[7] == 'm' && inputString[8] == '\0')
-  {
-    return true;
-  }
-  return false;
-}
-
-bool regularExpression(char* inputString)
-{
-  bool isNumber = true;
-  isNumber = checkFirstTwoDigits(inputString);
-  if (!isNumber)
-  {
-    return false;
-  }
-  isNumber = checkThirdDigit(inputString);
-  if (!isNumber)
-  {
-    return false;
-  }
-  isNumber = checkDigitAfterThird(inputString);
-  if (!isNumber)
-  {
-    return false;
-  }
-  return isNumber;
-}
-
-void printResult(bool isNumber)
-{
-  isNumber ? printf("It is correct string\n") : printf("It is not correct string\n");
+  return true;
 }
 
 int main()
 {
   int sizeOfString = 128;
   char* inputString = calloc(sizeOfString, sizeof(char));
+
   printf("Enter the string: ");
   scanf("%s", inputString);
-  bool isNumber = regularExpression(inputString);
-  printResult(isNumber);
+
+  bool isCorrect = regularExpression(inputString);
+  if (isCorrect)
+  {
+    printf("String is correct\n");
+  }
+  else
+  {
+    printf("String is not correct\n");
+  }
+
   free(inputString);
   return 0;
 }
