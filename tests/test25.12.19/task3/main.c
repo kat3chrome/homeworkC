@@ -1,11 +1,12 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <stdio.h>
 
 bool checkFirstTwoDigits(char* inputString)
 {
-  if (inputString[0] >= '0' && inputString[0] <= '9' && inputString[1] >= '0' && inputString[1] <= '9' )
+  if (isdigit(inputString[0]) && isdigit(inputString[1]) )
   {
     return true;
   }
@@ -23,7 +24,7 @@ bool checkThirdDigit(char* inputString)
 
 bool checkDigitAfterThird(char* inputString)
 {
-  if (inputString[3] >= '0' && inputString[3] <= '9' && inputString[4] == '-' &&  inputString[5] == 'm' && inputString[6] == 'm' && inputString[7] == '\0')
+  if (isdigit(inputString[3]) && inputString[4] == '-' &&  inputString[5] == 'm' && inputString[6] == 'm' && inputString[7] == '\0')
   {
     return true;
   }
@@ -68,5 +69,6 @@ int main()
   scanf("%s", inputString);
   bool isNumber = regularExpression(inputString);
   printResult(isNumber);
+  free(inputString);
   return 0;
 }
