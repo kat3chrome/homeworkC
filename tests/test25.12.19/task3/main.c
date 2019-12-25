@@ -4,9 +4,9 @@
 #include <string.h>
 #include <ctype.h>
 
-enum conditionList {INITIAL, FIRSTDIGIT, SECONDDIGIT, DIRECTION, FIRSTDIGITEQUALONE, FIRSTDIGITNOTEQUALONE, NUMBEROFGROUP, DASH, FIRSTM, SECONDM, ERROR};
+enum ConditionList {INITIAL, FIRSTDIGIT, SECONDDIGIT, DIRECTION, FIRSTDIGITEQUALONE, FIRSTDIGITNOTEQUALONE, NUMBEROFGROUP, DASH, FIRSTM, SECONDM, ERROR};
 
-int getCondition(enum conditionList condition, char inputCharaster)
+int getCondition(enum ConditionList condition, char inputCharaster)
 {
   switch (condition)
   {
@@ -93,7 +93,7 @@ int getCondition(enum conditionList condition, char inputCharaster)
 
 int regularExpression(char* inputString)
 {
-  enum conditionList condition = INITIAL;
+  enum ConditionList condition = INITIAL;
   int index = 0;
   while (inputString[index] != '\0')
   {
