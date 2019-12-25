@@ -6,20 +6,12 @@
 
 bool checkFirstTwoDigits(char* inputString)
 {
-  if (isdigit(inputString[0]) && isdigit(inputString[1]) )
-  {
-    return true;
-  }
-  return false;
+  return (isdigit(inputString[0]) && isdigit(inputString[1]));
 }
 
 bool checkThirdDigit(char* inputString)
 {
-  if (inputString[2] == 'B' || inputString[2] == 'M' || inputString[2] == 'S')
-  {
-    return true;
-  }
-  return false;
+  return (inputString[2] == 'B' || inputString[2] == 'M' || inputString[2] == 'S');
 }
 
 bool checkDigitAfterThird(char* inputString)
