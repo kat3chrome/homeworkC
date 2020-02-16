@@ -78,11 +78,7 @@ bool checkSign(char* input)
     deleteFirstCharaster(input);
     return true;
   }
-  else if (typeOfCurrentToken == DIGIT)
-  {
-    return true;
-  }
-  return false;
+  return typeOfCurrentToken == DIGIT;
 }
 
 bool checkDigitsBeforDot(char* input)
@@ -118,6 +114,7 @@ bool checkDigitsAfterDot(char* input)
     {
       return (typeOfCurrentToken == EXPONENT || typeOfCurrentToken == END);
     }
+    deleteFirstCharaster(input);
   }
 }
 
