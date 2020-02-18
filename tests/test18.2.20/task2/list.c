@@ -42,7 +42,7 @@ void addElementByIndex(List* list, int value, int inputIndex)
   }
 
   ListElement* temporaryListElement = list->first;
-  for (int i = 0; i < inputIndex; i++)
+  for (int i = 0; i < inputIndex - 1; i++)
   {
     if (temporaryListElement->nextElement == NULL && inputIndex - 1 != i)
     {
