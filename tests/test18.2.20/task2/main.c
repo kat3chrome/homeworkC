@@ -15,7 +15,7 @@ int main()
 
   while (true)
   {
-    printf("Enter the command: \n");
+    printf("Enter the command: ");
     scanf("%d", &command);
     switch (command)
     {
