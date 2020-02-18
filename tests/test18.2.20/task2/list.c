@@ -47,7 +47,7 @@ void addElementByIndex(List* list, int value, int inputIndex)
     list->first->nextElement = firstListElement;
     return;
   }
-  
+
   ListElement* temporaryListElement = list->first;
   for (int i = 0; i < inputIndex - 1; i++)
   {
@@ -74,6 +74,7 @@ void removeElementByIndex(List* list, int inputIndex)
   {
     if (list->first->nextElement == NULL)
     {
+      free(list->first);
       list->first = NULL;
       return;
     }
