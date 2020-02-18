@@ -31,11 +31,7 @@ ListElement* createListElement(int value)
 
 void addElementByIndex(List* list, int value, int inputIndex)
 {
-  if (inputIndex < 0)
-  {
-    return;
-  }
-  else if (list->first == NULL && inputIndex != 0)
+  if ((inputIndex < 0) || (list->first == NULL && inputIndex != 0))
   {
     return;
   }
@@ -67,11 +63,7 @@ void addElementByIndex(List* list, int value, int inputIndex)
 
 void removeElementByIndex(List* list, int inputIndex)
 {
-  if (inputIndex < 0)
-  {
-    return;
-  }
-  else if (list->first == NULL)
+  if ((inputIndex < 0) || (list->first == NULL))
   {
     return;
   }
