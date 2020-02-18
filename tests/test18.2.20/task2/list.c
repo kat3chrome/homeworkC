@@ -48,10 +48,6 @@ void addElementByIndex(List* list, int value, int inputIndex)
     {
       return;
     }
-    else if (temporaryListElement->nextElement == NULL)
-    {
-      break;
-    }
     temporaryListElement = temporaryListElement->nextElement;
   }
 
