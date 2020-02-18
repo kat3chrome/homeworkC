@@ -40,11 +40,18 @@ void addElementByIndex(List* list, int value, int inputIndex)
     list->first = createListElement(value);
     return;
   }
-
+  else if (inputIndex == 0)
+  {
+    ListElement* firstListElement = list->first;
+    list->first = createListElement(value);
+    list->first->nextElement = firstListElement;
+    return;
+  }
+  
   ListElement* temporaryListElement = list->first;
   for (int i = 0; i < inputIndex - 1; i++)
   {
-    if (temporaryListElement->nextElement == NULL && inputIndex - 1 != i)
+    if (temporaryListElement->nextElement == NULL)
     {
       return;
     }
