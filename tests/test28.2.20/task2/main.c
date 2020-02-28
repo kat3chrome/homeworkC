@@ -40,5 +40,7 @@ int main()
     }
     printf("\n");
 
+    free(inputArray);
+
     return 0;
 }
