@@ -10,7 +10,7 @@ void initializeString(char newString[], int newStringLength)
     }
 }
 
-void printComment(char verifiableString[])
+void printComments(char verifiableString[])
 {
     int sizeVerifiableString = strlen(verifiableString);
     bool wasStartOfComment = false;
@@ -42,14 +42,14 @@ int main()
     char adress[maxFileAdressLength];
     initializeString(adress, maxFileAdressLength);
 
-    printf("Enter adress of input file : ");
+    printf("Enter adress of input file: ");
     scanf("%s", adress);
 
     FILE *inputFile;
     inputFile = fopen(adress, "r");
     while (inputFile == NULL)
     {
-        printf("Could not open the file, enter the correct address : ");
+        printf("Could not open the file, enter the correct address: ");
         scanf("%s", adress);
         inputFile = fopen(adress, "r");
     }
