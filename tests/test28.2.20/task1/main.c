@@ -3,19 +3,10 @@
 
 void arraySort(int *unsortedArray, int arraySize)
 {
-    for (int i = 0; i < arraySize - 1; i++)
+    for (int i = 1; i < arraySize - 2; i += 2)
     {
-        if (i % 2 == 0)
+        for (int j = i + 2; j < arraySize; j += 2)
         {
-            continue;
-        }
-        for (int j = i + 1; j < arraySize; j++)
-        {
-            if (j % 2 == 0)
-            {
-                continue;
-            }
-
             if (unsortedArray[i] > unsortedArray[j])
             {
                 int temporary = unsortedArray[i];
@@ -42,7 +33,7 @@ int main()
 
     arraySort(inputArray, arraySize);
 
-    printf("Sorted array: ");
+    printf("Sorted array by even indexes: ");
     for (int i = 0; i < arraySize; i++)
     {
         printf("%d ", inputArray[i]);
