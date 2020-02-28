@@ -33,7 +33,7 @@ int main()
 
     arraySort(inputArray, arraySize);
 
-    printf("Sorted array by even indexes: ");
+    printf("Array with sorted elements by even indexes: ");
     for (int i = 0; i < arraySize; i++)
     {
         printf("%d ", inputArray[i]);
