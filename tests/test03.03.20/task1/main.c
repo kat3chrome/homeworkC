@@ -41,7 +41,7 @@ void arraySortOnlyEvenValues(int *array, int arraySize)
 {
     int numberOfEvenElements = getNumberOfEvenElements(array, arraySize);
     int *arrayOfEvenElements = calloc(numberOfEvenElements, sizeof(int));
-    
+
     int indexOfArrayOfEvenElements = 0;
     for (int i = 0; i < arraySize; i++)
     {
@@ -63,6 +63,8 @@ void arraySortOnlyEvenValues(int *array, int arraySize)
             indexOfArrayOfEvenElements++;
         }
     }
+
+    free(arrayOfEvenElements);
 }
 
 int main()
