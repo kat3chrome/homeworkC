@@ -13,26 +13,26 @@ float evaluationSimplestExpression(char operator, float operand1, float operand2
 {
   switch (operator)
   {
-    case '+':
-    {
-      return operand1 + operand2;
-    }
-    case '-':
-    {
-      return operand1 - operand2;
-    }
-    case '*':
-    {
-      return operand1 * operand2;
-    }
-    case '/':
-    {
-      return operand1 / operand2;
-    }
+  case '+':
+  {
+    return operand1 + operand2;
+  }
+  case '-':
+  {
+    return operand1 - operand2;
+  }
+  case '*':
+  {
+    return operand1 * operand2;
+  }
+  case '/':
+  {
+    return operand1 / operand2;
+  }
   }
 }
 
-void fatalError(Stack* stack, char* errorMessage)
+void fatalError(Stack *stack, char *errorMessage)
 {
   while (stackSize(stack) != 0)
   {
@@ -40,27 +40,33 @@ void fatalError(Stack* stack, char* errorMessage)
   }
   free(stack);
 
-	perror(errorMessage);
-	exit(-1);
+  perror(errorMessage);
+  exit(-1);
 }
-
 
 int main()
 {
-  Stack* stack = createStack();
+  Stack *stack = createStack();
 
   printf("Enter the expression: ");
 
   char token;
   while ((token = getchar()) != '\n')
   {
-    if(isdigit(token))
+    if (isdigit(token))
     {
       push(token - '0', stack);
     }
-    else if(isOperator(token))
+    else if (isOperator(token))
     {
-      push(evaluationSimplestExpression(token, pop(stack), pop(stack)), stack);
+      if (stackSize(stack) >= 2)
+      {
+        push(evaluationSimplestExpression(token, pop(stack), pop(stack)), stack);
+      }
+      else
+      {
+        fatalError(stack, "Incorrect expression\n");
+      }
     }
     else if (token == ' ')
     {
@@ -71,7 +77,7 @@ int main()
       fatalError(stack, "Unknow token\n");
     }
   }
-  
+
   if (stackSize(stack) == 1)
   {
     printf("expression = %f\n", pop(stack));
@@ -79,6 +85,6 @@ int main()
   }
   else
   {
-    fatalError(stack, "Incorrect expression\n");    
+    fatalError(stack, "Incorrect expression\n");
   }
 }
