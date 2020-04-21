@@ -1,61 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "stack.h"
 
-float counting(char *expression);
-void readExpression(char *inputExpression);
-void initializeTheString(char *currentString);
-
-enum tokensType {NUMBER, FUNCTION, ANOTHERTYPE};
-
-int main()
+bool isOperator(char token)
 {
-  int sizeOfExpression = 32;
-  char *inputExpression = calloc(sizeOfExpression, sizeof(char));
-
-  printf("Enter the expression : ");
-  readExpression(inputExpression);
-
-  float result = counting(inputExpression);
-  printf("result = %lf\n", result);
-
-  free(inputExpression);
-  return 0;
-}
-
-int typeOfToken(char token)
-{
-  int tokenNumber = (int)token;
-
-  if (tokenNumber - '0' >= 0 && tokenNumber - '9' <= 0)
-  {
-    return NUMBER;
-  }
-  else if (tokenNumber == '+' || tokenNumber == '-' || tokenNumber == '*' || tokenNumber == '/')
-  {
-    return FUNCTION;
-  }
-
-  return ANOTHERTYPE;
-}
-
-
-void addToken(char token, char *inputExpression)
-{
-  if (typeOfToken(token) != ANOTHERTYPE)
-  {
-    inputExpression[strlen(inputExpression)] = token;
-  }
-}
-
-void readExpression(char *inputExpression)
-{
-  char token;
-  while ((token = getchar()) != '\n')
-  {
-    addToken(token, inputExpression);
-  }
+  return token == '+' || token == '-' || token == '*' || token == '/';
 }
 
 float evaluationSimplestExpression(char operator, float operand1, float operand2)
@@ -81,43 +32,54 @@ float evaluationSimplestExpression(char operator, float operand1, float operand2
   }
 }
 
-void initializeTheString(char *currentString)
+void fatalError(Stack* stack, char* errorMessage)
 {
-  int stringLenght = strlen(currentString);
-  for (int i = 0; i < stringLenght; i++)
+  while (stackSize(stack) != 0)
   {
-    currentString[i] = '\0';
+    pop(stack);
   }
+  free(stack);
+  
+
+	perror(errorMessage);
+	exit(-1);
 }
 
-int characterToInt(char characer)
-{
-  return (int)characer - '0';
-}
 
-float counting(char *expression)
+int main()
 {
-  struct Stack* stackOfNumbers = createStack();
+  Stack* stack = createStack();
 
-  int sizeOfExpression = strlen(expression) * 2;
-  for (int i = 0; i < sizeOfExpression; i++)
+  printf("Enter the expression: ");
+
+  char token;
+  while ((token = getchar()) != '\n')
   {
-    char currentToken = expression[i];
-    if (typeOfToken(currentToken) == NUMBER)
+    if(isdigit(token))
     {
-      int number = characterToInt(currentToken);
-      push(number, stackOfNumbers);
+      push(token - '0', stack);
+    }
+    else if(isOperator(token))
+    {
+      push(evaluationSimplestExpression(token, pop(stack), pop(stack)), stack);
+    }
+    else if (token == ' ')
+    {
+      continue;
     }
     else
     {
-      float numberSecond = pop(stackOfNumbers);
-      float numberFirst = pop(stackOfNumbers);
-      float simplestResult = evaluationSimplestExpression(currentToken, numberFirst, numberSecond);
-      push(simplestResult, stackOfNumbers);
+      fatalError(stack, "Unknow token\n");
     }
   }
-  float result = pop(stackOfNumbers);
-
-  free(stackOfNumbers);
-  return result;
+  
+  if (stackSize(stack) == 1)
+  {
+    printf("expression = %f\n", pop(stack));
+    free(stack);
+  }
+  else
+  {
+    fatalError(stack, "Incorrect expression\n");    
+  }
 }
