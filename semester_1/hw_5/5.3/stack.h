@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 struct Stack;
+typedef struct Stack Stack;
 
 struct Stack* createStack();
 int stackSize(struct Stack* stack);
