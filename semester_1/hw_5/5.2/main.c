@@ -39,7 +39,6 @@ void fatalError(Stack* stack, char* errorMessage)
     pop(stack);
   }
   free(stack);
-  
 
 	perror(errorMessage);
 	exit(-1);
