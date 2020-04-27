@@ -2,20 +2,20 @@
 #define STRING_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
-struct String;
 typedef struct String String;
 
-String* createString();
+struct String;
+
+String* createString(int size);
 void deleteString(String* string);
-String* cloneString(String* string);
-void concatenationOfStrings(String* firstString, String* secondString);
-bool isEqualStrings(String* firstString, String* secondString);
 int getLength(String* string);
-bool isEmpty(String* string);
-char* stringToCharasters(String* string);
-String* getSubstring(String* string, int begin, int end);
-void addCharasterToString(char* charasters, String* string);
+char* convertStringToCharPointer(String* string);
+String* convertCharsToString(char* string);
+bool isStringEmpty(String* string);
+bool areEqualStrings(String* stringA, String* stringB);
+String* cloneString(String* string);
 void printString(String* string);
 
 #endif
