@@ -1,6 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
 #include "string.h"
 
 struct String
@@ -9,132 +7,117 @@ struct String
   char* text;
 };
 
-String* createString()
+String* createString(int size)
 {
-  String* newString = calloc(1, sizeof(String));
-  return newString;
+    String* string = calloc(1, sizeof(String));
+    string->text = calloc(size + 1, sizeof(char));
+    string->length = 0;
+    return string;
 }
 
 void deleteString(String* string)
 {
-  free(string->text);
-  free(string);
+    if (string != NULL)
+    {
+        if (string->text != NULL)
+        {
+            free(string->text);
+        }
+        free(string);
+    }
+}
+
+int getLength(String *string)
+{
+    if (string == NULL)
+    {
+        return 0;
+    }
+
+    return string->length;
+}
+
+char* convertStringToCharPointer(String* string)
+{
+    if (string == NULL)
+    {
+        return NULL;
+    }
+
+    return string->text;
+}
+
+void stringCopy(char* distance, char* source, int numberOfCharacters)
+{
+    for (int i = 0; i < numberOfCharacters; i++)
+    {
+        distance[i] = source[i];
+    }
+}
+
+String* convertCharsToString(char* characters)
+{
+    if (characters == NULL)
+    {
+        return 0;
+    }
+    
+    int charactersLength = 0;
+    for (charactersLength; characters[charactersLength] != '\00'; charactersLength++);
+    String* newString = createString(charactersLength);
+    stringCopy(newString->text, characters, charactersLength + 1);
+    newString->length = charactersLength;
+
+    return newString;
+}
+
+bool isStringEmpty(String* string)
+{
+    return getLength(string) == 0;
+}
+
+bool areEqualStrings(String* firstString, String* secondString)
+{
+    if (firstString == NULL || secondString == NULL)
+    {
+        return false;
+    }
+
+    if (getLength(firstString) != getLength(secondString))
+    {
+        return false;
+    }
+
+    for (int i = 0; i < getLength(firstString); i++)
+    {
+        if (firstString->text[i] != secondString->text[i])
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 String* cloneString(String* string)
 {
-  int lengthOfFirstString = string->length;
-  String* newString = createString(lengthOfFirstString);
-  newString->length = lengthOfFirstString;
-
-  for (int i = 0; i < lengthOfFirstString; i++)
-  {
-    newString->text[i] = string->text[i];
-  }
-
-  return newString;
-}
-
-void resizeString(String* string, int newLength)
-{
-  string->text = realloc(string->text, newLength);
-  int lastLength = string->length;
-  string->length = newLength;
-
-  for (int i = lastLength; i < newLength; i++)
-  {
-    string->text[i] = '\0';
-  }
-}
-
-void concatenationOfStrings(String* firstString, String* secondString)
-{
-  int firstLength = firstString->length;
-  int secondLength = secondString->length;
-  int newLength = firstLength + secondLength;
-
-  resizeString(firstString, newLength);
-  for (int i = 0; i < secondLength; i++)
-  {
-    firstString->text[firstLength + i] = secondString->text[i];
-  }
-}
-
-bool isEqualStrings(String* firstString, String* secondString)
-{
-  if (firstString->length != secondString->length)
-  {
-    return false;
-  }
-
-  int length = firstString->length;
-  for (int i = 0; i < length; i++)
-  {
-    if (firstString->text[i] != secondString->text[i])
+    if (string == NULL)
     {
-      return false;
+        return NULL;
     }
-  }
 
-  return true;
-}
+    String* copyOfString = createString(getLength(string));
+    copyOfString->length = getLength(string);
+    stringCopy(copyOfString->text, string->text, copyOfString->length);
 
-int getLength(String* string)
-{
-  return string->length;
-}
-
-bool isEmpty(String* string)
-{
-  return (getLength(string) == 0);
-}
-
-char* stringToCharasters(String* string)
-{
-  return string->text;
-}
-
-String* getSubstring(String* string, int begin, int end)
-{
-  int lengthOfSubstring = end - begin;
-  String* substring = createString();
-  resizeString(substring, lengthOfSubstring);
-
-  for (int i = 0; i < lengthOfSubstring; i++)
-  {
-    substring->text[i] = string->text[i + begin];
-  }
-
-  return substring;
-}
-
-void addCharasterToString(char* charasters, String* string)
-{
-  int currentSize = string->length;
-  int index = 0;
-
-  while (true)
-  {
-    if (charasters[index] == '\0')
-    {
-      return;
-    }
-    currentSize++;
-    resizeString(string, currentSize);
-    string->text[currentSize - 1] = charasters[index];
-    index++;
-
-  }
+    return copyOfString;
 }
 
 void printString(String* string)
 {
-  for (int i = 0; i < string->length; i++)
-  {
-    if (string->text[i] == '\0')
+    if (string == NULL)
     {
-      return;
+        return;
     }
-    printf("%c", string->text[i]);
-  }
+
+    printf("%s", string->text);
 }
