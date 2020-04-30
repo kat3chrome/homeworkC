@@ -21,7 +21,7 @@ char* getCurrentWord(FILE* inputFile)
     char inputChar = (char) fgetc(inputFile);
     while (inputChar != EOF && inputChar != ' ' && inputChar != '\n')
     {
-        word = realloc(word, sizeof(char) * (size + 1));
+        word = realloc(word, sizeof(char) * (size + 2));
         word[size] = inputChar;
         size++;
         inputChar = (char) fgetc(inputFile);
