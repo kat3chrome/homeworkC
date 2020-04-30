@@ -34,11 +34,7 @@ float evaluationSimplestExpression(char operator, float operand1, float operand2
 
 void fatalError(Stack *stack, char *errorMessage)
 {
-  while (stackSize(stack) != 0)
-  {
-    pop(stack);
-  }
-  free(stack);
+  removeStack(stack);
 
   perror(errorMessage);
   exit(-1);
@@ -50,7 +46,7 @@ int main()
 
   printf("Enter the expression: ");
 
-  char token;
+  char token = '\00';
   while ((token = getchar()) != '\n')
   {
     if (isdigit(token))
@@ -74,7 +70,7 @@ int main()
     }
     else
     {
-      fatalError(stack, "Unknow token\n");
+      fatalError(stack, "Unknown token\n");
     }
   }
 

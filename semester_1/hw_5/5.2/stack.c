@@ -4,40 +4,40 @@
 struct Stack
 {
     int size;
-    struct StackElement* first;
+    struct StackElement *first;
 };
 
 struct StackElement
 {
     float value;
-    struct StackElement* next;
+    struct StackElement *next;
 };
 
 typedef struct Stack Stack;
 typedef struct StackElement StackElement;
 
-Stack* createStack()
+Stack *createStack()
 {
-    Stack* stack = malloc(sizeof(struct Stack));
+    Stack *stack = malloc(sizeof(struct Stack));
     stack->first = NULL;
     return stack;
 }
 
-bool isEmpty(Stack* stack)
+bool isEmpty(Stack *stack)
 {
     return stack->first == NULL;
 }
 
-void push(float value, Stack* stack)
+void push(float value, Stack *stack)
 {
     stack->size++;
-    StackElement* pushed = malloc(sizeof(struct StackElement));
+    StackElement *pushed = malloc(sizeof(struct StackElement));
     pushed->value = value;
     pushed->next = stack->first;
     stack->first = pushed;
 }
 
-float pop(Stack* stack)
+float pop(Stack *stack)
 {
     if (isEmpty(stack))
     {
@@ -45,7 +45,7 @@ float pop(Stack* stack)
     }
 
     stack->size--;
-    StackElement* popped = stack->first;
+    StackElement *popped = stack->first;
     stack->first = popped->next;
     double value = popped->value;
     free(popped);
@@ -53,7 +53,16 @@ float pop(Stack* stack)
     return value;
 }
 
-int stackSize(Stack* stack)
+int stackSize(Stack *stack)
 {
     return stack->size;
+}
+
+void removeStack(Stack* stack)
+{
+    while (stackSize(stack) != 0)
+    {
+        pop(stack);
+    }
+    free(stack);
 }
