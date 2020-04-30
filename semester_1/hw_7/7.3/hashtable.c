@@ -145,7 +145,13 @@ bool isInHashTable(String* key, HashTable* hashtable)
     return findBucket(key, hashtable) != NULL;
 }
 
-void pushBucket(Bucket* bucket, Bucket** arrayOfBuckets, int base)
+void fatalError(char *errorMessage)
+{
+  perror(errorMessage);
+  exit(-1);
+}
+
+void pushBucket(Bucket* bucket, Bucket** arrayOfBuckets, int base, HashTable* hashtable)
 {
     if (bucket == NULL || arrayOfBuckets == NULL)
     {
@@ -158,7 +164,10 @@ void pushBucket(Bucket* bucket, Bucket** arrayOfBuckets, int base)
     {
         if (areEqualStrings(arrayOfBuckets[hash]->key, bucket->key))
         {
-            return;
+            deleteHashTable(hashtable);
+            free(bucket->key);
+            free(bucket);
+            fatalError("value already in the table\n");
         }
         attempts++;
         hash = (hash + attempts * attempts) % base;
@@ -192,7 +201,7 @@ void expandHashTable(HashTable* hashtable)
         if (isExist(hashtable->arrayOfBuckets[i]))
         {
             Bucket *newBucket = copyBucket(hashtable->arrayOfBuckets[i]);
-            pushBucket(newBucket, newArrayOfBuckets, newCapacity);
+            pushBucket(newBucket, newArrayOfBuckets, newCapacity, hashtable);
         }
     }
 
@@ -217,7 +226,7 @@ void pushBucketToHashTable(String* key, int value, HashTable* hashtable)
     }
 
     Bucket* newBucket = createBucket(key, value);
-    pushBucket(newBucket, hashtable->arrayOfBuckets, hashtable->capacity);
+    pushBucket(newBucket, hashtable->arrayOfBuckets, hashtable->capacity, hashtable);
     hashtable->size++;
     if (hashtable->size > hashtable->maxLoadFactor * hashtable->capacity)
     {
