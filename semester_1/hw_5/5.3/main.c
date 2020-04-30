@@ -63,11 +63,7 @@ int getPriorityOfToken(char token)
 
 void fatalError(Stack *stack, char *errorMessage)
 {
-  while (stackSize(stack) != 0)
-  {
-    pop(stack);
-  }
-  free(stack);
+  removeStack(stack);
 
   perror(errorMessage);
   exit(-1);
