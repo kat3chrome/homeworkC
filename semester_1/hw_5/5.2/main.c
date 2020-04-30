@@ -48,7 +48,7 @@ int main()
 
   char token = '\00';
   while ((token = getchar()) != '\n')
-  {
+  { 
     if (isdigit(token))
     {
       push(token - '0', stack);

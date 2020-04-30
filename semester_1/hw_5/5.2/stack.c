@@ -19,6 +19,7 @@ typedef struct StackElement StackElement;
 Stack *createStack()
 {
     Stack *stack = malloc(sizeof(struct Stack));
+    stack->size = 0;
     stack->first = NULL;
     return stack;
 }
