@@ -196,7 +196,7 @@ float counting(char *prefixExpression)
     {
       push(token - '0', stack);
     }
-    else if (token == '+' || token == '-' || token == '*' || token == '/')
+    else if (token == '+' || token == '-' || token == '*' || token == '/' )
     {
       push(evaluationSimplestExpression(token, pop(stack), pop(stack)), stack);
     }
@@ -206,6 +206,7 @@ float counting(char *prefixExpression)
       fatalError(stack, "Unknown token\n");
     }
   }
-  
-  return pop(stack);
+  int result = pop(stack);
+  free(stack);
+  return result;
 }
