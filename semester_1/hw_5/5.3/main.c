@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "stack.h"
 
-void infixToPostfix(char *prefixExpression);
+void infixToPostfix(char *prefixExpression, int prefixExpressionSize);
 float counting(char *prefixExpression);
 
 enum token
@@ -26,15 +26,14 @@ enum tokensType
   ANOTHERTYPE
 };
 
-int prefixExpressionSize = 32;
-
 int main()
 {
   printf("Enter an expression in infix form : ");
 
+  int prefixExpressionSize = 32;
   char *prefixExpression = calloc(prefixExpressionSize, sizeof(char));
 
-  infixToPostfix(prefixExpression);
+  infixToPostfix(prefixExpression, prefixExpressionSize);
 
   printf("expression = %f\n", counting(prefixExpression));
   free(prefixExpression);
@@ -92,7 +91,7 @@ int typeOfToken(char token)
   return ANOTHERTYPE;
 }
 
-void infixToPostfix(char *prefixExpression)
+void infixToPostfix(char *prefixExpression, int prefixExpressionSize)
 {
   Stack *stack = createStack();
   int numberOfInputTokens = 0;
