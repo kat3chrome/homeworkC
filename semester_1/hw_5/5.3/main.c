@@ -26,11 +26,12 @@ enum tokensType
   ANOTHERTYPE
 };
 
+int prefixExpressionSize = 32;
+
 int main()
 {
   printf("Enter an expression in infix form : ");
 
-  const int prefixExpressionSize = 32;
   char *prefixExpression = calloc(prefixExpressionSize, sizeof(char));
 
   infixToPostfix(prefixExpression);
@@ -94,8 +95,8 @@ int typeOfToken(char token)
 void infixToPostfix(char *prefixExpression)
 {
   Stack *stack = createStack();
-
-  char currentToken;
+  int numberOfInputTokens = 0;
+  char currentToken = '\00';
   while ((currentToken = getchar()) != '\n')
   {
     int typeOfCurrentToken = typeOfToken(currentToken);
@@ -110,10 +111,18 @@ void infixToPostfix(char *prefixExpression)
     }
     else if (typeOfCurrentToken == NUMBER)
     {
+      numberOfInputTokens++;
       prefixExpression[strlen(prefixExpression)] = currentToken;
     }
     else if (typeOfCurrentToken == FUNCTION)
     {
+      if (!isEmpty(stack) && typeOfToken(peek(stack)) == FUNCTION)
+      {
+        free(prefixExpression);
+        fatalError(stack, "Incorrect expression\n");  
+      }
+
+      numberOfInputTokens++;
       if (isEmpty(stack) || peek(stack) == '(')
       {
         push(currentToken, stack);
@@ -137,6 +146,7 @@ void infixToPostfix(char *prefixExpression)
     }
     else if (typeOfToken(currentToken) == BRACKET)
     {
+      numberOfInputTokens++;
       if (currentToken == '(')
       {
         push(currentToken, stack);
@@ -149,6 +159,11 @@ void infixToPostfix(char *prefixExpression)
         }
         pop(stack);
       }
+    }
+    if (numberOfInputTokens > prefixExpressionSize - 1)
+    {
+      prefixExpressionSize *= 2;
+      prefixExpression = (char *)realloc(prefixExpression, sizeof(char) * prefixExpressionSize);
     }
   }
   while (!isEmpty(stack))
@@ -192,7 +207,7 @@ float counting(char *prefixExpression)
     {
       push(token - '0', stack);
     }
-    else if (token == '+' || token == '-' || token == '*' || token == '/' )
+    else if (token == '+' || token == '-' || token == '*' || token == '/')
     {
       push(evaluationSimplestExpression(token, pop(stack), pop(stack)), stack);
     }
@@ -202,7 +217,15 @@ float counting(char *prefixExpression)
       fatalError(stack, "Unknown token\n");
     }
   }
-  int result = pop(stack);
-  free(stack);
-  return result;
+
+  if (stackSize(stack) == 1)
+  {
+    int result = pop(stack);
+    free(stack);
+    return result;
+  }
+  else
+  {
+    fatalError(stack, "Incorrect expression\n");
+  }
 }
