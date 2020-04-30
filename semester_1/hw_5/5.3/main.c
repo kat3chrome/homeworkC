@@ -203,7 +203,7 @@ float counting(char *prefixExpression)
     else
     {
       free(prefixExpression);
-      fatalError(stack, "Unknow token\n");
+      fatalError(stack, "Unknown token\n");
     }
   }
   
