@@ -287,12 +287,6 @@ void printSubtreeInAscendingOrder(Node* root)
         return;
     }
 
-    if (root->leftChild == NULL && root->rightChild == NULL)
-    {
-        printf("%d ", root->value);
-        return;
-    }
-
     printSubtreeInAscendingOrder(root->leftChild);
     printf("%d ", root->value);
     printSubtreeInAscendingOrder(root->rightChild);
@@ -312,12 +306,6 @@ void printSubtreeInDescendingOrder(Node* root)
 {
     if (root == NULL)
     {
-        return;
-    }
-
-    if (root->leftChild == NULL && root->rightChild == NULL)
-    {
-        printf("%d ", root->value);
         return;
     }
 
