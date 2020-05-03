@@ -54,7 +54,7 @@ Here you can find the conditions and solutions for the tasks
 ### Homework №3 [:arrow_up:](https://github.com/kat3chrome/homeworkC/blob/master/README.md#navigation-menu)
 1. Реализовать алгоритм пирамидальной сортировки. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/3.1.c)
 
-2. Написать программу, которая считает количество непустых строк в исходном файле. Строка считается пустой, если состоит только из пробелов и табуляций (символ `\t`), или в ней нет символов вообще. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/3.2)
+2. Написать программу, которая считает количество непустых строк в исходном файле. Строка считается пустой, если состоит только из пробелов и табуляций (символ `\t`), или в ней нет символов вообще. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/3.2.c)
 
 3. Дан массив размером `n`, в нём есть нули, надо их все переместить в конец, при этом не создавая новый массив. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/Task_3/3.3.c)
 
