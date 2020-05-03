@@ -1,4 +1,4 @@
-# SPBU Homework
+# SPBU Homework :hamster:
 Here you can find the conditions and solutions for the tasks
 ## Navigation menu
 [Semester №1](https://github.com/kat3chrome/homeworkC/blob/master/README.md#semester-1-arrow_up) | 
