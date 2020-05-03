@@ -39,17 +39,17 @@ Here you can find the conditions and solutions for the tasks
 11. Реализовать быструю сортировку (в рекурсивном варианте). [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_1/1.11.c)
 
 ### Homework №2 [:arrow_up:](https://github.com/kat3chrome/homeworkC/blob/master/README.md#navigation-menu)
-1. Напечатать все представления натурального числа `N` суммой натуральных слагаемых. Перестановка слагаемых нового способа не дает. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/Task_1/2.1.c)
+1. Напечатать все представления натурального числа `N` суммой натуральных слагаемых. Перестановка слагаемых нового способа не дает. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/2.1.c)
 
-2. Напечатать в порядке возрастания все простые несократимые дроби, заключенные между 0 и 1, знаменатели которых не превышают `n`. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/Task_2/2.2.c)
+2. Напечатать в порядке возрастания все простые несократимые дроби, заключенные между 0 и 1, знаменатели которых не превышают `n`. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/2.2.c)
 
-3. Реализовать консольную игру ["Быки и коровы"](http://goo.gl/J1LKti). [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/Task_3/2.3.c)
+3. Реализовать консольную игру ["Быки и коровы"](http://goo.gl/J1LKti). [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/2.3.c)
 
-4. Найдите максимальный элемент массива, встречающийся более одного раза (массив неупорядоченный). [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/Task_4/2.4.c)
+4. Найдите максимальный элемент массива, встречающийся более одного раза (массив неупорядоченный). [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/2.4.c)
 
-5. Даны две строки. Определить, можно ли, переставляя символы в первой строке, получить вторую строку. Хочется решение без вложенных циклов. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/Task_5/2.5.c)
+5. Даны две строки. Определить, можно ли, переставляя символы в первой строке, получить вторую строку. Хочется решение без вложенных циклов. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/2.5.c)
 
-6. Написать программу, которая переставляет цифры натурального числа таким образом, чтобы образовалось наименьшее число, записанное этими же цифрами. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/Task_6/2.6.c)
+6. Написать программу, которая переставляет цифры натурального числа таким образом, чтобы образовалось наименьшее число, записанное этими же цифрами. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/2.6.c)
 
 ### Homework №3 [:arrow_up:](https://github.com/kat3chrome/homeworkC/blob/master/README.md#navigation-menu)
 1. Реализовать алгоритм пирамидальной сортировки. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/3.1.c)
