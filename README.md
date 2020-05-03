@@ -52,7 +52,7 @@ Here you can find the conditions and solutions for the tasks
 6. Написать программу, которая переставляет цифры натурального числа таким образом, чтобы образовалось наименьшее число, записанное этими же цифрами. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_2/Task_6/2.6.c)
 
 ### Homework №3 [:arrow_up:](https://github.com/kat3chrome/homeworkC/blob/master/README.md#navigation-menu)
-1. Реализовать алгоритм пирамидальной сортировки. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/Task_1/3.1.c)
+1. Реализовать алгоритм пирамидальной сортировки. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/3.1.c)
 
 2. Написать программу, которая считает количество непустых строк в исходном файле. Строка считается пустой, если состоит только из пробелов и табуляций (символ `\t`), или в ней нет символов вообще. [[Solution]](https://github.com/kat3chrome/homeworkC/blob/master/semester_1/hw_3/3.2)
 
